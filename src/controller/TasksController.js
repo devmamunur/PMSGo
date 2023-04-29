@@ -3,8 +3,8 @@ const TasksModel = require("../models/TasksModel")
 
 // Task Creat
 exports.createTask = (req, res) => {
-    let reqBody = req.body
-    reqBody.email = req.headers["email"];
+    let reqBody = req.body;
+    reqBody.email = req.headers['email'];
 
     TasksModel.create(reqBody).then((document) => {
         res.status(200).json({success : true, data : document});
@@ -30,7 +30,7 @@ exports.updateTaskStatus = (req, res) => {
     const id = req.params.id
     const status = req.params.status;
     const query = {_id : id}
-    TasksModel.updateOne(query, status).then((document) => {
+    TasksModel.updateOne(query, {status}).then((document) => {
         res.status(200).json({success : true, data : document});
     }).catch((error) => {
         res.status(400).json({success : false, data : error});

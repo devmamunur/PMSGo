@@ -40,10 +40,10 @@ mongoose.connect(URI, OPTION).then((res) => {
 
 
 //Managing Front End Routing
-app.use(express.static('client/build'))
-app.get("*",function (req,res){
-    req.sendFile(path.resolve(__dirname,'client','build','index.html'))
-})
+// app.use(express.static('client/build'))
+// app.get("*",function (req,res){
+//     req.sendFile(path.resolve(__dirname,'client','build','index.html'))
+// })
 
 
 // Managing BackEnd API Routing
