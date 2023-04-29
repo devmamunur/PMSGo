@@ -39,10 +39,13 @@ exports.login = (req, res) => {
         res.status(400).json({success : false, data : error});
     });
 }
+
 // Profile Update
 exports.profileUpdate=(req, res) => {
     const reqBody = req.body
-    UsersModel.create(reqBody).then((document) => {
+    const email = req.headers["email"]
+
+    UsersModel.updateOne({email : email}, reqBody).then((document) => {
         res.status(200).json({success : true, data : document});
     }).catch((error) => {
         res.status(400).json({success : false, data : error});
