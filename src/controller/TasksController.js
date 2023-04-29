@@ -55,3 +55,22 @@ exports.filterTaskByStatus = (req, res) => {
         res.status(400).json({success: false, data: error});
     })
 }
+
+// Task Status  Count
+exports.taskStatusCount = (req, res) => {
+    let email = req.headers['email']
+    TasksModel.aggregate([
+        {
+            $match: {email: email}
+        },
+        {
+            $group: {
+                _id: "$status", sum: {$count: {}}
+            }
+        }
+    ]).then((data) => {
+        res.status(200).json({success: true, data: data});
+    }).catch((error) => {
+        res.status(400).json({success: false, data: error});
+    })
+}

@@ -18,6 +18,7 @@ router.post("/profile-update", AuthVerifyMiddleware, UsersController.profileUpda
 router.post("/create-task", AuthVerifyMiddleware, TasksController.createTask);
 router.get("/update-task/:id/:status", AuthVerifyMiddleware, TasksController.updateTaskStatus);
 router.get("/filter-task-by-status/:status", AuthVerifyMiddleware, TasksController.filterTaskByStatus);
+router.get("/task-status-count", AuthVerifyMiddleware, TasksController.taskStatusCount);
 
 
 module.exports=router;
