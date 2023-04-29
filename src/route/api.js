@@ -15,11 +15,11 @@ router.post("/registration", UsersController.registration);
 router.post("/login", UsersController.login);
 router.post("/profile-update", AuthVerifyMiddleware, UsersController.profileUpdate);
 
-router.post("/create-task", AuthVerifyMiddleware, TasksController.createTask);
-router.get("/delete-task/:id", AuthVerifyMiddleware, TasksController.deleteTask);
-router.get("/update-task/:id/:status", AuthVerifyMiddleware, TasksController.updateTaskStatus);
-router.get("/filter-task-by-status/:status", AuthVerifyMiddleware, TasksController.filterTaskByStatus);
-router.get("/task-status-count", AuthVerifyMiddleware, TasksController.taskStatusCount);
+router.post("/task", AuthVerifyMiddleware, TasksController.createTask);
+router.delete("/task/:id", AuthVerifyMiddleware, TasksController.deleteTask);
+router.put("/task/:id/:status", AuthVerifyMiddleware, TasksController.updateTaskStatus);
+router.get("/task/filter/:status", AuthVerifyMiddleware, TasksController.filterTaskByStatus);
+router.get("/task/status-count", AuthVerifyMiddleware, TasksController.taskStatusCount);
 
 
 module.exports=router;
