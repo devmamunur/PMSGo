@@ -10,8 +10,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.12.2",
+    "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.4.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.11.0",
+    "sweetalert2": "^11.7.3",
+    "sweetalert2-react-content": "^5.0.7"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
