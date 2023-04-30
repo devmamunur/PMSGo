@@ -1,9 +1,10 @@
 import React from 'react';
+import MasterLayout from "../components/MasterLayout/MasterLayout.jsx";
 
 const DashboardPage = () => {
     return (
         <div>
-            DashboardPage
+            <MasterLayout/>
         </div>
     );
 };
