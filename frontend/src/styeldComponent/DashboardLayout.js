@@ -4,7 +4,7 @@ import MuiDrawer from "@mui/material/Drawer";
 
 const drawerWidth = 240;
 
-export const AppBar = styled(MuiAppBar, {shouldForwardProp: (prop) => prop !== 'open',})(({theme, open}) => ({
+export const StyledAppBar = styled(MuiAppBar, {shouldForwardProp: (prop) => prop !== 'open',})(({theme, open}) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
@@ -20,7 +20,7 @@ export const AppBar = styled(MuiAppBar, {shouldForwardProp: (prop) => prop !== '
     }),
 }));
 
-export const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
+export const StyledDrawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
     ({theme, open}) => ({
         '& .MuiDrawer-paper': {
             position: 'relative',
