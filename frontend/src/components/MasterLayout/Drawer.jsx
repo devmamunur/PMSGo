@@ -17,6 +17,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import {ExpandLess, ExpandMore, StarBorder} from "@mui/icons-material";
 import {StyledDrawer} from "../../styeldComponent/DashboardLayout.js";
 import {Collapse} from "@mui/material";
+import {StyledNavLink} from "../../styeldComponent/NavLink.js";
 
 const DrawerComponent = ({open, clickDrawer}) => {
 
@@ -28,7 +29,6 @@ const DrawerComponent = ({open, clickDrawer}) => {
     const toggleDrawer = () => {
         clickDrawer()
     }
-
 
     return (
         <StyledDrawer variant="permanent" open={open}>
@@ -54,36 +54,41 @@ const DrawerComponent = ({open, clickDrawer}) => {
             </Toolbar>
             <Divider/>
             <List component="nav">
-
-                <ListItemButton>
+                <ListItemButton component={StyledNavLink} to="/">
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" />
                 </ListItemButton>
-                <ListItemButton>
+                <ListItemButton component={StyledNavLink} to="/create">
                     <ListItemIcon>
                         <ShoppingCartIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Orders" />
+                    <ListItemText primary="Create New" />
                 </ListItemButton>
-                <ListItemButton>
+                <ListItemButton component={StyledNavLink} to="/new-task">
                     <ListItemIcon>
                         <PeopleIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Customers" />
+                    <ListItemText primary="New Task" />
                 </ListItemButton>
-                <ListItemButton>
+                <ListItemButton component={StyledNavLink} to="/progress">
                     <ListItemIcon>
                         <BarChartIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Reports" />
+                    <ListItemText primary="In Progress" />
                 </ListItemButton>
-                <ListItemButton>
+                <ListItemButton component={StyledNavLink} to="/completed">
                     <ListItemIcon>
                         <LayersIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Integrations" />
+                    <ListItemText primary="Completed" />
+                </ListItemButton>
+                <ListItemButton component={StyledNavLink} to="/canceled">
+                    <ListItemIcon>
+                        <LayersIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Canceled" />
                 </ListItemButton>
                 <ListItemButton onClick={handleClickInbox}>
                     <ListItemIcon>
@@ -102,7 +107,6 @@ const DrawerComponent = ({open, clickDrawer}) => {
                         </ListItemButton>
                     </List>
                 </Collapse>
-
             </List>
         </StyledDrawer>
     );
