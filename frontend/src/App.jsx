@@ -18,7 +18,7 @@ const App = () => {
                 <Routes>
                     <Route exact path="/" element={<DashboardPage/>} />
                     <Route exact path="/create" element={<CreatePage/>} />
-                    <Route exact path="/all" element={<NewPage/>} />
+                    <Route exact path="/new-task" element={<NewPage/>} />
                     <Route exact path="/progress" element={<ProgressPage/>} />
                     <Route exact path="/completed" element={<CompletedPage/>} />
                     <Route exact path="/canceled" element={<CanceledPage/>} />
