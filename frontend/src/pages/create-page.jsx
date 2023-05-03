@@ -1,10 +1,13 @@
 import React from 'react';
+import MasterLayout from "../components/MasterLayout/MasterLayout.jsx";
 
 const CreatePage = () => {
     return (
-        <div>
-            CreatePage
-        </div>
+        <>
+            <MasterLayout>
+                CreatePage
+            </MasterLayout>
+        </>
     );
 };
 

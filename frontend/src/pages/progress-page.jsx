@@ -1,9 +1,13 @@
 import React from 'react';
+import MasterLayout from "../components/MasterLayout/MasterLayout.jsx";
 
 const ProgressPage = () => {
     return (
         <div>
-            ProgressPage
+            <MasterLayout>
+                ProgressPage
+            </MasterLayout>
+
         </div>
     );
 };

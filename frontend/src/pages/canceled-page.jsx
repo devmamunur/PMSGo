@@ -1,10 +1,13 @@
 import React from 'react';
+import MasterLayout from "../components/MasterLayout/MasterLayout.jsx";
 
 const CanceledPage = () => {
     return (
-        <div>
-            CanceledPage
-        </div>
+        <>
+            <MasterLayout>
+                CanceledPage
+            </MasterLayout>
+        </>
     );
 };
 
