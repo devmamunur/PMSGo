@@ -17,7 +17,7 @@ const DashboardPage = () => {
                                 height: 240,
                             }}
                         >
-                            Chart Here
+                            Chart Here 33333 999cghfgh
                         </Paper>
                     </Grid>
 

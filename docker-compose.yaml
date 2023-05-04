@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:6.0.5
+    volumes:
+      - type: bind
+        source: mongodbData
+        target: /data/db
+    networks:
+      - mern-net
+    container_name: mongodb
+  server:
+    build:
+      context: ./api
+      dockerfile: dockerfile
+    volumes:
+      - ./api:/api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+    networks:
+      - mern-net
+    container_name: server
+  client:
+    tty: true
+    build:
+      context: ./frontend
+      dockerfile: dockerfile
+    volumes:
+      - ./frontend:/srv/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    networks:
+      - mern-net
+    container_name: client
+
+volumes:
+  mongodbData:
+
+networks:
+  mern-net:
