@@ -17,7 +17,7 @@ const DashboardPage = () => {
                                 height: 240,
                             }}
                         >
-                            Chart Here sdf 3dfg
+                            Chart Here
                         </Paper>
                     </Grid>
 

@@ -21,7 +21,6 @@ services:
       - mern-net
     container_name: server
   client:
-    tty: true
     build:
       context: ./frontend
       dockerfile: dockerfile
@@ -36,8 +35,6 @@ services:
     networks:
       - mern-net
     container_name: client
-    environment:
-      - NODE_ENV=development
 
 volumes:
   mongodbData:
