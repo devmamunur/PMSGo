@@ -3,9 +3,7 @@ services:
   mongodb:
     image: mongo:6.0.5
     volumes:
-      - type: bind
-        source: mongodbData
-        target: /data/db
+      - mongodbData:/data/db
     networks:
       - mern-net
     container_name: mongodb
@@ -14,7 +12,7 @@ services:
       context: ./api
       dockerfile: dockerfile
     volumes:
-      - ./api:/api
+      - ./api:/app
     ports:
       - "8000:8000"
     depends_on:
@@ -28,7 +26,9 @@ services:
       context: ./frontend
       dockerfile: dockerfile
     volumes:
-      - ./frontend:/srv/app
+      - ./frontend:/app
+      - /app/node_modules
+      - ./frontend/vite.config.js:/app/vite.config.js
     ports:
       - "3000:3000"
     depends_on:
@@ -36,6 +36,8 @@ services:
     networks:
       - mern-net
     container_name: client
+    environment:
+      - NODE_ENV=development
 
 volumes:
   mongodbData:
