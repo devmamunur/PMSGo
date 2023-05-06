@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:6.0.5
+    volumes:
+      - mongodbData:/data/db
+    networks:
+      - mern-net
+    container_name: mongodb
+  server:
+    build:
+      context: ./api
+      dockerfile: dockerfile
+    volumes:
+      - ./api:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+    networks:
+      - mern-net
+    container_name: server
+  client:
+    build:
+      context: ./frontend
+      dockerfile: dockerfile
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - ./frontend/vite.config.js:/app/vite.config.js
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    networks:
+      - mern-net
+    container_name: client
+
+volumes:
+  mongodbData:
+
+networks:
+  mern-net:
