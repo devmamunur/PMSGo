@@ -12,6 +12,8 @@ import RegistrationPage from "./pages/RegistrationPage.jsx";
 import NotFoundPage from "./pages/not-found-page.jsx";
 import FullScreenLoader from "./components/MasterLayout/FullScreenLoader.jsx";
 import ForgetPass from "./components/ForgetPass/ForgetPass.jsx";
+import {ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
     return (
@@ -32,6 +34,7 @@ const App = () => {
                 </Routes>
             </BrowserRouter>
             <FullScreenLoader/>
+            <ToastContainer />
         </>
     );
 };
