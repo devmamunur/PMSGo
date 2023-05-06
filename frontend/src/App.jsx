@@ -11,6 +11,7 @@ import LoginPage from "./pages/login-page.jsx";
 import RegistrationPage from "./pages/RegistrationPage.jsx";
 import NotFoundPage from "./pages/not-found-page.jsx";
 import FullScreenLoader from "./components/MasterLayout/FullScreenLoader.jsx";
+import ForgetPass from "./components/ForgetPass/ForgetPass.jsx";
 
 const App = () => {
     return (
@@ -26,6 +27,7 @@ const App = () => {
                     <Route exact path="/profile" element={<ProfilePage/>} />
                     <Route exact path="/login" element={<LoginPage/>} />
                     <Route exact path="/register" element={<RegistrationPage/>} />
+                    <Route exact path="/forget-password" element={<ForgetPass/>} />
                     <Route path="*" element={<NotFoundPage/>} />
                 </Routes>
             </BrowserRouter>
