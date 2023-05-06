@@ -9,74 +9,58 @@ import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import {Delete, Edit} from "@mui/icons-material";
 import Button from "@mui/material/Button";
+import {TextField} from "@mui/material";
 
 const Create = () => {
     return (
         <>
-            <Grid
-                container
-                direction="row"
-                justifyContent="space-between"
-            >
-                <Grid item md={6}>
-                    <Typography variant="h5" sx={{
-                        fontWeight: '700 !important'
-                    }}>
-                        Create Task
-                    </Typography>
-                </Grid>
-                <Grid item md={6}>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
-                </Grid>
-            </Grid>
             <Grid  container
                    direction="row"
+                   justifyContent="center"
                    sx={{
                        marginTop : '30px'
                    }}
             >
-                <Grid item md={4}>
+                <Grid item md={6}>
                     <Card sx={{ minWidth: 275 }}>
                         <CardContent>
                             <Typography variant="h6" sx={{
                                 marginBottom : '10px'
                             }}>
-                                <strong>Title</strong>
+                                <strong>Create New</strong>
                             </Typography>
-                            <Typography variant="body2">
-                                Description
+                            <Typography component="div">
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    label="Task Name"
+                                />
+                                <TextField
+                                    margin="normal"
+                                    fullWidth
+                                    required
+                                    label="Task Description"
+                                    multiline
+                                    rows={4}
+                                />
                             </Typography>
-                        </CardContent>
-                        <CardActions>
                             <Grid
                                 container
                                 direction="row"
                                 justifyContent="space-between"
+                                sx={{
+                                    marginTop : '15px'
+                                }}
                             >
                                 <Grid item>
-                                    <Typography variant="caption" sx={{marginRight : '10px'}}>
-                                        today date
-                                    </Typography>
-                                    <IconButton size="small">
-                                        <Edit fontSize="small" />
-                                    </IconButton>
-                                    <IconButton size="small">
-                                        <Delete fontSize="small" />
-                                    </IconButton>
                                 </Grid>
                                 <Grid item>
-                                    <Button size="small" variant="contained" color="primary">new</Button>
+                                    <Button variant="contained" color="primary">Save</Button>
                                 </Grid>
                             </Grid>
-                        </CardActions>
+                        </CardContent>
+
                     </Card>
                 </Grid>
             </Grid>
