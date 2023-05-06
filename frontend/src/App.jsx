@@ -10,6 +10,7 @@ import ProfilePage from "./pages/profile-page.jsx";
 import LoginPage from "./pages/login-page.jsx";
 import RegistrationPage from "./pages/RegistrationPage.jsx";
 import NotFoundPage from "./pages/not-found-page.jsx";
+import FullScreenLoader from "./components/MasterLayout/FullScreenLoader.jsx";
 
 const App = () => {
     return (
@@ -28,6 +29,7 @@ const App = () => {
                     <Route path="*" element={<NotFoundPage/>} />
                 </Routes>
             </BrowserRouter>
+            <FullScreenLoader/>
         </>
     );
 };

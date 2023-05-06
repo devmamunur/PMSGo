@@ -1,10 +1,16 @@
 import React from 'react';
+import {useSelector} from "react-redux";
+
 
 const FullScreenLoader = () => {
     return (
-        <div>
-            FullScreenLoader
-        </div>
+        <>
+            <div className="LoadingOverlay d-none">
+                <div className="Line-Progress">
+                    <div className="indeterminate"></div>
+                </div>
+            </div>
+        </>
     );
 };
 
