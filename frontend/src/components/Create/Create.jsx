@@ -1,13 +1,8 @@
 import React from 'react';
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import {Search, SearchIconWrapper, StyledInputBase} from "../../styeldComponent/SearchField.js";
-import SearchIcon from "@mui/icons-material/Search";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import IconButton from "@mui/material/IconButton";
-import {Delete, Edit} from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import {TextField} from "@mui/material";
 
