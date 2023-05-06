@@ -4,10 +4,12 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {ErrorToast, IsEmail, IsEmpty, IsMobile} from "../../helper/FormHelper.js";
+import {RegistrationRequest} from "../../APIRequest/APIRequest.js";
 
 const Registration = () => {
+    let navigate=useNavigate();
 
     const emailRef = useRef(null);
     const firstNameRef = useRef(null);
@@ -40,11 +42,11 @@ const Registration = () => {
             ErrorToast("Password Required !")
         }
         else{
-            // RegistrationRequest(email,fastName,lastName,mobile,password,photo).then((result)=>{
-            //     if(result===true){
-            //         navigate("/login")
-            //     }
-            // })
+            RegistrationRequest(email, firstName, lastName, mobile, password).then((result)=>{
+                if(result===true){
+                    navigate("/login")
+                }
+            })
         }
 
     };

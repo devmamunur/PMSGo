@@ -8,7 +8,7 @@ exports.registration=(req, res) => {
     UsersModel.create(reqBody).then((document) => {
         res.status(200).json({success : true, data : document});
     }).catch((error) => {
-        res.status(400).json({success : false, data : error});
+        res.status(200).json({success : false, data : error});
     })
 }
 
