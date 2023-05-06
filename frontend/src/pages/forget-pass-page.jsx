@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {lazy, Suspense} from 'react';
+import LazyLoader from "../components/MasterLayout/LazyLoader.jsx";
 
+const ForgetPass = lazy(() => import('../components/ForgetPass/ForgetPass.jsx'));
 const ForgetPassPage = () => {
     return (
         <>
-            ForgetPassPage
+            <Suspense fallback={<LazyLoader/>}>
+                <ForgetPass/>
+            </Suspense>
         </>
     );
 };
