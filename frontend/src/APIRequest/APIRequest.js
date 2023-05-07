@@ -66,10 +66,10 @@ export function LoginRequest (email, password){
     })
 }
 
-export function  NewTaskRequest(title, description) {
+export function  NewTaskRequest(title, description, status = 'New') {
     store.dispatch(ShowLoader);
     let URL = BaseURL+"/task";
-    let postBody = {title,description};
+    let postBody = {title,description, status};
 
     return axios.post(URL, postBody, AxiosHeader).then((res) => {
         store.dispatch(HideLoader);

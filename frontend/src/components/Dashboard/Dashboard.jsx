@@ -1,42 +1,40 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
+import {summaryRequest} from "../../APIRequest/APIRequest.js";
+import {useSelector} from "react-redux";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 
 const Dashboard = () => {
+    const summaryList = useSelector((state) => state.summary.value);
+    useEffect(() => {
+        summaryRequest();
+    }, [])
     return (
         <>
-            <Grid container spacing={3}>
-                <Grid item xs={12} md={8} lg={9}>
-                    <Paper
-                        sx={{
-                            p: 2,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            height: 240,
-                        }}
-                    >
-                        Chart Here test update change text
-                        Chart Here test update change text
-                    </Paper>
-                </Grid>
-
-                <Grid item xs={12} md={4} lg={3}>
-                    <Paper
-                        sx={{
-                            p: 2,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            height: 240,
-                        }}
-                    >
-                        Deposit
-                    </Paper>
-                </Grid>
-                <Grid item xs={12}>
-                    <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-                        Order
-                    </Paper>
-                </Grid>
+            <Grid container spacing={3} sx={{
+                marginTop: '30px'
+            }}>
+                {
+                    summaryList.map((item, i) => (
+                        <Grid item xs={6} md={4} key={i}>
+                            <Card>
+                                <CardContent sx={{textAlign : 'center'}}>
+                                    <Typography variant="h6" sx={{
+                                        marginBottom: '10px',
+                                        fontWeight: '600'
+                                    }}>
+                                        {item._id} Task
+                                    </Typography>
+                                    <Typography variant="h4">
+                                        {item.sum}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))
+                }
             </Grid>
         </>
     );
