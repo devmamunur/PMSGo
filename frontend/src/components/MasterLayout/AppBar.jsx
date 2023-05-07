@@ -3,11 +3,10 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
-import Badge from "@mui/material/Badge";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import {StyledAppBar} from "../../styeldComponent/DashboardLayout.js";
 import Box from "@mui/material/Box";
 import {Avatar, Menu, MenuItem, Tooltip} from "@mui/material";
+import {removeSession} from "../../helper/SessionHelper.js";
 
 const AppBarComponent = ({open, clickDrawer}) => {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -20,7 +19,9 @@ const AppBarComponent = ({open, clickDrawer}) => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
+    const logout = () => {
+        removeSession()
+    }
     return (
         <StyledAppBar position="absolute" open={open}>
             <Toolbar
@@ -75,7 +76,7 @@ const AppBarComponent = ({open, clickDrawer}) => {
                             <Typography textAlign="center">Profile</Typography>
                         </MenuItem>
                         <MenuItem  onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">Logout</Typography>
+                            <Typography onClick={logout} textAlign="center">Logout</Typography>
                         </MenuItem>
                     </Menu>
                 </Box>
