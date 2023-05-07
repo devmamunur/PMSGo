@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 import DashboardPage from "./pages/dashboard-page.jsx";
 import CreatePage from "./pages/create-page.jsx";
 import NewPage from "./pages/new-page.jsx";
@@ -14,29 +14,45 @@ import FullScreenLoader from "./components/MasterLayout/FullScreenLoader.jsx";
 import ForgetPass from "./components/ForgetPass/ForgetPass.jsx";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {getToken} from "./helper/SessionHelper.js";
 
 const App = () => {
-    return (
-        <>
-            <BrowserRouter>
-                <Routes>
-                    <Route exact path="/" element={<DashboardPage/>} />
-                    <Route exact path="/create" element={<CreatePage/>} />
-                    <Route exact path="/new-task" element={<NewPage/>} />
-                    <Route exact path="/progress" element={<ProgressPage/>} />
-                    <Route exact path="/completed" element={<CompletedPage/>} />
-                    <Route exact path="/canceled" element={<CanceledPage/>} />
-                    <Route exact path="/profile" element={<ProfilePage/>} />
-                    <Route exact path="/login" element={<LoginPage/>} />
-                    <Route exact path="/register" element={<RegistrationPage/>} />
-                    <Route exact path="/forget-password" element={<ForgetPass/>} />
-                    <Route path="*" element={<NotFoundPage/>} />
-                </Routes>
-            </BrowserRouter>
-            <FullScreenLoader/>
-            <ToastContainer />
-        </>
-    );
+    if(getToken()){
+        return (
+            <>
+                <BrowserRouter>
+                    <Routes>
+                        <Route exact path="/" element={<DashboardPage/>} />
+                        <Route exact path="/create" element={<CreatePage/>} />
+                        <Route exact path="/new-task" element={<NewPage/>} />
+                        <Route exact path="/progress" element={<ProgressPage/>} />
+                        <Route exact path="/completed" element={<CompletedPage/>} />
+                        <Route exact path="/canceled" element={<CanceledPage/>} />
+                        <Route exact path="/profile" element={<ProfilePage/>} />
+                        <Route path="*" element={<NotFoundPage/>} />
+                    </Routes>
+                </BrowserRouter>
+                <FullScreenLoader/>
+                <ToastContainer />
+            </>
+        )
+    }else {
+        return (
+            <>
+                <BrowserRouter>
+                    <Routes>
+                        <Route exact path="/" element={<Navigate to="/login" />} />
+                        <Route exact path="/login" element={<LoginPage/>} />
+                        <Route exact path="/register" element={<RegistrationPage/>} />
+                        <Route exact path="/forget-password" element={<ForgetPass/>} />
+                        <Route path="*" element={<NotFoundPage/>} />
+                    </Routes>
+                </BrowserRouter>
+                <FullScreenLoader/>
+                <ToastContainer />
+            </>
+        )
+    }
 };
 
 export default App;
