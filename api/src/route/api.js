@@ -14,6 +14,7 @@ const TasksController = require("../controller/TasksController")
 router.post("/registration", UsersController.registration);
 router.post("/login", UsersController.login);
 router.post("/profile-update", AuthVerifyMiddleware, UsersController.profileUpdate);
+router.get("/profile-details", AuthVerifyMiddleware, UsersController.profileDetails);
 
 router.post("/task", AuthVerifyMiddleware, TasksController.createTask);
 router.delete("/task/:id", AuthVerifyMiddleware, TasksController.deleteTask);
