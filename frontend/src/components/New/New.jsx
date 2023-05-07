@@ -12,13 +12,16 @@ import {CalendarMonth, Delete, Edit} from "@mui/icons-material";
 import {taskListByStatus} from "../../APIRequest/APIRequest.js";
 import {useSelector} from "react-redux";
 import {DeleteToDO} from "../../helper/DeleteAlert.js";
+import {UpdateTask} from "../../helper/UpdateAlert.js";
 
 
 const New = () => {
-    const taskNew = useSelector((state) => state.task.New);
+
     useEffect(() => {
         taskListByStatus('New');
     }, [])
+
+    const taskNew = useSelector((state) => state.task.New);
 
     const DeleteItem = (id) => {
        DeleteToDO(id).then((result) => {
@@ -26,6 +29,13 @@ const New = () => {
                taskListByStatus('New');
            }
        });
+    }
+    const UpdateItem = (id, status) => {
+        UpdateTask(id, status).then((result) => {
+            if(result === true) {
+                taskListByStatus('New');
+            }
+        })
     }
     return (
         <>
@@ -88,7 +98,7 @@ const New = () => {
                                         </Grid>
                                         <Grid item>
                                             <IconButton size="small">
-                                                <Edit fontSize="small" />
+                                                <Edit onClick={UpdateItem.bind(this, task._id, task.status)} fontSize="small" />
                                             </IconButton>
                                             <IconButton size="small">
                                                 <Delete onClick={DeleteItem.bind(this, task._id)} fontSize="small" />
