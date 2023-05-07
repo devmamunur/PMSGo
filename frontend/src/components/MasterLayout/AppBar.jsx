@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import {StyledAppBar} from "../../styeldComponent/DashboardLayout.js";
 import Box from "@mui/material/Box";
 import {Avatar, Menu, MenuItem, Tooltip} from "@mui/material";
-import {removeSession} from "../../helper/SessionHelper.js";
+import {removeSession, getUserDetails} from "../../helper/SessionHelper.js";
 
 const AppBarComponent = ({open, clickDrawer}) => {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -53,9 +53,10 @@ const AppBarComponent = ({open, clickDrawer}) => {
                 <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                            <Avatar alt="Remy Sharp" src={getUserDetails()['photo']} />
                         </IconButton>
                     </Tooltip>
+
                     <Menu
                         sx={{ mt: '45px' }}
                         id="menu-appbar"

@@ -9,7 +9,7 @@ import {SetSummary} from "../redux/state-slice/SummarySlice.js";
 const AxiosHeader = {headers : {"token" : getToken()}}
 const BaseURL = "http://localhost:5000/api/v1"
 
-export  function RegistrationRequest (email, firstName, lastName, mobile, password, photo = null){
+export  function RegistrationRequest (email, firstName, lastName, mobile, password, photo){
     store.dispatch(ShowLoader);
     let URL = BaseURL+"/registration";
     let postBody = {email,firstName,lastName,mobile,password,photo};
