@@ -11,6 +11,7 @@ import {CalendarMonth, Delete, Edit} from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import {taskListByStatus} from "../../APIRequest/APIRequest.js";
 import {useSelector} from "react-redux";
+import {DeleteToDO} from "../../helper/DeleteAlert.js";
 
 const Canceled = () => {
     const taskCanceled = useSelector((state) => state.task.Canceled);
@@ -18,6 +19,13 @@ const Canceled = () => {
          taskListByStatus('Canceled');
      }, [])
 
+    const DeleteItem = (id) => {
+        DeleteToDO(id).then((result) => {
+            if(result === true){
+                taskListByStatus('Canceled');
+            }
+        });
+    }
     return (
         <>
             <Grid
@@ -82,7 +90,7 @@ const Canceled = () => {
                                                 <Edit fontSize="small" />
                                             </IconButton>
                                             <IconButton size="small">
-                                                <Delete fontSize="small" />
+                                                <Delete onClick={DeleteItem.bind(this, task._id)} fontSize="small" />
                                             </IconButton>
                                             <Button sx={{marginLeft : '15px'}} size="small" variant="contained" color="info">{task.status}</Button>
                                         </Grid>
