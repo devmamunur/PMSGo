@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import {taskListByStatus} from "../../APIRequest/APIRequest.js";
 import {useSelector} from "react-redux";
 import {DeleteToDO} from "../../helper/DeleteAlert.js";
+import {UpdateTask} from "../../helper/UpdateAlert.js";
 
 const Progress = () => {
     const taskProgress = useSelector((state) => state.task.Progress);
@@ -24,6 +25,13 @@ const Progress = () => {
                 taskListByStatus('Progress');
             }
         });
+    }
+    const UpdateItem = (id, status) => {
+        UpdateTask(id, status).then((result) => {
+            if(result === true) {
+                taskListByStatus('Progress');
+            }
+        })
     }
     return (
         <>
@@ -86,7 +94,7 @@ const Progress = () => {
                                         </Grid>
                                         <Grid item>
                                             <IconButton size="small">
-                                                <Edit fontSize="small" />
+                                                <Edit onClick={UpdateItem.bind(this, task._id, task.status)} fontSize="small" />
                                             </IconButton>
                                             <IconButton size="small">
                                                 <Delete onClick={DeleteItem.bind(this, task._id)} fontSize="small" />
