@@ -155,8 +155,10 @@ export function DeleteRequest(id){
 
 export function UpdateStatusRequest(id, status) {
     store.dispatch(ShowLoader())
-    let URL=BaseURL+"/task/"+id+"/"+status;
-    return axios.put(URL,AxiosHeader).then((res)=>{
+
+    let URL=BaseURL+"/task/update/"+id+"/"+status;
+
+    return axios.get(URL, AxiosHeader).then((res)=>{
         store.dispatch(HideLoader())
         if(res.status===200){
             SuccessToast("Status Updated")
