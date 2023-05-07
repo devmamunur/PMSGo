@@ -86,7 +86,6 @@ export function  NewTaskRequest(title, description) {
     })
 }
 
-
 export function taskListByStatus(status) {
     store.dispatch(ShowLoader())
     let URL= BaseURL+"/task/filter/"+status;
