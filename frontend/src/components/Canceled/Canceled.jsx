@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import {taskListByStatus} from "../../APIRequest/APIRequest.js";
 import {useSelector} from "react-redux";
 import {DeleteToDO} from "../../helper/DeleteAlert.js";
+import {UpdateTask} from "../../helper/UpdateAlert.js";
 
 const Canceled = () => {
     const taskCanceled = useSelector((state) => state.task.Canceled);
@@ -25,6 +26,13 @@ const Canceled = () => {
                 taskListByStatus('Canceled');
             }
         });
+    }
+    const UpdateItem = (id, status) => {
+        UpdateTask(id, status).then((result) => {
+            if(result === true) {
+                taskListByStatus('Canceled');
+            }
+        })
     }
     return (
         <>
@@ -87,7 +95,7 @@ const Canceled = () => {
                                         </Grid>
                                         <Grid item>
                                             <IconButton size="small">
-                                                <Edit fontSize="small" />
+                                                <Edit onClick={UpdateItem.bind(this, task._id, task.status)} fontSize="small" />
                                             </IconButton>
                                             <IconButton size="small">
                                                 <Delete onClick={DeleteItem.bind(this, task._id)} fontSize="small" />
