@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import {CalendarMonth, Delete, Edit} from "@mui/icons-material";
 import {taskListByStatus} from "../../APIRequest/APIRequest.js";
 import {useSelector} from "react-redux";
+import {DeleteToDO} from "../../helper/DeleteAlert.js";
 
 
 const New = () => {
@@ -19,6 +20,13 @@ const New = () => {
         taskListByStatus('New');
     }, [])
 
+    const DeleteItem = (id) => {
+       DeleteToDO(id).then((result) => {
+           if(result === true){
+               taskListByStatus('New');
+           }
+       });
+    }
     return (
         <>
             <Grid
@@ -83,7 +91,7 @@ const New = () => {
                                                 <Edit fontSize="small" />
                                             </IconButton>
                                             <IconButton size="small">
-                                                <Delete fontSize="small" />
+                                                <Delete onClick={DeleteItem.bind(this, task._id)} fontSize="small" />
                                             </IconButton>
                                             <Button sx={{marginLeft : '15px'}} size="small" variant="contained" color="info">{task.status}</Button>
                                         </Grid>

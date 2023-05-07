@@ -132,3 +132,23 @@ export function summaryRequest(){
         store.dispatch(HideLoader())
     });
 }
+
+export function DeleteRequest(id){
+    store.dispatch(ShowLoader())
+    let URL=BaseURL+"/task/"+id;
+    return axios.delete(URL,AxiosHeader).then((res)=>{
+        store.dispatch(HideLoader())
+        if(res.status===200){
+            SuccessToast("Delete Successful")
+            return true;
+        }
+        else{
+            ErrorToast("Something Went Wrong")
+            return false;
+        }
+    }).catch((err)=>{
+        ErrorToast("Something Went Wrong")
+        store.dispatch(HideLoader())
+        return false;
+    });
+}
