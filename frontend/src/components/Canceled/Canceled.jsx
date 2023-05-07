@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import {Search, SearchIconWrapper, StyledInputBase} from "../../styeldComponent/SearchField.js";
@@ -7,10 +7,17 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
-import {Delete, Edit} from "@mui/icons-material";
+import {CalendarMonth, Delete, Edit} from "@mui/icons-material";
 import Button from "@mui/material/Button";
+import {taskListByStatus} from "../../APIRequest/APIRequest.js";
+import {useSelector} from "react-redux";
 
 const Canceled = () => {
+    const taskCanceled = useSelector((state) => state.task.Canceled);
+     useEffect(() => {
+         taskListByStatus('Canceled');
+     }, [])
+
     return (
         <>
             <Grid
@@ -39,46 +46,52 @@ const Canceled = () => {
             </Grid>
             <Grid  container
                    direction="row"
+                   spacing={3}
                    sx={{
                        marginTop : '30px'
                    }}
             >
-                <Grid item md={4}>
-                    <Card sx={{ minWidth: 275 }}>
-                        <CardContent>
-                            <Typography variant="h6" sx={{
-                                marginBottom : '10px'
-                            }}>
-                                <strong>Title</strong>
-                            </Typography>
-                            <Typography variant="body2">
-                                Description
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Grid
-                                container
-                                direction="row"
-                                justifyContent="space-between"
-                            >
-                                <Grid item>
-                                    <Typography variant="caption" sx={{marginRight : '10px'}}>
-                                        today date
+                {
+                    taskCanceled.map((task, i) => (
+                        <Grid item md={4}  key={i} >
+                            <Card>
+                                <CardContent>
+                                    <Typography variant="h6" sx={{
+                                        marginBottom : '10px',
+                                        fontWeight : '600'
+                                    }}>
+                                        {task.title}
                                     </Typography>
-                                    <IconButton size="small">
-                                        <Edit fontSize="small" />
-                                    </IconButton>
-                                    <IconButton size="small">
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                </Grid>
-                                <Grid item>
-                                    <Button size="small" variant="contained" color="primary">new</Button>
-                                </Grid>
-                            </Grid>
-                        </CardActions>
-                    </Card>
-                </Grid>
+                                    <Typography variant="subtitle-1">
+                                        {task.description}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Grid
+                                        container
+                                        direction="row"
+                                        justifyContent="space-between"
+                                    >
+                                        <Grid item>
+                                            <Typography variant="subtitle-2" >
+                                                <CalendarMonth sx={{marginBottom : "-4px"}} fontSize="small" /> {task.createdDate}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item>
+                                            <IconButton size="small">
+                                                <Edit fontSize="small" />
+                                            </IconButton>
+                                            <IconButton size="small">
+                                                <Delete fontSize="small" />
+                                            </IconButton>
+                                            <Button sx={{marginLeft : '15px'}} size="small" variant="contained" color="info">{task.status}</Button>
+                                        </Grid>
+                                    </Grid>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))
+                }
             </Grid>
         </>
     );
