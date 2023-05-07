@@ -11,13 +11,20 @@ import {CalendarMonth, Delete, Edit} from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import {taskListByStatus} from "../../APIRequest/APIRequest.js";
 import {useSelector} from "react-redux";
+import {DeleteToDO} from "../../helper/DeleteAlert.js";
 
 const Progress = () => {
     const taskProgress = useSelector((state) => state.task.Progress);
     useEffect(() => {
         taskListByStatus('Progress');
     }, [])
-
+    const DeleteItem = (id) => {
+        DeleteToDO(id).then((result) => {
+            if(result === true){
+                taskListByStatus('Progress');
+            }
+        });
+    }
     return (
         <>
             <Grid
@@ -82,7 +89,7 @@ const Progress = () => {
                                                 <Edit fontSize="small" />
                                             </IconButton>
                                             <IconButton size="small">
-                                                <Delete fontSize="small" />
+                                                <Delete onClick={DeleteItem.bind(this, task._id)} fontSize="small" />
                                             </IconButton>
                                             <Button sx={{marginLeft : '15px'}} size="small" variant="contained" color="info">{task.status}</Button>
                                         </Grid>
