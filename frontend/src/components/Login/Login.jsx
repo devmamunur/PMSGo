@@ -1,20 +1,39 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import {Link} from "react-router-dom";
+import {ErrorToast, IsEmail, IsEmpty, IsMobile} from "../../helper/FormHelper.js";
+import {LoginRequest} from "../../APIRequest/APIRequest.js";
 
 const Login = () => {
+
+
+    const emailRef = useRef(null);
+    const passwordRef = useRef(null);
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+
+        let email = emailRef.current.value;
+        let password = passwordRef.current.value;
+
+        if(IsEmail(email)){
+            ErrorToast("Valid Email Address Required !")
+        }
+        else if(IsEmpty(password)){
+            ErrorToast("Password Required !")
+        }else {
+            LoginRequest(email, password).then((result) => {
+                if(result === true) {
+                    window.location.href="/"
+                }
+            });
+        }
     };
+
     return (
         <>
             <Grid  container direction="row" justifyContent="center" alignItems="center" sx={{paddingTop : '50px'}} >
@@ -31,6 +50,7 @@ const Login = () => {
                             fullWidth
                             label="Email Address"
                             type="email"
+                            inputRef={emailRef}
                         />
                         <TextField
                             margin="normal"
@@ -38,12 +58,14 @@ const Login = () => {
                             fullWidth
                             label="Password"
                             type="password"
+                            inputRef={passwordRef}
                         />
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{mt: 3, mb: 2}}
+                            onClick={handleSubmit}
                         >
                             Sign In
                         </Button>
