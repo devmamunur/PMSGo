@@ -7,9 +7,13 @@ export function UpdateTask(id,status){
         input: 'select',
         inputOptions: {New: 'New', Completed: 'Completed', Progress: 'Progress', Canceled: 'Canceled'},
         inputValue:status,
+        showCancelButton: true,
+        confirmButtonText: 'Yes, update!'
     }).then((result)=>{
-        return UpdateStatusRequest(id, result.value).then((res)=>{
-            return res;
-        })
+        if (result.isConfirmed) {
+            return UpdateStatusRequest(id, result.value).then((res) => {
+                return res;
+            })
+        }
     })
 }
