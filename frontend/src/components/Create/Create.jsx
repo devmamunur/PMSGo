@@ -1,12 +1,40 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import {TextField} from "@mui/material";
+import {ErrorToast, IsEmpty} from "../../helper/FormHelper.js";
+import {NewTaskRequest} from "../../APIRequest/APIRequest.js";
+import {useNavigate} from "react-router-dom";
 
 const Create = () => {
+    let navigate=useNavigate();
+    const titleRef = useRef(null);
+    const descriptionRef = useRef(null);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        let title = titleRef.current.value;
+        let description = descriptionRef.current.value;
+
+        if(IsEmpty(title)){
+            ErrorToast("Title Required")
+        }
+        else if(IsEmpty(description)){
+            ErrorToast("Description Required")
+        }
+        else {
+            NewTaskRequest(title,description).then((res)=>{
+                if(res===true){
+                    navigate("/new-task")
+                }
+            })
+        }
+
+    }
+
     return (
         <>
             <Grid  container
@@ -18,7 +46,7 @@ const Create = () => {
             >
                 <Grid item md={6}>
                     <Card sx={{ minWidth: 275 }}>
-                        <CardContent>
+                        <CardContent component="form" onSubmit={handleSubmit}>
                             <Typography variant="h6" sx={{
                                 marginBottom : '10px'
                             }}>
@@ -30,6 +58,7 @@ const Create = () => {
                                     required
                                     fullWidth
                                     label="Task Name"
+                                    inputRef={titleRef}
                                 />
                                 <TextField
                                     margin="normal"
@@ -38,6 +67,7 @@ const Create = () => {
                                     label="Task Description"
                                     multiline
                                     rows={4}
+                                    inputRef={descriptionRef}
                                 />
                             </Typography>
                             <Grid
@@ -51,11 +81,10 @@ const Create = () => {
                                 <Grid item>
                                 </Grid>
                                 <Grid item>
-                                    <Button variant="contained" color="primary">Save</Button>
+                                    <Button onClick={handleSubmit} variant="contained" color="primary">Save</Button>
                                 </Grid>
                             </Grid>
                         </CardContent>
-
                     </Card>
                 </Grid>
             </Grid>
