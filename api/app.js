@@ -4,7 +4,8 @@ const app = new express();
 
 //Body Parser Implementation
 bodyParser = require('body-parser');
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+
 
 //Security Middleware
 const rateLimit = require('express-rate-limit');
@@ -26,7 +27,7 @@ app.use(xss())
 app.use(hpp())
 
 app.use(express.json({limit : '50mb'}));
-app.use(express.urlencoded({limit : '50mb'}));
+
 
 //Rate Limiter
 const limiter = rateLimit({windowMs: 15 * 60 * 100, max: 3000})
