@@ -7,6 +7,7 @@ import {StyledAppBar} from "../../styeldComponent/DashboardLayout.js";
 import Box from "@mui/material/Box";
 import {Avatar, Menu, MenuItem, Tooltip} from "@mui/material";
 import {removeSession, getUserDetails} from "../../helper/SessionHelper.js";
+import {NavLink} from "react-router-dom";
 
 const AppBarComponent = ({open, clickDrawer}) => {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -73,11 +74,11 @@ const AppBarComponent = ({open, clickDrawer}) => {
                         open={Boolean(anchorElUser)}
                         onClose={handleCloseUserMenu}
                     >
-                        <MenuItem  onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">Profile</Typography>
+                        <MenuItem component={NavLink} to="/profile"  onClick={handleCloseUserMenu}>
+                            <Typography  textAlign="center">Profile</Typography>
                         </MenuItem>
                         <MenuItem  onClick={handleCloseUserMenu}>
-                            <Typography onClick={logout} textAlign="center">Logout</Typography>
+                            <Typography  onClick={logout} textAlign="center">Logout</Typography>
                         </MenuItem>
                     </Menu>
                 </Box>
