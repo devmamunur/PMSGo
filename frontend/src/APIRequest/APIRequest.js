@@ -1,10 +1,11 @@
 import axios from "axios";
 import {ErrorToast, SuccessToast} from "../helper/FormHelper.js";
 import store from "../redux/store/store.js";
-import {HideLoader, ShowLoader} from "../redux/state-slice/Settings-slice.js";
+import {HideLoader, ShowLoader} from "../redux/state-slice/SettingsSlice.js";
 import {getToken, setToken, setUserDetails} from "../helper/SessionHelper.js";
 import {SetCanceledTask, SetCompletedTask, SetNewTask, SetProgressTask} from "../redux/state-slice/TaskSlice.js";
 import {SetSummary} from "../redux/state-slice/SummarySlice.js";
+import {SetProfile} from "../redux/state-slice/ProfileSlice.js";
 
 const AxiosHeader = {headers : {"token" : getToken()}}
 const BaseURL = "http://localhost:5000/api/v1"
@@ -167,6 +168,54 @@ export function UpdateStatusRequest(id, status) {
         else{
             ErrorToast("Something Went Wrong")
             return false;
+        }
+    }).catch((err)=>{
+        ErrorToast("Something Went Wrong")
+        store.dispatch(HideLoader())
+        return false;
+    });
+}
+
+export function GetProfileDetails(){
+    store.dispatch(ShowLoader())
+    let URL=BaseURL+"/profile-details";
+    axios.get(URL,AxiosHeader).then((res)=>{
+        store.dispatch(HideLoader())
+        if(res.status===200){
+            store.dispatch(SetProfile(res.data['data'][0]));
+        }
+        else{
+            ErrorToast("Something Went Wrong");
+        }
+    }).catch((err)=>{
+        ErrorToast("Something Went Wrong")
+        store.dispatch(HideLoader());
+    });
+}
+
+export function ProfileUpdateRequest(email,firstName,lastName,mobile,password,photo){
+
+    store.dispatch(ShowLoader())
+
+    let URL=BaseURL+"/profile-update";
+
+
+    let PostBody={email,firstName,lastName,mobile,password,photo}
+    let UserDetails={email,firstName,lastName,mobile,password,photo}
+
+
+    return axios.post(URL, PostBody, AxiosHeader).then((res)=>{
+        store.dispatch(HideLoader())
+        if(res.status===200){
+
+            SuccessToast("Profile Update Success")
+            setUserDetails(UserDetails)
+
+            return true;
+        }
+        else{
+            ErrorToast("Something Went Wrong")
+            return  false;
         }
     }).catch((err)=>{
         ErrorToast("Something Went Wrong")
