@@ -42,8 +42,32 @@ exports.login = (req, res) => {
 
 // Profile Update
 exports.profileUpdate=(req, res) => {
-    const reqBody = req.body
-    const email = req.headers["email"]
+    const email = req.headers["email"];
+    const reqBody = {};
+    if (req.body.email) {
+        reqBody.email = req.body.email;
+    }
+    if (req.body.firstName) {
+        reqBody.firstName = req.body.firstName;
+    }
+    if (req.body.lastName) {
+        reqBody.lastName = req.body.lastName;
+    }
+    if (req.body.mobile) {
+        reqBody.mobile = req.body.mobile;
+    }
+    if (req.body.password) {
+        reqBody.password = req.body.password;
+    }else {
+        delete reqBody.password;
+    }
+
+    if (req.body.photo) {
+        reqBody.photo = req.body.photo;
+    }else {
+        delete reqBody.photo;
+    }
+
 
     UsersModel.updateOne({email : email}, reqBody).then((document) => {
         res.status(200).json({success : true, data : document});
