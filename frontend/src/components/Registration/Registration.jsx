@@ -104,7 +104,7 @@ const Registration = () => {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link to="/forget-password" variant="body2">
+                                <Link to="/send-otp" variant="body2">
                                     Forgot password?
                                 </Link>
                             </Grid>

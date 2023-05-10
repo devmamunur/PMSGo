@@ -33,7 +33,7 @@ app.use(express.json({limit : '50mb'}));
 const limiter = rateLimit({windowMs: 15 * 60 * 100, max: 3000})
 
 //Database
-let URI = "mongodb://127.0.0.1:27017/task_manager";
+let URI = process.env.DATABASE_URL;
 let OPTION = {user: '', pass: '', autoIndex: true};
 mongoose.connect(URI, OPTION).then((res) => {
     console.log("Database Connection Successfully!");

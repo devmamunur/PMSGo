@@ -11,7 +11,8 @@ import Button from "@mui/material/Button";
 const SendOTP = () => {
     let emailRef=useRef();
     let navigate=useNavigate();
-    const handleSubmit=()=>{
+    const handleSubmit=(e)=>{
+        e.preventDefault();
 
         let email=emailRef.current.value;
 
@@ -21,7 +22,7 @@ const SendOTP = () => {
         else{
             RecoverVerifyEmailRequest(email).then((result)=>{
                 if(result===true){
-                    navigate("/verify-otp")
+                    // navigate("/verify-otp")
                 }
             })
         }

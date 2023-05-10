@@ -2,7 +2,7 @@ import axios from "axios";
 import {ErrorToast, SuccessToast} from "../helper/FormHelper.js";
 import store from "../redux/store/store.js";
 import {HideLoader, ShowLoader} from "../redux/state-slice/SettingsSlice.js";
-import {getToken, setOTP, setToken, setUserDetails} from "../helper/SessionHelper.js";
+import {getToken, setEmail, setOTP, setToken, setUserDetails} from "../helper/SessionHelper.js";
 import {SetCanceledTask, SetCompletedTask, SetNewTask, SetProgressTask} from "../redux/state-slice/TaskSlice.js";
 import {SetSummary} from "../redux/state-slice/SummarySlice.js";
 import {SetProfile} from "../redux/state-slice/ProfileSlice.js";
@@ -227,11 +227,12 @@ export function ProfileUpdateRequest(email,firstName,lastName,mobile,password,ph
 
 export function RecoverVerifyEmailRequest(email){
     store.dispatch(ShowLoader())
-    let URL=BaseURL+"/RecoverVerifyEmail/"+email;
+    let URL=BaseURL+"/recover-verify-email/"+email;
     return axios.get(URL).then((res)=>{
+        alert(JSON.stringify(res));
         store.dispatch(HideLoader())
         if(res.status===200){
-
+            alert("Status is 200");
             if(res.data['status']==="fail"){
                 ErrorToast("No user found");
                 return false;
@@ -243,10 +244,12 @@ export function RecoverVerifyEmailRequest(email){
             }
         }
         else{
+            alert("Status is Not 200");
             ErrorToast("Something Went Wrong");
             return false;
         }
     }).catch((err)=>{
+        alert("Status is ERROR");
         ErrorToast("Something Went Wrong")
         store.dispatch(HideLoader())
         return false;
@@ -256,7 +259,7 @@ export function RecoverVerifyEmailRequest(email){
 // Recover Password Step 02 Verify OTP
 export function RecoverVerifyOTPRequest(email,OTP){
     store.dispatch(ShowLoader())
-    let URL=BaseURL+"/RecoverVerifyOTP/"+email+"/"+OTP;
+    let URL=BaseURL+"/recover-verify-otp/"+email+"/"+OTP;
     return axios.get(URL).then((res)=>{
         store.dispatch(HideLoader())
         if(res.status===200){
@@ -284,13 +287,11 @@ export function RecoverVerifyOTPRequest(email,OTP){
 // Recover Password Step 03 Reset Pass
 export function RecoverResetPassRequest(email,OTP,password){
     store.dispatch(ShowLoader())
-    let URL=BaseURL+"/RecoverResetPass";
+    let URL=BaseURL+"/recover-reset-pass";
     let PostBody={email:email,OTP:OTP,password:password}
-
     return axios.post(URL,PostBody).then((res)=>{
         store.dispatch(HideLoader())
         if(res.status===200){
-
             if(res.data['status']==="fail"){
                 ErrorToast(res.data['data']);
                 return false;
