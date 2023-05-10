@@ -1,2 +1,2 @@
 mongodbData/
-.env
+api/.env.local
