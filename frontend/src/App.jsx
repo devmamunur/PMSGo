@@ -15,6 +15,9 @@ import ForgetPass from "./components/ForgetPass/ForgetPass.jsx";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {getToken} from "./helper/SessionHelper.js";
+import SendOTP from "./components/PasswordRecover/SendOTP.jsx";
+import VerifyOTP from "./components/PasswordRecover/VerifyOTP.jsx";
+import CreatePassword from "./components/PasswordRecover/CreatePassword.jsx";
 
 const App = () => {
     if(getToken()){
@@ -45,6 +48,9 @@ const App = () => {
                         <Route exact path="/login" element={<LoginPage/>} />
                         <Route exact path="/register" element={<RegistrationPage/>} />
                         <Route exact path="/forget-password" element={<ForgetPass/>} />
+                        <Route exact path="/send-otp" element={<SendOTP/>} />
+                        <Route exact path="/verify-otp" element={<VerifyOTP/>} />
+                        <Route exact path="/create-password" element={<CreatePassword/>} />
                         <Route path="*" element={<NotFoundPage/>} />
                     </Routes>
                 </BrowserRouter>
