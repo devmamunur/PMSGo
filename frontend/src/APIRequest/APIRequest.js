@@ -2,7 +2,7 @@ import axios from "axios";
 import {ErrorToast, SuccessToast} from "../helper/FormHelper.js";
 import store from "../redux/store/store.js";
 import {HideLoader, ShowLoader} from "../redux/state-slice/SettingsSlice.js";
-import {getToken, setToken, setUserDetails} from "../helper/SessionHelper.js";
+import {getToken, setOTP, setToken, setUserDetails} from "../helper/SessionHelper.js";
 import {SetCanceledTask, SetCompletedTask, SetNewTask, SetProgressTask} from "../redux/state-slice/TaskSlice.js";
 import {SetSummary} from "../redux/state-slice/SummarySlice.js";
 import {SetProfile} from "../redux/state-slice/ProfileSlice.js";
@@ -216,6 +216,94 @@ export function ProfileUpdateRequest(email,firstName,lastName,mobile,password,ph
         else{
             ErrorToast("Something Went Wrong")
             return  false;
+        }
+    }).catch((err)=>{
+        ErrorToast("Something Went Wrong")
+        store.dispatch(HideLoader())
+        return false;
+    });
+}
+
+
+export function RecoverVerifyEmailRequest(email){
+    store.dispatch(ShowLoader())
+    let URL=BaseURL+"/RecoverVerifyEmail/"+email;
+    return axios.get(URL).then((res)=>{
+        store.dispatch(HideLoader())
+        if(res.status===200){
+
+            if(res.data['status']==="fail"){
+                ErrorToast("No user found");
+                return false;
+            }
+            else{
+                setEmail(email)
+                SuccessToast("A 6 Digit verification code has been sent to your email address. ");
+                return true;
+            }
+        }
+        else{
+            ErrorToast("Something Went Wrong");
+            return false;
+        }
+    }).catch((err)=>{
+        ErrorToast("Something Went Wrong")
+        store.dispatch(HideLoader())
+        return false;
+    });
+}
+
+// Recover Password Step 02 Verify OTP
+export function RecoverVerifyOTPRequest(email,OTP){
+    store.dispatch(ShowLoader())
+    let URL=BaseURL+"/RecoverVerifyOTP/"+email+"/"+OTP;
+    return axios.get(URL).then((res)=>{
+        store.dispatch(HideLoader())
+        if(res.status===200){
+            if(res.data['status']==="fail"){
+                ErrorToast(res.data['data']);
+                return false;
+            }
+            else{
+                setOTP(OTP)
+                SuccessToast("Code Verification Success");
+                return true;
+            }
+        }
+        else{
+            ErrorToast("Something Went Wrong")
+            return false;
+        }
+    }).catch((err)=>{
+        ErrorToast("Something Went Wrong")
+        store.dispatch(HideLoader())
+        return false;
+    });
+}
+
+// Recover Password Step 03 Reset Pass
+export function RecoverResetPassRequest(email,OTP,password){
+    store.dispatch(ShowLoader())
+    let URL=BaseURL+"/RecoverResetPass";
+    let PostBody={email:email,OTP:OTP,password:password}
+
+    return axios.post(URL,PostBody).then((res)=>{
+        store.dispatch(HideLoader())
+        if(res.status===200){
+
+            if(res.data['status']==="fail"){
+                ErrorToast(res.data['data']);
+                return false;
+            }
+            else{
+                setOTP(OTP)
+                SuccessToast("NEW PASSWORD CREATED");
+                return true;
+            }
+        }
+        else{
+            ErrorToast("Something Went Wrong")
+            return false;
         }
     }).catch((err)=>{
         ErrorToast("Something Went Wrong")
