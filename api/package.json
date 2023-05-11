@@ -22,6 +22,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.3",
     "nodemailer": "^6.9.1",
+    "nodemailer-smtp-transport": "^2.7.4",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {

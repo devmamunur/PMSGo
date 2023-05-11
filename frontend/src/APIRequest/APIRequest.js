@@ -291,7 +291,9 @@ export function RecoverResetPassRequest(email,OTP,password){
     let PostBody={email:email,OTP:OTP,password:password}
     return axios.post(URL,PostBody).then((res)=>{
         store.dispatch(HideLoader())
+        alert("Success");
         if(res.status===200){
+            alert("status 200");
             if(res.data['status']==="fail"){
                 ErrorToast(res.data['data']);
                 return false;
@@ -307,6 +309,7 @@ export function RecoverResetPassRequest(email,OTP,password){
             return false;
         }
     }).catch((err)=>{
+        alert("Faild");
         ErrorToast("Something Went Wrong")
         store.dispatch(HideLoader())
         return false;

@@ -15,9 +15,11 @@ const CreatePassword = () => {
 
     let navigate=useNavigate();
 
-    const handleSubmit = () => {
-        let Password = PasswordRef.value;
-        let ConfirmPassword =  ConfirmPasswordRef.value;
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        let Password = PasswordRef.current.value;
+        let ConfirmPassword =  ConfirmPasswordRef.current.value;
         if(IsEmpty(Password)){
             ErrorToast("Password Required")
         }
@@ -51,6 +53,8 @@ const CreatePassword = () => {
                             fullWidth
                             label="Your Email"
                             type="email"
+                            defaultValue={getEmail()}
+                            disabled
                         />
                         <TextField
                             margin="normal"

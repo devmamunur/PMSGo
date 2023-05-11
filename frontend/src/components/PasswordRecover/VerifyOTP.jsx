@@ -35,7 +35,8 @@ const VerifyOTP = () => {
 
 
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         if(OTP.length===6){
             RecoverVerifyOTPRequest(getEmail(),OTP).then((result)=>{
                 if(result===true){
