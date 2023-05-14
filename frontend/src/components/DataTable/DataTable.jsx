@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import PropTypes from 'prop-types';
 import {alpha} from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -16,11 +16,10 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import {getTaskList} from "../../APIRequest/APIRequest.js";
 import {useSelector} from "react-redux";
 import {Search, SearchIconWrapper, StyledInputBase} from "../../styeldComponent/SearchField.js";
-import SearchIcon from "@mui/icons-material/Search.js";
+import SearchIcon from "@mui/icons-material/Search";
 
 
 const headCells = [
@@ -53,30 +52,32 @@ const headCells = [
 function EnhancedTableHead(props) {
     const {onSelectAllClick, numSelected, rowCount} = props;
     return (
-        <TableHead>
-            <TableRow>
-                <TableCell padding="checkbox">
-                    <Checkbox
-                        color="primary"
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                        inputProps={{
-                            'aria-label': 'select all desserts',
-                        }}
-                    />
-                </TableCell>
-                {headCells.map((headCell) => (
-                    <TableCell
-                        key={headCell.id}
-                        align={headCell.numeric ? 'right' : 'left'}
-                        padding={headCell.disablePadding ? 'none' : 'normal'}
-                    >
-                        {headCell.label}
+        <>
+            <TableHead>
+                <TableRow>
+                    <TableCell padding="checkbox">
+                        <Checkbox
+                            color="primary"
+                            indeterminate={numSelected > 0 && numSelected < rowCount}
+                            checked={rowCount > 0 && numSelected === rowCount}
+                            onChange={onSelectAllClick}
+                            inputProps={{
+                                'aria-label': 'select all desserts',
+                            }}
+                        />
                     </TableCell>
-                ))}
-            </TableRow>
-        </TableHead>
+                    {headCells.map((headCell) => (
+                        <TableCell
+                            key={headCell.id}
+                            align={headCell.numeric ? 'right' : 'left'}
+                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                        >
+                            {headCell.label}
+                        </TableCell>
+                    ))}
+                </TableRow>
+            </TableHead>
+        </>
     );
 }
 
@@ -87,7 +88,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-    const {numSelected} = props;
+    const {numSelected, searchOnChange} = props;
 
     return (
         <Toolbar
@@ -128,13 +129,14 @@ function EnhancedTableToolbar(props) {
                 </Tooltip>
             ) : (
                 <div>
-                    <Search sx={{width : '200px'}}>
+                    <Search sx={{width: '200px'}}>
                         <SearchIconWrapper>
-                            <SearchIcon />
+                            <SearchIcon/>
                         </SearchIconWrapper>
                         <StyledInputBase
+                            onChange={searchOnChange}
                             placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
+                            inputProps={{'aria-label': 'search'}}
                         />
                     </Search>
                 </div>
@@ -145,25 +147,23 @@ function EnhancedTableToolbar(props) {
 
 EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
+    searchOnChange: PropTypes.func.isRequired
 };
 
 export default function DataTable() {
 
-    const [selected, setSelected] = React.useState([]);
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-
-    let [searchKey, setSearchKey] = useState("0");
-    let [perPageKey, setPerPageKey] = useState(5);
+    const [selected, setSelected] =useState([]);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
-        getTaskList(1, perPageKey, searchKey)
-    }, [])
+        getTaskList(page, rowsPerPage, search)
+    }, [rowsPerPage, page, search])
 
     let ALLTask = useSelector((state) => (state.task.ALLTask));
+    let TotalTask = useSelector((state) => (state.task.Total));
 
-    console.log("ALLTask : ", ALLTask);
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
@@ -174,12 +174,12 @@ export default function DataTable() {
         setSelected([]);
     };
 
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
+    const handleClick = (event, id) => {
+        const selectedIndex = selected.indexOf(id);
         let newSelected = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
+            newSelected = newSelected.concat(selected, id);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -199,16 +199,22 @@ export default function DataTable() {
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+        setRowsPerPage(parseInt(event.target.value));
         setPage(0);
     };
 
-    const isSelected = (name) => selected.indexOf(name) !== -1;
+    const isSelected = (id) => selected.indexOf(id) !== -1;
+
+    const handleSearchOnChange = (event) => {
+        setPage(0);
+        setSearch(event.target.value);
+    }
+
 
     return (
         <Box sx={{width: '100%'}}>
             <Paper sx={{width: '100%', mb: 2}}>
-                <EnhancedTableToolbar numSelected={selected.length}/>
+                <EnhancedTableToolbar searchOnChange={handleSearchOnChange} numSelected={selected.length} />
                 <TableContainer>
                     <Table
                         sx={{minWidth: 750}}
@@ -217,7 +223,7 @@ export default function DataTable() {
                         <EnhancedTableHead
                             numSelected={selected.length}
                             onSelectAllClick={handleSelectAllClick}
-                            rowCount={ALLTask.length}
+                            rowCount={parseInt(ALLTask.length)}
                         />
                         <TableBody>
                             {ALLTask.map((row, index) => {
@@ -265,7 +271,7 @@ export default function DataTable() {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={ALLTask.length}
+                    count={Number(TotalTask)}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
@@ -274,4 +280,6 @@ export default function DataTable() {
             </Paper>
         </Box>
     );
+
+
 }
