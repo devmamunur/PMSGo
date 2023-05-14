@@ -9,12 +9,8 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ListItemText from "@mui/material/ListItemText";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PeopleIcon from "@mui/icons-material/People";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import LayersIcon from "@mui/icons-material/Layers";
-import MailIcon from "@mui/icons-material/Mail";
-import {ExpandLess, ExpandMore, StarBorder} from "@mui/icons-material";
+import {CancelPresentation, CheckBox, CreateSharp, NewReleases, TableChart} from "@mui/icons-material";
 import {StyledDrawer} from "../../styeldComponent/DashboardLayout.js";
 import {Collapse} from "@mui/material";
 import {StyledNavLink} from "../../styeldComponent/NavLink.js";
@@ -62,13 +58,13 @@ const DrawerComponent = ({open, clickDrawer}) => {
                 </ListItemButton>
                 <ListItemButton component={StyledNavLink} to="/create">
                     <ListItemIcon>
-                        <ShoppingCartIcon />
+                        <CreateSharp />
                     </ListItemIcon>
                     <ListItemText primary="Create New" />
                 </ListItemButton>
                 <ListItemButton component={StyledNavLink} to="/new-task">
                     <ListItemIcon>
-                        <PeopleIcon />
+                        <NewReleases />
                     </ListItemIcon>
                     <ListItemText primary="New Task" />
                 </ListItemButton>
@@ -80,17 +76,23 @@ const DrawerComponent = ({open, clickDrawer}) => {
                 </ListItemButton>
                 <ListItemButton component={StyledNavLink} to="/completed">
                     <ListItemIcon>
-                        <LayersIcon />
+                        <CheckBox />
                     </ListItemIcon>
                     <ListItemText primary="Completed" />
                 </ListItemButton>
                 <ListItemButton component={StyledNavLink} to="/canceled">
                     <ListItemIcon>
-                        <LayersIcon />
+                        <CancelPresentation />
                     </ListItemIcon>
                     <ListItemText primary="Canceled" />
                 </ListItemButton>
-                <ListItemButton onClick={handleClickInbox}>
+                <ListItemButton component={StyledNavLink} to="/task-list">
+                    <ListItemIcon>
+                        <TableChart />
+                    </ListItemIcon>
+                    <ListItemText primary="Advance Table" />
+                </ListItemButton>
+       {/*         <ListItemButton onClick={handleClickInbox}>
                     <ListItemIcon>
                         <MailIcon />
                     </ListItemIcon>
@@ -106,7 +108,7 @@ const DrawerComponent = ({open, clickDrawer}) => {
                             <ListItemText primary="Starred" />
                         </ListItemButton>
                     </List>
-                </Collapse>
+                </Collapse>*/}
             </List>
         </StyledDrawer>
     );
