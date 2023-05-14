@@ -231,7 +231,6 @@ export function ProfileUpdateRequest(email,firstName,lastName,mobile,password,ph
     });
 }
 
-
 export function RecoverVerifyEmailRequest(email){
     store.dispatch(ShowLoader())
     let URL=BaseURL+"/recover-verify-email/"+email;
@@ -329,6 +328,27 @@ export function getTaskList(pageNo,perPage,searchKey){
             store.dispatch(SetALLTask(res.data['data']))
             store.dispatch(SetTotal(res.data['total']))
             return true;
+        }
+    }).catch((err)=>{
+        ErrorToast("Something Went Wrong")
+        store.dispatch(HideLoader())
+        return false;
+    });
+}
+
+export function deleteSelectedTask(ids) {
+    store.dispatch(ShowLoader())
+    let URL=BaseURL+"/task/delete-selected";
+    let postBody = {ids};
+    return axios.post(URL, postBody, AxiosHeader).then((res)=>{
+        store.dispatch(HideLoader())
+        if(res.status===200){
+            SuccessToast("Delete Successful")
+            return true;
+        }
+        else{
+            ErrorToast("Something Went Wrong")
+            return false;
         }
     }).catch((err)=>{
         ErrorToast("Something Went Wrong")
