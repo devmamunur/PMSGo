@@ -18,6 +18,7 @@ import {getToken} from "./helper/SessionHelper.js";
 import SendOTP from "./components/PasswordRecover/SendOTP.jsx";
 import VerifyOTP from "./components/PasswordRecover/VerifyOTP.jsx";
 import CreatePassword from "./components/PasswordRecover/CreatePassword.jsx";
+import TaskList from "./pages/task-list.jsx";
 
 const App = () => {
     if(getToken()){
@@ -31,6 +32,7 @@ const App = () => {
                         <Route exact path="/progress" element={<ProgressPage/>} />
                         <Route exact path="/completed" element={<CompletedPage/>} />
                         <Route exact path="/canceled" element={<CanceledPage/>} />
+                        <Route exact path="/task-list" element={<TaskList/>} />
                         <Route exact path="/profile" element={<ProfilePage/>} />
                         <Route path="*" element={<NotFoundPage/>} />
                     </Routes>
