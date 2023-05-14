@@ -21,6 +21,7 @@ router.get("/recover-verify-otp/:email/:otp",UsersController.RecoverVerifyOTP);
 router.post("/recover-reset-pass",UsersController.RecoverResetPass);
 
 router.post("/task", AuthVerifyMiddleware, TasksController.createTask);
+router.post("/task/delete-selected", AuthVerifyMiddleware, TasksController.deleteSelectedTask);
 router.delete("/task/:id", AuthVerifyMiddleware, TasksController.deleteTask);
 router.get("/task/update/:id/:status", AuthVerifyMiddleware, TasksController.updateTaskStatus);
 router.get("/task/filter/:status", AuthVerifyMiddleware, TasksController.filterTaskByStatus);
