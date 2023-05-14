@@ -6,7 +6,9 @@ export const taskSlice = createSlice({
         New: [],
         Completed : [],
         Progress : [],
-        Canceled : []
+        Canceled : [],
+        Total:[],
+        ALLTask:[],
     },
     reducers : {
         SetNewTask : (state, action) => {
@@ -20,9 +22,15 @@ export const taskSlice = createSlice({
         },
         SetCanceledTask : (state, action) => {
             state.Canceled = action.payload
+        },
+        SetTotal:(state,action)=>{
+            state.Total=action.payload
+        },
+        SetALLTask:(state,action)=>{
+            state.ALLTask=action.payload
         }
     }
 })
 
-export const {SetNewTask, SetCompletedTask, SetProgressTask, SetCanceledTask} = taskSlice.actions;
+export const {SetNewTask, SetCompletedTask, SetProgressTask, SetCanceledTask, SetTotal, SetALLTask} = taskSlice.actions;
 export default taskSlice.reducer;
