@@ -80,15 +80,18 @@ exports.TaskList=async (req, res) => {
     let pageNo = Number(req.params.pageNo);
     let perPage = Number(req.params.perPage);
     let searchValue = req.params.searchKey;
-    const skipRow = (pageNo - 1) * perPage;
+    const skipRow = ((pageNo === 0 ? 1 : pageNo) - 1) * perPage;
     let Rows;
     let Total;
-    if (searchValue!=="0") {
+    if (searchValue) {
         let SearchRgx = {"$regex": searchValue, "$options": "i"}
         let SearchQuery = {$or: [{title: SearchRgx}]}
 
-        Total = (await TasksModel.aggregate([{$match: SearchQuery}, {$count: "total"}]))[0]['total']
+
         Rows = await TasksModel.aggregate([{$match: SearchQuery}, {$skip: skipRow}, {$limit: perPage}])
+        let countResult = await TasksModel.aggregate([{$match: SearchQuery}, {$count: "total"}]);
+        Total = countResult.length > 0 ? countResult[0]['total'] : 0;
+
     } else {
         Total = (await TasksModel.aggregate([{$count: "total"}]))[0]['total']
         Rows = await TasksModel.aggregate([{$skip: skipRow}, {$limit: perPage}])
