@@ -208,7 +208,6 @@ export function ProfileUpdateRequest(email,firstName,lastName,mobile,password,ph
 
 
     let PostBody={email,firstName,lastName,mobile,password,photo}
-    let UserDetails={email,firstName,lastName,mobile,password,photo}
 
 
     return axios.post(URL, PostBody, AxiosHeader).then((res)=>{
@@ -216,7 +215,7 @@ export function ProfileUpdateRequest(email,firstName,lastName,mobile,password,ph
         if(res.status===200){
 
             SuccessToast("Profile Update Success")
-            setUserDetails(UserDetails)
+            setUserDetails(res.data.data);
 
             return true;
         }

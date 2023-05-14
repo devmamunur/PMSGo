@@ -24,66 +24,68 @@ const AppBarComponent = ({open, clickDrawer}) => {
         removeSession()
     }
     return (
-        <StyledAppBar position="absolute" open={open}>
-            <Toolbar
-                sx={{
-                    pr: '24px', // keep right padding when drawer closed
-                }}
-            >
-                <IconButton
-                    edge="start"
-                    color="inherit"
-                    aria-label="open drawer"
-                    onClick={toggleDrawer}
+        <>
+            <StyledAppBar position="absolute" open={open}>
+                <Toolbar
                     sx={{
-                        marginRight: '36px',
-                        ...(open && {display: 'none'}),
+                        pr: '24px', // keep right padding when drawer closed
                     }}
                 >
-                    <MenuIcon/>
-                </IconButton>
-                <Typography
-                    component="h1"
-                    variant="h6"
-                    color="inherit"
-                    noWrap
-                    sx={{flexGrow: 1}}
-                >
-                    Dashboard
-                </Typography>
-                <Box sx={{ flexGrow: 0 }}>
-                    <Tooltip title="Open settings">
-                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar alt="Remy Sharp" src={getUserDetails()['photo']} />
-                        </IconButton>
-                    </Tooltip>
-
-                    <Menu
-                        sx={{ mt: '45px' }}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={toggleDrawer}
+                        sx={{
+                            marginRight: '36px',
+                            ...(open && {display: 'none'}),
                         }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
                     >
-                        <MenuItem component={NavLink} to="/profile"  onClick={handleCloseUserMenu}>
-                            <Typography  textAlign="center">Profile</Typography>
-                        </MenuItem>
-                        <MenuItem  onClick={handleCloseUserMenu}>
-                            <Typography  onClick={logout} textAlign="center">Logout</Typography>
-                        </MenuItem>
-                    </Menu>
-                </Box>
-            </Toolbar>
-        </StyledAppBar>
+                        <MenuIcon/>
+                    </IconButton>
+                    <Typography
+                        component="h1"
+                        variant="h6"
+                        color="inherit"
+                        noWrap
+                        sx={{flexGrow: 1}}
+                    >
+                        Dashboard
+                    </Typography>
+                    <Box sx={{ flexGrow: 0 }}>
+                        <Tooltip title="Open settings">
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                <Avatar alt="Remy Sharp" src={getUserDetails()[0].photo} />
+                            </IconButton>
+                        </Tooltip>
+
+                        <Menu
+                            sx={{ mt: '45px' }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            <MenuItem component={NavLink} to="/profile"  onClick={handleCloseUserMenu}>
+                                <Typography  textAlign="center">Profile</Typography>
+                            </MenuItem>
+                            <MenuItem  onClick={handleCloseUserMenu}>
+                                <Typography  onClick={logout} textAlign="center">Logout</Typography>
+                            </MenuItem>
+                        </Menu>
+                    </Box>
+                </Toolbar>
+            </StyledAppBar>
+        </>
     );
 };
 
