@@ -20,6 +20,7 @@ import {getTaskList} from "../../APIRequest/APIRequest.js";
 import {useSelector} from "react-redux";
 import {Search, SearchIconWrapper, StyledInputBase} from "../../styeldComponent/SearchField.js";
 import SearchIcon from "@mui/icons-material/Search";
+import {deleteSelectedTaskAlert} from "../../helper/DeleteAlert.js";
 
 
 const headCells = [
@@ -88,7 +89,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-    const {numSelected, searchOnChange} = props;
+    const {numSelected, searchOnChange, deleteSelected} = props;
 
     return (
         <Toolbar
@@ -123,7 +124,7 @@ function EnhancedTableToolbar(props) {
 
             {numSelected > 0 ? (
                 <Tooltip title="Delete">
-                    <IconButton>
+                    <IconButton onClick={deleteSelected}>
                         <DeleteIcon/>
                     </IconButton>
                 </Tooltip>
@@ -147,7 +148,8 @@ function EnhancedTableToolbar(props) {
 
 EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
-    searchOnChange: PropTypes.func.isRequired
+    searchOnChange: PropTypes.func.isRequired,
+    deleteSelected: PropTypes.func.isRequired,
 };
 
 export default function DataTable() {
@@ -210,11 +212,19 @@ export default function DataTable() {
         setSearch(event.target.value);
     }
 
+    const handleDeleteSelected = () => {
+        deleteSelectedTaskAlert(selected).then((res) => {
+            if(res === true){
+                setSelected([]);
+                getTaskList(page, rowsPerPage, search)
+            }
+        });
+    }
 
     return (
         <Box sx={{width: '100%'}}>
             <Paper sx={{width: '100%', mb: 2}}>
-                <EnhancedTableToolbar searchOnChange={handleSearchOnChange} numSelected={selected.length} />
+                <EnhancedTableToolbar searchOnChange={handleSearchOnChange} deleteSelected={handleDeleteSelected} numSelected={selected.length} />
                 <TableContainer>
                     <Table
                         sx={{minWidth: 750}}
@@ -280,6 +290,4 @@ export default function DataTable() {
             </Paper>
         </Box>
     );
-
-
 }
