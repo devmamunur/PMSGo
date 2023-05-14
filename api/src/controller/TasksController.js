@@ -1,6 +1,5 @@
 const TasksModel = require("../models/TasksModel")
 
-
 // Task Creat
 exports.createTask = (req, res) => {
     let reqBody = req.body;
@@ -75,7 +74,7 @@ exports.taskStatusCount = (req, res) => {
     })
 }
 
-
+// Task List
 exports.TaskList=async (req, res) => {
     let pageNo = Number(req.params.pageNo);
     let perPage = Number(req.params.perPage);
@@ -98,3 +97,15 @@ exports.TaskList=async (req, res) => {
     }
     res.status(200).json({status: "success", total: Total, data: Rows})
 }
+
+// Delete all task
+exports.deleteSelectedTask = (req, res) => {
+    const ids = req.body.ids
+
+    TasksModel.deleteMany({_id : {$in : ids}}).then((document) => {
+        res.status(200).json({success: true, data: document});
+    }).catch((error) => {
+        res.status(400).json({success: false, data: error});
+    })
+}
+
