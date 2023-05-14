@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import {DeleteRequest} from "../APIRequest/APIRequest";
+import {DeleteRequest, deleteSelectedTask} from "../APIRequest/APIRequest";
 
 export function DeleteToDO(id){
     return  Swal.fire({
@@ -17,5 +17,22 @@ export function DeleteToDO(id){
             })
         }
     })
+}
 
+export function deleteSelectedTaskAlert(ids){
+    return  Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            return  deleteSelectedTask(ids).then((deleteResult)=>{
+                return deleteResult
+            })
+        }
+    })
 }
