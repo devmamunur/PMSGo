@@ -26,5 +26,7 @@ router.get("/task/update/:id/:status", AuthVerifyMiddleware, TasksController.upd
 router.get("/task/filter/:status", AuthVerifyMiddleware, TasksController.filterTaskByStatus);
 router.get("/task/status-count", AuthVerifyMiddleware, TasksController.taskStatusCount);
 
+router.get("/task-list/:pageNo/:perPage/:searchKey?", AuthVerifyMiddleware, TasksController.TaskList);
+
 
 module.exports=router;
