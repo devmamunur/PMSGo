@@ -5,7 +5,7 @@ export function UpdateTask(id,status){
     return Swal.fire({
         title: 'Change Status',
         input: 'select',
-        inputOptions: {New: 'New', Completed: 'Completed', Progress: 'Progress', Canceled: 'Canceled'},
+        inputOptions: {New: 'New', Progress: 'Progress',  Completed: 'Completed', Canceled: 'Canceled'},
         inputValue:status,
         showCancelButton: true,
         confirmButtonText: 'Yes, update!'
