@@ -3,7 +3,14 @@ import {ErrorToast, SuccessToast} from "../helper/FormHelper.js";
 import store from "../redux/store/store.js";
 import {HideLoader, ShowLoader} from "../redux/state-slice/SettingsSlice.js";
 import {getToken, setEmail, setOTP, setToken, setUserDetails} from "../helper/SessionHelper.js";
-import {SetCanceledTask, SetCompletedTask, SetNewTask, SetProgressTask} from "../redux/state-slice/TaskSlice.js";
+import {
+    SetALLTask,
+    SetCanceledTask,
+    SetCompletedTask,
+    SetNewTask,
+    SetProgressTask,
+    SetTotal
+} from "../redux/state-slice/TaskSlice.js";
 import {SetSummary} from "../redux/state-slice/SummarySlice.js";
 import {SetProfile} from "../redux/state-slice/ProfileSlice.js";
 
@@ -229,11 +236,9 @@ export function RecoverVerifyEmailRequest(email){
     store.dispatch(ShowLoader())
     let URL=BaseURL+"/recover-verify-email/"+email;
     return axios.get(URL).then((res)=>{
-        alert(JSON.stringify(res));
         store.dispatch(HideLoader())
         if(res.status===200){
-            alert("Status is 200");
-            if(res.data['status']==="fail"){
+            if(res.data['success']===false){
                 ErrorToast("No user found");
                 return false;
             }
@@ -243,13 +248,14 @@ export function RecoverVerifyEmailRequest(email){
                 return true;
             }
         }
-        else{
-            alert("Status is Not 200");
+        if(res.status===204){
+            ErrorToast("No user found");
+            return false;
+        }else{
             ErrorToast("Something Went Wrong");
             return false;
         }
     }).catch((err)=>{
-        alert("Status is ERROR");
         ErrorToast("Something Went Wrong")
         store.dispatch(HideLoader())
         return false;
@@ -291,9 +297,7 @@ export function RecoverResetPassRequest(email,OTP,password){
     let PostBody={email:email,OTP:OTP,password:password}
     return axios.post(URL,PostBody).then((res)=>{
         store.dispatch(HideLoader())
-        alert("Success");
         if(res.status===200){
-            alert("status 200");
             if(res.data['status']==="fail"){
                 ErrorToast(res.data['data']);
                 return false;
@@ -309,7 +313,24 @@ export function RecoverResetPassRequest(email,OTP,password){
             return false;
         }
     }).catch((err)=>{
-        alert("Faild");
+        ErrorToast("Something Went Wrong")
+        store.dispatch(HideLoader())
+        return false;
+    });
+}
+
+export function getTaskList(pageNo,perPage,searchKey){
+    store.dispatch(ShowLoader());
+    let URL = BaseURL+"/task-list/"+pageNo+"/"+perPage+"/"+searchKey;
+
+    return axios.get(URL, AxiosHeader).then((res)=>{
+        store.dispatch(HideLoader())
+        if(res.status===200){
+            store.dispatch(SetALLTask(res.data['data']))
+            store.dispatch(SetTotal(res.data['total']))
+            return true;
+        }
+    }).catch((err)=>{
         ErrorToast("Something Went Wrong")
         store.dispatch(HideLoader())
         return false;
