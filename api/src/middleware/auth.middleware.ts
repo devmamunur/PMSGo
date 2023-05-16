@@ -11,7 +11,7 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
         if (err) {
             return res.status(400).json({ success: false, data: err });
         } else {
-            req.headers.email = decoded.data;
+            req.headers.userId = decoded.data;
             next();
         }
     });
