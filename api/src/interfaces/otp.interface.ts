@@ -1,8 +1,8 @@
 import { Document } from 'mongoose';
 
 export interface OTPInterface extends Document {
-    email: String;
-    otp: String;
-    status: Number;
+    email: string;
+    otp: string;
+    status: number;
     createdDate: Date;
 }
