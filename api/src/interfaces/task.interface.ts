@@ -3,6 +3,6 @@ export interface TaskInterface extends Document {
     title: string;
     description: string;
     status: string;
-    userID: Number;
+    userId: string;
     createdDate: Date;
 }
