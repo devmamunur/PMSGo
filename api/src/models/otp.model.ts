@@ -1,13 +1,13 @@
-const mongoose = require('mongoose')
-const { Schema } = mongoose;
+import mongoose, { Model, Schema } from 'mongoose';
+import {OTPInterface} from "../interfaces/otp.interface";
 
-const DataSchema = new Schema({
+const DataSchema : Schema<OTPInterface> = new Schema({
     email:{type:String},
     otp:{type:String},
     status:{type:Number,default:0},
     createdDate:{type:Date,default:Date.now()}
 },{versionKey:false});
 
-const OTPModel=mongoose.model('otps',DataSchema);
+const OTPModel : Model<OTPInterface> = mongoose.model<OTPInterface>('otps',DataSchema);
 
-module.exports=OTPModel
+export default OTPModel;

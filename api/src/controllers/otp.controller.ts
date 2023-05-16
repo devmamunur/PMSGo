@@ -1,67 +1,37 @@
-const UsersModel = require("../models/UsersModel")
-const OTPModel = require("../models/OTPModel");
-const SendEmailUtility = require("../utility/SendEmailUtility");
+import { Request, Response } from 'express';
+import OtpRepository from "../repositories/otp.repository";
 
-
-exports.RecoverVerifyEmail = async (req, res) => {
-    let email = req.params.email;
-    let OTPCode = Math.floor(100000 + Math.random() * 900000)
-    try {
-        let UserCount = (await UsersModel.aggregate([{$match: {email: email}}, {$count: "total"}]))
-        if (UserCount.length > 0) {
-            let CreateOTP = await OTPModel.create({email: email, otp: OTPCode})
-            let SendEmail = await SendEmailUtility(email, "Your PIN Code is= " + OTPCode, "Task Manager PIN Verification")
+class OtpController{
+    static async RecoverVerifyEmail(req: Request, res: Response){
+        try {
+            let email = req.params.email;
+            const {SendEmail} = await OtpRepository.RecoverVerifyEmail(email);
             res.status(200).json({success: true, data: SendEmail})
-        } else {
-            res.status(204).json({success: false, data: "No User Found"});
-        }
-    } catch (e) {
-        res.status(400).json({success: false, data: e});
-    }
-}
-
-exports.RecoverVerifyOTP=async (req,res)=>{
-    let email = req.params.email;
-    let OTPCode = req.params.otp;
-    let status=0;
-    let statusUpdate=1;
-    try {
-        let OTPCount = await OTPModel.aggregate([{$match: {email: email, otp: OTPCode, status: status}}, {$count: "total"}])
-        if (OTPCount.length>0) {
-            let OTPUpdate = await OTPModel.updateOne({email: email, otp: OTPCode, status: status}, {
-                email: email,
-                otp: OTPCode,
-                status: statusUpdate
-            })
-            res.status(200).json({status: "success", data: OTPUpdate})
-        } else {
-            res.status(400).json({success: false, data: "Invalid OTP Code"});
+        } catch (e) {
+            res.status(400).json({success: false, data: e});
         }
     }
-    catch (e) {
-        res.status(400).json({success: false, data: e});
-    }
-}
-
-exports.RecoverResetPass=async (req,res)=>{
-
-    let email = req.body['email'];
-    let OTPCode = req.body['OTP'];
-    let NewPass =  req.body['password'];
-    let statusUpdate=1;
-
-    try {
-        let OTPUsedCount = await OTPModel.aggregate([{$match: {email: email, otp: OTPCode, status: statusUpdate}}, {$count: "total"}])
-        if (OTPUsedCount.length>0) {
-            let PassUpdate = await UsersModel.updateOne({email: email}, {
-                password: NewPass
-            })
-            res.status(200).json({status: "success", data: PassUpdate})
-        } else {
-            res.status(400).json({success: false, data: "Invalid Request"});
+    static async RecoverVerifyOTP(req: Request, res: Response){
+        try {
+            let email = req.params.email;
+            let otpCode = req.params.otp;
+            const {otpUpdate} = await OtpRepository.RecoverVerifyOTP(email, otpCode);
+            res.status(200).json({success: true, data: otpUpdate})
+        } catch (e) {
+            res.status(400).json({success: false, data: e});
         }
     }
-    catch (e) {
-        res.status(400).json({success: false, data: e});
+
+    static async RecoverResetPass(req: Request, res: Response){
+        try {
+            let email = req.body['email'];
+            let otpCode = req.body['OTP'];
+            let newPass = req.body['password'];
+            const {passUpdate} = await OtpRepository.RecoverResetPass(email, otpCode, newPass);
+            res.status(200).json({success: true, data: passUpdate})
+        } catch (e) {
+            res.status(400).json({success: false, data: e});
+        }
     }
 }
+export default OtpController;

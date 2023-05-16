@@ -1,5 +1,5 @@
 import {Request, Response} from 'express';
-import UserRepository from "../repositories/user.repositories";
+import UserRepository from "../repositories/user.repository";
 
 class UserController {
     // Registration
