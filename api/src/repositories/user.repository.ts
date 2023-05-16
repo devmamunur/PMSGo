@@ -1,20 +1,22 @@
 import UserModel from '../models/user.model';
 import {UpdateProfileRequestBody} from "../interfaces/user.interface";
-
+import mongoose from 'mongoose';
+const objectId = mongoose.Types.ObjectId;
 const jwt = require('jsonwebtoken');
 
 class UserRepository {
     static registration(data: any) {
         return UserModel.create(data);
     }
+
     static async login(data: any) {
         try {
             const userData = await UserModel.aggregate([
                 {$match: data},
                 {
                     $project: {
-                        _id: 0,
-                        email: 1,
+                        _id: 1,
+                        userId: 1,
                         firstName: 1,
                         lastName: 1,
                         mobile: 1,
@@ -22,14 +24,15 @@ class UserRepository {
                     },
                 },
             ]);
-            let Payload = {exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60, data: userData[0]['email']};
+            let Payload = {exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60, data: userData[0]['_id']};
             let token = jwt.sign(Payload, 'Secret123');
-            return {token: token, data: data[0]};
+            return {token: token, data: userData};
         } catch (error) {
             throw error;
         }
     }
-    static async updateProfile(email: string, reqBody: UpdateProfileRequestBody) {
+
+    static async updateProfile(userId: string, reqBody: UpdateProfileRequestBody) {
         try {
             const updateFields: Partial<UpdateProfileRequestBody> = {};
 
@@ -55,11 +58,11 @@ class UserRepository {
             } else {
                 updateFields.photo = undefined;
             }
-            const document = await UserModel.updateOne({email}, updateFields);
+            const document = await UserModel.updateOne({_id: new objectId(userId)}, updateFields);
 
 
             const updatedDocument = await UserModel.aggregate([
-                {$match: {email}},
+                {$match: {_id: new objectId(userId)}},
                 {$project: {email: 1, firstName: 1, lastName: 1, mobile: 1, photo: 1}},
             ])
 
@@ -69,14 +72,12 @@ class UserRepository {
             throw error;
         }
     }
-    static async profileDetails(email: any) {
-        try {
-            return await UserModel.aggregate([
-                {$match: {email: email}},
-                {$project: {_id: 1, email: 1, firstName: 1, lastName: 1, mobile: 1, photo: 1, password: 1}}]);
-        } catch (error) {
-            throw error;
-        }
+
+    static profileDetails(userId: string) {
+        return UserModel.aggregate([
+            {$match: {_id: new objectId(userId)}},
+            {$project: {_id: 1, email: 1, firstName: 1, lastName: 1, mobile: 1, photo: 1, password: 1}}
+        ]);
     }
 }
 
