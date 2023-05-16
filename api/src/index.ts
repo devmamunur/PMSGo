@@ -1,5 +1,10 @@
-require('dotenv').config();
-const app=require('./app');
-app.listen(process.env.APP_PORT,function () {
-    console.log("Application Start")
-})
+import dotenv from 'dotenv';
+dotenv.config();
+
+import app from './app';
+
+const port = process.env.APP_PORT || 8000;
+
+app.listen(port, () => {
+    console.log("Application Start");
+});

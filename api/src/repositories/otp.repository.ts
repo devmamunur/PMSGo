@@ -47,7 +47,6 @@ class OtpRepository {
                 status: statusUpdate
             }
         }, {$count: "total"}])
-
         if (otpUsedCount.length > 0) {
             let passUpdate = await UserModel.updateOne({email: email}, {
                 password: newPass
@@ -57,8 +56,6 @@ class OtpRepository {
             throw new Error("Invalid Request");
         }
     }
-
-
 }
 
 export default OtpRepository;
