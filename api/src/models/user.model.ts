@@ -1,16 +1,16 @@
-import mongoose, { Model, Schema } from 'mongoose';
+import mongoose, {Model, Schema} from 'mongoose';
 import {UserInterface} from "../interfaces/user.interface";
 
-const DataSchema : Schema<UserInterface> = new Schema({
-    email : {type : String, unique : true},
-    firstName : {type : String},
-    lastName : {type : String},
-    mobile : {type : String},
-    password : {type : String},
-    photo : {type : String},
-    createdDate : {type : Date, default : Date.now()}
-}, {versionKey : false})
+const DataSchema: Schema<UserInterface> = new Schema({
+    email: {type: String, unique: true},
+    firstName: {type: String},
+    lastName: {type: String},
+    mobile: {type: String},
+    password: {type: String},
+    photo: {type: String},
+    createdDate: {type: Date, default: Date.now()}
+}, {versionKey: false})
 
-const UserModel : Model<UserInterface> = mongoose.model<UserInterface>("users", DataSchema)
+const UserModel: Model<UserInterface> = mongoose.model<UserInterface>("users", DataSchema)
 
-export default  UserModel;
+export default UserModel;
