@@ -27,10 +27,11 @@ class UserController {
     // Profile Update
     static async updateProfile(req: Request, res: Response) {
         try {
-            const email = req.headers['email'] as string;
+            const userIdValue: string | string[] = req.headers["userId"];
+            const userId: string = Array.isArray(userIdValue) ? userIdValue[0] : userIdValue;
             const reqBody = req.body;
 
-            const {data} = await UserRepository.updateProfile(email, reqBody);
+            const {data} = await UserRepository.updateProfile(userId, reqBody);
             res.status(200).json({success: true, data: data});
         } catch (error) {
             res.status(400).json({success: false, data: error});
@@ -40,8 +41,10 @@ class UserController {
     // Profile Details
     static async profileDetails(req: Request, res: Response) {
         try {
-            const email = req.headers["email"];
-            const document = await UserRepository.profileDetails(email);
+            const userIdValue: string | string[] = req.headers["userId"];
+            const userId: string = Array.isArray(userIdValue) ? userIdValue[0] : userIdValue;
+
+            const document = await UserRepository.profileDetails(userId);
             res.status(200).json({success: true, data: document});
         } catch (error) {
             res.status(400).json({success: false, data: error});
