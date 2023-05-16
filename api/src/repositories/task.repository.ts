@@ -15,9 +15,9 @@ class TaskRepository {
         return TasksModel.updateOne(query, { status });
     }
 
-    static filterTaskByStatus(status : any, email : any) {
+    static filterTaskByStatus(status : any, userId : any) {
         return TasksModel.aggregate([
-            { $match: { status, email } },
+            { $match: { status : status, userId : userId } },
             {
                 $project: {
                     _id: 1,
@@ -35,10 +35,10 @@ class TaskRepository {
         ]);
     }
 
-    static taskStatusCount(email : any) {
+    static taskStatusCount(userId : string) {
         return TasksModel.aggregate([
             {
-                $match: { email },
+                $match: { userId : userId },
             },
             {
                 $group: {
