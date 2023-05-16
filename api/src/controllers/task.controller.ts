@@ -5,7 +5,7 @@ class TaskController {
     static async createTask(req: Request, res: Response) {
         try {
             const reqBody = req.body;
-            reqBody.email = req.headers['email'];
+            reqBody.userId = req.headers['userId'];
 
             const document = await TaskRepository.createTask(reqBody);
 
@@ -43,9 +43,9 @@ class TaskController {
     static async filterTaskByStatus(req: Request, res: Response) {
         try {
             const status = req.params.status;
-            const email = req.headers['email'];
+            const userId = req.headers['userId'];
 
-            const data = await TaskRepository.filterTaskByStatus(status, email);
+            const data = await TaskRepository.filterTaskByStatus(status, userId);
 
             res.status(200).json({ success: true, data });
         } catch (error) {
@@ -55,9 +55,10 @@ class TaskController {
 
     static async taskStatusCount(req: Request, res: Response) {
         try {
-            const email = req.headers['email'];
+            const userIdValue: string | string[] = req.headers["userId"];
+            const userId: string = Array.isArray(userIdValue) ? userIdValue[0] : userIdValue;
 
-            const data = await TaskRepository.taskStatusCount(email);
+            const data = await TaskRepository.taskStatusCount(userId);
 
             res.status(200).json({ success: true, data });
         } catch (error) {
