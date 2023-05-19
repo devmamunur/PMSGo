@@ -7,7 +7,7 @@ export interface UserInterface extends Document {
     mobile: string;
     password: string;
     photo: string;
-    organization : Types.ObjectId[],
+    organization : Types.ObjectId,
     createdDate: Date;
 }
 
