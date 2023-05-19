@@ -1,12 +1,27 @@
 import UserModel from '../models/user.model';
-import {UpdateProfileRequestBody} from "../interfaces/user.interface";
+import {UpdateProfileRequestBody, UserInterface} from "../interfaces/user.interface";
 import mongoose from 'mongoose';
+import {Request} from "express";
+import OrganizationModel from "../models/organization.model";
+
+import { createHash } from 'crypto';
+
 const objectId = mongoose.Types.ObjectId;
 const jwt = require('jsonwebtoken');
 
 class UserRepository {
-    static registration(data: any) {
-        return UserModel.create(data);
+    static async registration(resBody: Request['body'])  {
+        try {
+            const organization = await OrganizationModel.create({
+                name : resBody.organization
+            });
+            // Hash the user's password with SHA-256
+            resBody.password=  createHash('sha256').update(resBody.password).digest('hex');
+            resBody.organization = organization._id;
+            return  await UserModel.create(resBody);
+        } catch (error) {
+            throw error;
+        }
     }
 
     static async login(data: any) {

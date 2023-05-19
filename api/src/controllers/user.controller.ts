@@ -5,11 +5,10 @@ class UserController {
     // Registration
     static async registration(req: Request, res: Response) {
         try {
-            const reqBody = req.body;
-            const document = await UserRepository.registration(reqBody);
+            const document = await UserRepository.registration(req.body);
             res.status(200).json({success: true, data: document});
         } catch (error) {
-            res.status(200).json({success: false, data: error});
+            res.status(200).json({success: false, data: error.message});
         }
     }
 
