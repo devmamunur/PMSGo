@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import {Document} from 'mongoose';
 
 export interface UserInterface extends Document {
     email: string;
@@ -7,6 +7,7 @@ export interface UserInterface extends Document {
     mobile: string;
     password: string;
     photo: string;
+    organization : Types.ObjectId[],
     createdDate: Date;
 }
 
