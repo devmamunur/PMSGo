@@ -18,6 +18,7 @@
     "express-rate-limit": "^6.3.0",
     "helmet": "^5.0.2",
     "hpp": "^0.2.3",
+    "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.3",
     "nodemailer": "^6.9.1"

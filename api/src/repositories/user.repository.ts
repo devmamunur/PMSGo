@@ -3,22 +3,20 @@ import {UpdateProfileRequestBody, UserInterface} from "../interfaces/user.interf
 import mongoose from 'mongoose';
 import {Request} from "express";
 import OrganizationModel from "../models/organization.model";
-
-import { createHash } from 'crypto';
-
+import GeneratePasswordUtility from "../utility/generate-password.utility";
 const objectId = mongoose.Types.ObjectId;
 const jwt = require('jsonwebtoken');
 
 class UserRepository {
-    static async registration(resBody: Request['body'])  {
+    static async registration(reqBody: Request['body']) {
         try {
             const organization = await OrganizationModel.create({
-                name : resBody.organization
+                name: reqBody.organization
             });
             // Hash the user's password with SHA-256
-            resBody.password=  createHash('sha256').update(resBody.password).digest('hex');
-            resBody.organization = organization._id;
-            return  await UserModel.create(resBody);
+            reqBody.password = GeneratePasswordUtility(reqBody.password);
+            reqBody.organization = organization._id;
+            return await UserModel.create(reqBody);
         } catch (error) {
             throw error;
         }
@@ -90,8 +88,17 @@ class UserRepository {
 
     static profileDetails(userId: string) {
         return UserModel.aggregate([
-            {$match: {_id: new objectId(userId)}},
-            {$project: {_id: 1, email: 1, firstName: 1, lastName: 1, mobile: 1, photo: 1, password: 1}}
+            {
+                $match:
+                    {
+                        _id: new objectId(userId)
+                    }
+            },
+            {
+                $project: {
+                    _id: 1, email: 1, firstName: 1, lastName: 1, mobile: 1, photo: 1, password: 1
+                }
+            }
         ]);
     }
 }
