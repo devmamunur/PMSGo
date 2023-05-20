@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import Grid from "@mui/material/Grid";
-import {summaryRequest} from "../../APIRequest/APIRequest.js";
+import {summaryRequest} from "../../APIRequest/APIRequest.ts";
 import {useSelector} from "react-redux";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";

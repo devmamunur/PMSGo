@@ -1,30 +1,30 @@
-import { toast } from 'react-toastify';
+import { toast  } from 'react-toastify';
 let EmailRegx = /\S+@\S+\.\S+/;
 let MobileRegx = /(^(\+88|0088)?(01){1}[3456789]{1}(\d){8})$/;
 
 class FormHelper {
 
-    IsEmpty(value) {
+    static IsEmpty(value : any) : boolean {
         return value.length === 0;
     }
 
-    IsMobile(value){
+    static IsMobile(value : any): boolean{
         return MobileRegx.test(value);
     }
 
-    IsEmail(value) {
+    static IsEmail(value : any): boolean {
         return !EmailRegx.test(value);
     }
 
-    ErrorToast(msg) {
+    static ErrorToast(msg : any) : void {
         toast.error(msg, { position: toast.POSITION.TOP_RIGHT });
     }
-    SuccessToast(msg) {
+    static SuccessToast(msg : any) : void {
         toast.success(msg, { position: toast.POSITION.TOP_RIGHT });
     }
 
 
-    getBase64(file) {
+    static getBase64(file : any) : Promise<string | ArrayBuffer | null> {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -32,15 +32,6 @@ class FormHelper {
             reader.onerror = (error) => reject(error);
         });
     }
-
-
 }
 
-export const {
-    IsEmpty,
-    IsMobile,
-    IsEmail,
-    ErrorToast,
-    getBase64,
-    SuccessToast
-} = new FormHelper();
+export default FormHelper;

@@ -1,8 +1,8 @@
 import React, {lazy, Suspense} from 'react';
-import MasterLayout from "../components/MasterLayout/MasterLayout.jsx";
-import LazyLoader from "../components/MasterLayout/LazyLoader.jsx";
+import MasterLayout from "../app/components/MasterLayout/MasterLayout.jsx";
+import LazyLoader from "../app/components/MasterLayout/LazyLoader.jsx";
 
-const Profile = lazy(() => import('../components/Profile/Profile.jsx'));
+const Profile = lazy(() => import('../app/components/Profile/Profile.jsx'));
 const ProfilePage = () => {
     return (
         <>

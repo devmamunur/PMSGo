@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import {StyledAppBar} from "../../styeldComponent/DashboardLayout.js";
 import Box from "@mui/material/Box";
 import {Avatar, Menu, MenuItem, Tooltip} from "@mui/material";
-import {removeSession, getUserDetails} from "../../helper/SessionHelper.js";
+import {removeSession, getUserDetails} from "../../helper/SessionHelper.ts";
 import {NavLink} from "react-router-dom";
 
 const AppBarComponent = ({open, clickDrawer}) => {

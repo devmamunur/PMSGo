@@ -1,7 +1,7 @@
 import React, {lazy, Suspense} from 'react';
-import LazyLoader from "../components/MasterLayout/LazyLoader.jsx";
+import LazyLoader from "../app/components/MasterLayout/LazyLoader.jsx";
 
-const Login = lazy(() => import('../components/Login/Login.jsx'));
+const Login = lazy(() => import('../app/components/Login/Login.jsx'));
 const LoginPage = () => {
     return (
         <>

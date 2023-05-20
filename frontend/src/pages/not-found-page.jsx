@@ -1,7 +1,7 @@
 import React, {lazy, Suspense} from 'react';
-import LazyLoader from "../components/MasterLayout/LazyLoader.jsx";
+import LazyLoader from "../app/components/MasterLayout/LazyLoader.jsx";
 
-const NotFound = lazy(() => import('../components/NotFound/NotFound.jsx'));
+const NotFound = lazy(() => import('../app/components/NotFound/NotFound.jsx'));
 const NotFoundPage = () => {
     return (
         <>

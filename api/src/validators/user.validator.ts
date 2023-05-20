@@ -31,30 +31,9 @@ class UserValidator {
     }
 
     static async registerValidation(resBody: Request['body']) {
-        // const validationErrors : any = [];
-        // try {
-        //     await this.registerSchema.validateAsync(resBody, {abortEarly: false});
-        // } catch (error) {
-        //     if (error.details) {
-        //         validationErrors.push(...error.details.map((detail: any) => detail));
-        //     }
-        // }
-        // try {
-        //     await this.validateUniqueOrganizationName(resBody);
-        // } catch (error) {
-        //     validationErrors.push("\"organization\""+" "+error.message);
-        // }
-        // try {
-        //     await this.validateUniqueEmail(resBody);
-        // } catch (error) {
-        //     validationErrors.push("\"email\""+" "+error.message);
-        // }
-        // if (validationErrors.length > 0) {
-        //     throw new Error(validationErrors);
-        // }
-        await this.registerSchema.validateAsync(resBody, {abortEarly : false});
-        await this.validateUniqueOrganizationName(resBody);
         await this.validateUniqueEmail(resBody);
+        await this.registerSchema.validateAsync(resBody);
+        await this.validateUniqueOrganizationName(resBody);
     }
 }
 
