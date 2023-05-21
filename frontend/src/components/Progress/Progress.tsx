@@ -1,30 +1,31 @@
+"use client"
 import React, {useEffect} from 'react';
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import {Search, SearchIconWrapper, StyledInputBase} from "../../styeldComponent/SearchField.js";
+import {Search, SearchIconWrapper, StyledInputBase} from "@/styeldComponent/SearchField";
 import SearchIcon from "@mui/icons-material/Search";
-import {taskListByStatus} from "../../APIRequest/APIRequest.js";
 import {useSelector} from "react-redux";
-import {DeleteToDO} from "../../helper/DeleteAlert.js";
-import {UpdateTask} from "../../helper/UpdateAlert.js";
-import TaskCard from "../TaskCard/TaskCard.jsx";
+import TaskCard from "@/components/TaskCard/TaskCard";
+import DeleteHelper from "@/helpers/delete.helper";
+import TaskRequest from "@/APIRequests/task.request";
+import {RootState} from "@/redux/store/store";
 
-const Progress = () => {
-    const taskProgress = useSelector((state) => state.task.Progress);
+const Progress :  React.FC = () => {
+    const taskProgress = useSelector((state : RootState) => state.task.Progress);
     useEffect(() => {
-        taskListByStatus('Progress');
+        TaskRequest.taskListByStatus('Progress');
     }, [])
-    const handelDeleteItem = (id) => {
-        DeleteToDO(id).then((result) => {
-            if(result === true){
-                taskListByStatus('Progress');
+    const handelDeleteItem = (id : string) => {
+        DeleteHelper.deleteToDO(id).then((result) => {
+            if(result){
+                TaskRequest.taskListByStatus('Progress');
             }
         });
     }
-    const handelUpdateItem = (id, status) => {
-        UpdateTask(id, status).then((result) => {
-            if(result === true) {
-                taskListByStatus('Progress');
+    const handelUpdateItem = (id : string, status: string) => {
+        TaskRequest.updateStatus(id, status).then((result : boolean) => {
+            if(result) {
+                TaskRequest.taskListByStatus('Progress');
             }
         })
     }
@@ -62,7 +63,7 @@ const Progress = () => {
                    }}
             >
                 {
-                    taskProgress.map((task, i) => (
+                    taskProgress.map((task : any, i : any) => (
                         <Grid item md={4}  key={i} >
                             <TaskCard UpdateItem={handelUpdateItem} DeleteItem={handelDeleteItem} task={task}/>
                         </Grid>
