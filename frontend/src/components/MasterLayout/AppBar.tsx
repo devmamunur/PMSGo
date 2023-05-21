@@ -3,10 +3,10 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
-import {StyledAppBar} from "../../styeldComponent/DashboardLayout.js";
+import {StyledAppBar} from "@/styeldComponent/DashboardLayout";
 import Box from "@mui/material/Box";
 import {Avatar, Menu, MenuItem, Tooltip} from "@mui/material";
-import {removeSession, getUserDetails} from "../../helper/SessionHelper.js";
+import {removeSession, getUserDetails} from "@/helper/SessionHelper";
 import {NavLink} from "react-router-dom";
 
 const AppBarComponent = ({open, clickDrawer}) => {
