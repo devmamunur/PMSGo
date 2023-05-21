@@ -5,8 +5,8 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import {TextField} from "@mui/material";
-import {ErrorToast, IsEmpty} from "../../helper/FormHelper.js";
-import {NewTaskRequest} from "../../APIRequest/APIRequest.js";
+import {ErrorToast, IsEmpty} from ".@/helper/FormHelper";
+import {NewTaskRequest} from "@/APIRequest/APIRequest";
 import {useNavigate} from "react-router-dom";
 
 const Create = () => {
