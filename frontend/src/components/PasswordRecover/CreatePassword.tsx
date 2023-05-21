@@ -1,59 +1,65 @@
-import React, {Fragment, useRef} from 'react';
-import {ErrorToast, IsEmpty} from "../../helper/FormHelper";
-import {RecoverResetPassRequest} from "../../APIRequest/APIRequest";
-import {getEmail, getOTP} from "../../helper/SessionHelper";
-import {useNavigate} from "react-router-dom";
+"use client"
+import React, {useRef} from 'react';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {TextField} from "@mui/material";
-const CreatePassword = () => {
+import {redirect} from "next/navigation";
+import UserRequest from "@/APIRequests/user.request";
+import SessionHelper from "@/helpers/session.helper";
+import ToastHelper from "@/helpers/toast.helper";
+import FormHelper from "@/helpers/form.helper";
 
-    const  PasswordRef = useRef();
-    const  ConfirmPasswordRef = useRef();
+const CreatePassword: React.FC = () => {
 
-    let navigate=useNavigate();
+    const PasswordRef = useRef<HTMLInputElement>(null);
+    const ConfirmPasswordRef = useRef<HTMLInputElement>(null);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
 
-        let Password = PasswordRef.current.value;
-        let ConfirmPassword =  ConfirmPasswordRef.current.value;
-        if(IsEmpty(Password)){
-            ErrorToast("Password Required")
-        }
-        else if(IsEmpty(ConfirmPassword)){
-            ErrorToast("Confirm Password Required")
-        }
-        else if(Password!==ConfirmPassword){
-            ErrorToast("Password & Confirm Password Should be Same")
-        }
-        else{
-            RecoverResetPassRequest(getEmail(),getOTP(),Password).then((result)=>{
-                if(result===true){
-                    navigate("/login")
-                }
-            })
+        let Password = PasswordRef.current!.value;
+        let ConfirmPassword = ConfirmPasswordRef.current!.value;
+
+        if (FormHelper.isEmpty(Password)) {
+            ToastHelper.errorToast("Password Required")
+        } else if (FormHelper.isEmpty(ConfirmPassword)) {
+            ToastHelper.errorToast("Confirm Password Required")
+        } else if (Password !== ConfirmPassword) {
+            ToastHelper.errorToast("Password & Confirm Password Should be Same")
+        } else {
+            const email = SessionHelper.getEmail();
+            const otp = SessionHelper.getOTP();
+
+            if (email !== null && otp !== null) {
+                UserRequest.recoverResetPassRequest(email, otp, Password).then((result: boolean) => {
+                    if (result) {
+                        redirect("/login")
+                    }
+                })
+            }else {
+                ToastHelper.errorToast("Password Recover Failed!")
+            }
         }
     }
 
     return (
         <>
-            <Grid  container direction="row" justifyContent="center" alignItems="center" sx={{paddingTop : '50px'}} >
+            <Grid container direction="row" justifyContent="center" alignItems="center" sx={{paddingTop: '50px'}}>
                 <Grid item xs={10} md={3}>
-                    <Box sx={{textAlign : 'center'}}>
+                    <Box sx={{textAlign: 'center'}}>
                         <Typography component="h1" variant="h4">
                             Set New Password
                         </Typography>
                     </Box>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 5, textAlign : 'center'}}>
+                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 5, textAlign: 'center'}}>
                         <TextField
                             margin="normal"
                             fullWidth
                             label="Your Email"
                             type="email"
-                            defaultValue={getEmail()}
+                            defaultValue={SessionHelper.getEmail()}
                             disabled
                         />
                         <TextField
@@ -81,7 +87,7 @@ const CreatePassword = () => {
                         </Button>
                     </Box>
                 </Grid>
-            </Grid >
+            </Grid>
         </>
     );
 };
