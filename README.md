@@ -1,4 +1,4 @@
-# MERN Task Manager System
+# PSMGO - Project Management System
 
 ## API Features
 - User Register API
