@@ -1,20 +1,26 @@
 import {createSlice} from "@reduxjs/toolkit";
 
+interface SettingsState {
+    loader: string;
+}
+
+const initialState: SettingsState = {
+    loader: "d-none",
+};
+
 export const settingsSlice = createSlice({
     name : 'settings',
-    initialState : {
-        loader : "d-none"
-    },
+    initialState,
     reducers : {
-        ShowLoader : (state) => {
+        showLoader : (state) => {
             state.loader = ""
         },
-        HideLoader : (state) => {
+        hideLoader : (state) => {
             state.loader = "d-none"
         }
     }
 })
 
-export const {ShowLoader, HideLoader} = settingsSlice.actions;
+export const {showLoader, hideLoader} = settingsSlice.actions;
 export default settingsSlice.reducer;
 
