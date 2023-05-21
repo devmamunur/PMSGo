@@ -1,8 +1,8 @@
 "use client"
 import React, {lazy, Suspense} from 'react';
-import LazyLoader from "../app/components/MasterLayout/LazyLoader.jsx";
+import LazyLoader from "@/components/MasterLayout/LazyLoader";
 
-const Registration = lazy(() => import('../app/components/Registration/Registration'));
+const Registration = lazy(() => import('@/components/Registration/Registration'));
 const RegistrationPage = () => {
     return (
         <>
