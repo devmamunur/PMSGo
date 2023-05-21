@@ -1,10 +1,11 @@
-import {configureStore} from "@reduxjs/toolkit"
-import settingsReducer from '../state-slice/SettingsSlice.js';
-import taskReducer from '../state-slice/TaskSlice.js';
-import summaryReducer from '../state-slice/SummarySlice.js';
-import profileReducer from "../state-slice/ProfileSlice.js";
+import {configureStore, combineReducers } from "@reduxjs/toolkit"
+import settingsReducer from '@/redux/state-slice/SettingsSlice';
+import taskReducer from '@/redux/state-slice/TaskSlice';
+import summaryReducer from '@/redux/state-slice/SummarySlice';
+import profileReducer from "@/redux/state-slice/ProfileSlice";
 
-export default configureStore({
+
+const store = configureStore({
     reducer : {
         settings : settingsReducer,
         task : taskReducer,
@@ -12,3 +13,7 @@ export default configureStore({
         profile : profileReducer
     }
 })
+
+export default store;
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch;
