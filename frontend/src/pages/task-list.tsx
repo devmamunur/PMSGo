@@ -1,7 +1,7 @@
 import React, {Suspense} from 'react';
-import DataTable from "../app/components/DataTable/DataTable.jsx";
-import MasterLayout from "../app/components/MasterLayout/MasterLayout.jsx";
-import LazyLoader from "../app/components/MasterLayout/LazyLoader.jsx";
+import DataTable from "@/components/DataTable/DataTable";
+import MasterLayout from "@/components/MasterLayout/MasterLayout";
+import LazyLoader from "@/components/MasterLayout/LazyLoader";
 
 const TaskList = () => {
     return (
