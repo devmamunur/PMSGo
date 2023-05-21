@@ -1,34 +1,30 @@
 import React, {useEffect} from 'react';
 import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import {Search, SearchIconWrapper, StyledInputBase} from "../../styeldComponent/SearchField.js";
-import SearchIcon from '@mui/icons-material/Search';
-import Typography from '@mui/material/Typography';
-import {taskListByStatus} from "../../APIRequest/APIRequest.ts";
+import SearchIcon from "@mui/icons-material/Search";
+import {taskListByStatus} from "../../APIRequest/APIRequest.js";
 import {useSelector} from "react-redux";
 import {DeleteToDO} from "../../helper/DeleteAlert.js";
 import {UpdateTask} from "../../helper/UpdateAlert.js";
 import TaskCard from "../TaskCard/TaskCard.jsx";
 
-
-const New = () => {
-
-    useEffect(() => {
-        taskListByStatus('New');
-    }, [])
-
-    const taskNew = useSelector((state) => state.task.New);
-
+const Completed = () => {
+    const taskCompleted = useSelector((state) => state.task.Completed);
+     useEffect(() => {
+         taskListByStatus('Completed');
+     }, [])
     const handelDeleteItem = (id) => {
-       DeleteToDO(id).then((result) => {
-           if(result === true){
-               taskListByStatus('New');
-           }
-       });
+        DeleteToDO(id).then((result) => {
+            if(result === true){
+                taskListByStatus('Completed');
+            }
+        });
     }
     const handelUpdateItem = (id, status) => {
         UpdateTask(id, status).then((result) => {
             if(result === true) {
-                taskListByStatus('New');
+                taskListByStatus('Completed');
             }
         })
     }
@@ -43,7 +39,7 @@ const New = () => {
                     <Typography variant="h5" sx={{
                         fontWeight: '700 !important'
                     }}>
-                        New Task
+                        Completed Task
                     </Typography>
                 </Grid>
                 <Grid item md={6}>
@@ -66,7 +62,7 @@ const New = () => {
                    }}
             >
                 {
-                    taskNew.map((task, i) => (
+                    taskCompleted.map((task, i) => (
                         <Grid item md={4}  key={i} >
                             <TaskCard UpdateItem={handelUpdateItem} DeleteItem={handelDeleteItem} task={task}/>
                         </Grid>
@@ -77,4 +73,4 @@ const New = () => {
     );
 };
 
-export default New;
+export default Completed;

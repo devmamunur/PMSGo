@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {GetProfileDetails, ProfileUpdateRequest} from "../../APIRequest/APIRequest.ts";
+import {GetProfileDetails, ProfileUpdateRequest} from "../../APIRequest/APIRequest.js";
 import {useSelector} from "react-redux";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -7,7 +7,7 @@ import CardContent from "@mui/material/CardContent";
 import {Avatar, Box, CardHeader, TextField} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
-import {ErrorToast, getBase64, IsEmail, IsEmpty, IsMobile} from "../../helper/FormHelper.ts";
+import {ErrorToast, getBase64, IsEmail, IsEmpty, IsMobile} from "../../helper/FormHelper.js";
 import {useNavigate} from "react-router-dom";
 
 const Profile = () => {

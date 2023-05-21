@@ -16,7 +16,7 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {getTaskList} from "../../APIRequest/APIRequest.ts";
+import {getTaskList} from "../../APIRequest/APIRequest.js";
 import {useSelector} from "react-redux";
 import {Search, SearchIconWrapper, StyledInputBase} from "../../styeldComponent/SearchField.js";
 import SearchIcon from "@mui/icons-material/Search";
