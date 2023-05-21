@@ -7,8 +7,9 @@ import Grid from "@mui/material/Grid";
 import {CalendarMonth, Delete, Edit} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
+import {TaskCardProps} from "@/interfaces/task.interface";
 
-const TaskCard = ({task, UpdateItem, DeleteItem}) => {
+const TaskCard : React.FC<TaskCardProps> = ({task, UpdateItem, DeleteItem}) => {
     return (
         <>
             <Card>
@@ -19,7 +20,7 @@ const TaskCard = ({task, UpdateItem, DeleteItem}) => {
                     }}>
                         {task.title}
                     </Typography>
-                    <Typography variant="subtitle-1">
+                    <Typography variant="subtitle2">
                         {task.description}
                     </Typography>
                 </CardContent>
@@ -30,7 +31,7 @@ const TaskCard = ({task, UpdateItem, DeleteItem}) => {
                         justifyContent="space-between"
                     >
                         <Grid item>
-                            <Typography variant="subtitle-2" >
+                            <Typography variant="subtitle2" >
                                 <CalendarMonth sx={{marginBottom : "-4px"}} fontSize="small" /> {task.createdDate}
                             </Typography>
                         </Grid>
