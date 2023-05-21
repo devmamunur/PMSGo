@@ -5,8 +5,8 @@ import Typography from "@mui/material/Typography";
 import {TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import {Link} from "react-router-dom";
-import {ErrorToast, IsEmail, IsEmpty, IsMobile} from "../../helper/FormHelper.js";
-import {LoginRequest} from "../../APIRequest/APIRequest.js";
+import {ErrorToast, IsEmail, IsEmpty, IsMobile} from "@/helper/FormHelper";
+import {LoginRequest} from "@/APIRequest/APIRequest";
 
 const Login = () => {
 
