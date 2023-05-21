@@ -1,8 +1,8 @@
 import React, {lazy, Suspense} from 'react';
-import MasterLayout from "../app/components/MasterLayout/MasterLayout.jsx";
-import LazyLoader from "../app/components/MasterLayout/LazyLoader.jsx";
+import MasterLayout from "@/components/MasterLayout/MasterLayout";
+import LazyLoader from "@/components/MasterLayout/LazyLoader";
 
-const Progress = lazy(() => import('../app/components/Progress/Progress.jsx'));
+const Progress = lazy(() => import('@/components/Progress/Progress'));
 const ProgressPage = () => {
     return (
         <div>
