@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import Grid from "@mui/material/Grid";
-import {Search, SearchIconWrapper, StyledInputBase} from "../../styeldComponent/SearchField.js";
+import {Search, SearchIconWrapper, StyledInputBase} from "@/styeldComponent/SearchField";
 import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
-import {taskListByStatus} from "../../APIRequest/APIRequest.js";
+import {taskListByStatus} from "@/APIRequest/APIRequest";
 import {useSelector} from "react-redux";
-import {DeleteToDO} from "../../helper/DeleteAlert.js";
-import {UpdateTask} from "../../helper/UpdateAlert.js";
-import TaskCard from "../TaskCard/TaskCard.jsx";
+import {DeleteToDO} from "@/helper/DeleteAlert";
+import {UpdateTask} from "@/helper/UpdateAlert";
+import TaskCard from "@/components/TaskCard/TaskCard";
 
 
 const New = () => {
