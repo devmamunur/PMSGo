@@ -1,7 +1,7 @@
 import React, {lazy, Suspense} from 'react';
-import LazyLoader from "../app/components/MasterLayout/LazyLoader.jsx";
+import LazyLoader from "@/components/MasterLayout/LazyLoader";
 
-const ForgetPass = lazy(() => import('../app/components/ForgetPass/ForgetPass.jsx'));
+const ForgetPass = lazy(() => import('@/components/ForgetPass/ForgetPass'));
 const ForgetPassPage = () => {
     return (
         <>
