@@ -1,28 +1,29 @@
+"use client"
 import React, {Fragment, useRef} from 'react';
-import {ErrorToast, IsEmail} from "../../helper/FormHelper";
-import {RecoverVerifyEmailRequest} from "../../APIRequest/APIRequest";
-import {Link, useNavigate} from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {TextField} from "@mui/material";
 import Button from "@mui/material/Button";
+import FormHelper from "@/helpers/form.helper";
+import ToastHelper from "@/helpers/toast.helper";
+import {redirect} from "next/navigation";
+import UserRequest from "@/APIRequests/user.request";
 
-const SendOTP = () => {
-    let emailRef=useRef();
-    let navigate=useNavigate();
-    const handleSubmit=(e)=>{
-        e.preventDefault();
+const SendOTP : React.FC = () => {
+    let emailRef=useRef<HTMLInputElement>(null);
+    const handleSubmit=(event : React.FormEvent)=>{
+        event.preventDefault();
 
-        let email=emailRef.current.value;
+        let email=emailRef.current!.value;
 
-        if(IsEmail(email)){
-            ErrorToast("Valid Email Address Required !")
+        if(FormHelper.isEmail(email)){
+            ToastHelper.errorToast("Valid Email Address Required !")
         }
         else{
-            RecoverVerifyEmailRequest(email).then((result)=>{
-                if(result===true){
-                    navigate("/verify-otp")
+            UserRequest.recoverVerifyEmailRequest(email).then((result : boolean)=>{
+                if(result){
+                    redirect("/verify-otp")
                 }
             })
         }
