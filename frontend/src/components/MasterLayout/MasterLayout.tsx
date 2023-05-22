@@ -1,16 +1,16 @@
-import * as React from 'react';
+import  React, {ReactNode, useState} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import AppBarComponent from "./AppBar.jsx";
 import DrawerComponent from "./Drawer.jsx";
 
-
-const MasterLayout = (props) => {
-    const [open, setOpen] = React.useState(true);
+interface MasterLayoutProps {
+    children: ReactNode;
+}
+const MasterLayout : React.FC<MasterLayoutProps> = (props) => {
+    const [open, setOpen] = useState(true);
 
     const clickDrawer = () => {
         setOpen(!open);
@@ -35,7 +35,7 @@ const MasterLayout = (props) => {
                     }}
                 >
                     <Toolbar/>
-                    <Container maxWidth="xxl" sx={{mt: 4, mb: 4}}>
+                    <Container maxWidth="xl" sx={{mt: 4, mb: 4}}>
                         {props.children}
                     </Container>
                 </Box>
