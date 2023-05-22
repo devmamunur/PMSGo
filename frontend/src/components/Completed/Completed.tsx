@@ -3,30 +3,30 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import {Search, SearchIconWrapper, StyledInputBase} from "@/styeldComponent/SearchField";
 import SearchIcon from "@mui/icons-material/Search";
-import {taskListByStatus} from "@/APIRequest/APIRequest";
 import {useSelector} from "react-redux";
-import {DeleteToDO} from "@/helper/DeleteAlert";
-import {UpdateTask} from "@/helper/UpdateAlert";
 import TaskCard from "@/components/TaskCard/TaskCard";
+import TaskRequest from "@/APIRequests/task.request";
+import {RootState} from "@/redux/store/store";
+import DeleteHelper from "@/helpers/delete.helper";
 
 const Completed = () => {
-    const taskCompleted = useSelector((state) => state.task.Completed);
+    const taskCompleted = useSelector((state : RootState) => state.task.Completed);
      useEffect(() => {
-         taskListByStatus('Completed');
+         TaskRequest.taskListByStatus('Completed');
      }, [])
-    const handelDeleteItem = (id) => {
-        DeleteToDO(id).then((result) => {
-            if(result === true){
-                taskListByStatus('Completed');
+    const handelDeleteItem = (id : string) => {
+        DeleteHelper.deleteToDO(id).then((result : boolean) => {
+            if(result){
+                TaskRequest.taskListByStatus('Completed');
             }
         });
     }
-    const handelUpdateItem = (id, status) => {
-        UpdateTask(id, status).then((result) => {
-            if(result === true) {
-                taskListByStatus('Completed');
-            }
-        })
+    const handelUpdateItem = (id : string, status : string) => {
+        // TaskRequest.(id, status).then((result) => {
+        //     if(result === true) {
+        //        TaskRequest.taskListByStatus('Completed');
+        //     }
+        // })
     }
     return (
         <>
@@ -62,7 +62,7 @@ const Completed = () => {
                    }}
             >
                 {
-                    taskCompleted.map((task, i) => (
+                    taskCompleted.map((task : any, i : number) => (
                         <Grid item md={4}  key={i} >
                             <TaskCard UpdateItem={handelUpdateItem} DeleteItem={handelDeleteItem} task={task}/>
                         </Grid>
