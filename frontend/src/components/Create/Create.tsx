@@ -5,30 +5,31 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import {TextField} from "@mui/material";
-import {ErrorToast, IsEmpty} from ".@/helper/FormHelper";
-import {NewTaskRequest} from "@/APIRequest/APIRequest";
-import {useNavigate} from "react-router-dom";
+import {redirect} from "next/navigation";
+import TaskRequest from "@/APIRequests/task.request";
+import FormHelper from "@/helpers/form.helper";
+import ToastHelper from "@/helpers/toast.helper";
 
-const Create = () => {
-    let navigate=useNavigate();
-    const titleRef = useRef(null);
-    const descriptionRef = useRef(null);
 
-    const handleSubmit = (event) => {
+const Create : React.FC = () => {
+    const titleRef = useRef<HTMLInputElement>(null);
+    const descriptionRef = useRef<HTMLInputElement>(null);
+
+    const handleSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        let title = titleRef.current.value;
-        let description = descriptionRef.current.value;
+        let title = titleRef.current!.value;
+        let description = descriptionRef.current!.value;
 
-        if(IsEmpty(title)){
-            ErrorToast("Title Required")
+        if(FormHelper.isEmpty(title)){
+            ToastHelper.errorToast("Title Required")
         }
-        else if(IsEmpty(description)){
-            ErrorToast("Description Required")
+        else if(FormHelper.isEmpty(description)){
+            ToastHelper.errorToast("Description Required")
         }
         else {
-            NewTaskRequest(title,description).then((res)=>{
-                if(res===true){
-                    navigate("/new-task")
+            TaskRequest.newTask(title,description).then((res : boolean)=>{
+                if(res){
+                    redirect("/new-task")
                 }
             })
         }
@@ -81,7 +82,7 @@ const Create = () => {
                                 <Grid item>
                                 </Grid>
                                 <Grid item>
-                                    <Button onClick={handleSubmit} variant="contained" color="primary">Save</Button>
+                                    <Button type="submit" variant="contained" color="primary">Save</Button>
                                 </Grid>
                             </Grid>
                         </CardContent>
