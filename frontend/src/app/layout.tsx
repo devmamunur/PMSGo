@@ -1,4 +1,3 @@
-"use client"
 import React from "react";
 import {ToastContainer} from "react-toastify";
 import '@fontsource/roboto/300.css';
@@ -14,7 +13,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-        <body suppressHydrationWarning={true}>
+        <body>
         {children}
         <ToastContainer/>
         </body>
