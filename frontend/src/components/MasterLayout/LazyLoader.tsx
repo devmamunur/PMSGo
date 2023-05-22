@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LazyLoader = () => {
+const LazyLoader : React.FC = () => {
     return (
         <div>
             <div className="LoadingOverlay d-none">
