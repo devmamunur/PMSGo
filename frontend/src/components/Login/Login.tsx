@@ -4,30 +4,31 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {TextField} from "@mui/material";
 import Button from "@mui/material/Button";
-import {Link} from "react-router-dom";
-import {ErrorToast, IsEmail, IsEmpty, IsMobile} from "@/helper/FormHelper";
-import {LoginRequest} from "@/APIRequest/APIRequest";
+import FormHelper from "@/helpers/form.helper";
+import ToastHelper from "@/helpers/toast.helper";
+import UserRequest from "@/APIRequests/user.request";
+import Link from "next/link";
 
-const Login = () => {
+const Login : React.FC = () => {
 
 
-    const emailRef = useRef(null);
-    const passwordRef = useRef(null);
+    const emailRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        let email = emailRef.current.value;
-        let password = passwordRef.current.value;
+        let email = emailRef.current!.value;
+        let password = passwordRef.current!.value;
 
-        if(IsEmail(email)){
-            ErrorToast("Valid Email Address Required !")
+        if(FormHelper.isEmail(email)){
+            ToastHelper.errorToast("Valid Email Address Required !")
         }
-        else if(IsEmpty(password)){
-            ErrorToast("Password Required !")
+        else if(FormHelper.isEmpty(password)){
+            ToastHelper.errorToast("Password Required !")
         }else {
-            LoginRequest(email, password).then((result) => {
-                if(result === true) {
+            UserRequest.loginRequest(email, password).then((result : boolean) => {
+                if(result) {
                     window.location.href="/"
                 }
             });
@@ -65,18 +66,17 @@ const Login = () => {
                             fullWidth
                             variant="contained"
                             sx={{mt: 3, mb: 2}}
-                            onClick={handleSubmit}
                         >
                             Sign In
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link to="/send-otp" variant="body2">
+                                <Link href="/send-otp" >
                                     Forgot password?
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link to="/register" variant="body2">
+                                <Link href="/register">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
