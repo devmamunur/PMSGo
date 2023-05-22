@@ -1,19 +1,15 @@
-import React from 'react';
+import React,  { SyntheticEvent } from 'react';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {TextField} from "@mui/material";
-import Button from "@mui/material/Button";
-import {Link} from "react-router-dom";
+import Button from "@mui/material/Button"
+import Link from "next/link";
 
-const ForgetPass = () => {
-    const handleSubmit = (event) => {
+const ForgetPass : React.FC = () => {
+    const handleSubmit = (event :  React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
     };
     return (
         <>
@@ -49,7 +45,7 @@ const ForgetPass = () => {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link to="/login" variant="body2">
+                                <Link href="/login">
                                     Back to Login Page ?
                                 </Link>
                             </Grid>
