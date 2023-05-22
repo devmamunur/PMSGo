@@ -110,7 +110,7 @@ class TaskRequest {
             return false;
         });
     }
-    static getTaskList(pageNo: string, perPage: string, searchKey: string) {
+    static getTaskList(pageNo: number, perPage: number, searchKey: string) {
         store.dispatch(showLoader());
         let URL = baseURL + "/task-list/" + pageNo + "/" + perPage + "/" + searchKey;
         return axios.get(URL, AxiosHeader).then((res) => {
