@@ -14,10 +14,8 @@ import {MuiOtpInput} from 'mui-one-time-password-input'
 const VerifyOTP: React.FC = () => {
 
     let [OTP, SetOTP] = useState<string>("");
-
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-
         if (OTP.length === 6) {
             const email = SessionHelper.getEmail();
             if (email !== null) {
@@ -36,8 +34,6 @@ const VerifyOTP: React.FC = () => {
     const handleOTPChange = (value: string) => {
         SetOTP(value);
     };
-
-    // @ts-ignore
     return (
         <>
             <Grid container direction="row" justifyContent="center" alignItems="center" sx={{paddingTop: '50px'}}>
