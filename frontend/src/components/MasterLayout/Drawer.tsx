@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -10,14 +10,27 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ListItemText from "@mui/material/ListItemText";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import {CancelPresentation, CheckBox, CreateSharp, NewReleases, TableChart} from "@mui/icons-material";
-import {StyledDrawer} from "../../styeldComponent/DashboardLayout.js";
-import {Collapse} from "@mui/material";
-import {StyledNavLink} from "../../styeldComponent/NavLink.js";
+import {
+    CancelPresentation,
+    CheckBox,
+    CreateSharp,
+    MailOutline,
+    NewReleases,
+    StarBorder,
+    TableChart
+} from "@mui/icons-material";
+import {StyledDrawer} from "@/styeldComponent/DashboardLayout";
+import {StyledNavLink} from "@/styeldComponent/NavLink";
+import Collapse from "@mui/material/Collapse";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 
-const DrawerComponent = ({open, clickDrawer}) => {
 
-    const [openInbox, setOpenInbox] = React.useState(false);
+
+
+const DrawerComponent : React.FC<{open : boolean; clickDrawer : () => void}> = ({open, clickDrawer}) => {
+
+    const [openInbox, setOpenInbox] = useState(false);
 
     const handleClickInbox = () => {
         setOpenInbox(!openInbox);
@@ -92,9 +105,9 @@ const DrawerComponent = ({open, clickDrawer}) => {
                     </ListItemIcon>
                     <ListItemText primary="Advance Table" />
                 </ListItemButton>
-       {/*         <ListItemButton onClick={handleClickInbox}>
+                <ListItemButton onClick={handleClickInbox}>
                     <ListItemIcon>
-                        <MailIcon />
+                        <MailOutline />
                     </ListItemIcon>
                     <ListItemText primary="Inbox" />
                     {openInbox ? <ExpandLess /> : <ExpandMore />}
@@ -108,7 +121,7 @@ const DrawerComponent = ({open, clickDrawer}) => {
                             <ListItemText primary="Starred" />
                         </ListItemButton>
                     </List>
-                </Collapse>*/}
+                </Collapse>
             </List>
         </StyledDrawer>
     );
