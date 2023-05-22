@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -6,29 +6,35 @@ import Typography from "@mui/material/Typography";
 import {StyledAppBar} from "@/styeldComponent/DashboardLayout";
 import Box from "@mui/material/Box";
 import {Avatar, Menu, MenuItem, Tooltip} from "@mui/material";
-import {removeSession, getUserDetails} from "@/helper/SessionHelper";
-import {NavLink} from "react-router-dom";
+import SessionHelper from "@/helpers/session.helper";
+import Link from "next/link";
 
-const AppBarComponent = ({open, clickDrawer}) => {
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+interface AppBarComponentProps {
+    open: boolean;
+    clickDrawer: () => void;
+}
+
+
+const AppBarComponent : React.FC<AppBarComponentProps> = ({open, clickDrawer}) => {
+    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const toggleDrawer = () => {
         clickDrawer()
     }
-    const handleOpenUserMenu = (event) => {
+    const handleOpenUserMenu = (event : React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
     };
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
     const logout = () => {
-        removeSession()
+        SessionHelper.removeSession()
     }
     return (
         <>
             <StyledAppBar position="absolute" open={open}>
                 <Toolbar
                     sx={{
-                        pr: '24px', // keep right padding when drawer closed
+                        pr: '24px',
                     }}
                 >
                     <IconButton
@@ -55,7 +61,7 @@ const AppBarComponent = ({open, clickDrawer}) => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src={getUserDetails()[0].photo} />
+                                <Avatar alt="Remy Sharp" src={SessionHelper.getUserDetails()[0].photo} />
                             </IconButton>
                         </Tooltip>
 
@@ -75,9 +81,12 @@ const AppBarComponent = ({open, clickDrawer}) => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem component={NavLink} to="/profile"  onClick={handleCloseUserMenu}>
-                                <Typography  textAlign="center">Profile</Typography>
-                            </MenuItem>
+                            <Link href="/profile">
+                                <MenuItem  onClick={handleCloseUserMenu}>
+                                    <Typography  textAlign="center">Profile</Typography>
+                                </MenuItem>
+                            </Link>
+
                             <MenuItem  onClick={handleCloseUserMenu}>
                                 <Typography  onClick={logout} textAlign="center">Logout</Typography>
                             </MenuItem>
