@@ -1,15 +1,16 @@
 import React, {useEffect} from 'react';
 import Grid from "@mui/material/Grid";
-import {summaryRequest} from "@/APIRequest/APIRequest";
 import {useSelector} from "react-redux";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import {RootState} from "@/redux/store/store";
+import TaskRequest from "@/APIRequests/task.request";
 
 const Dashboard = () => {
-    const summaryList = useSelector((state) => state.summary.value);
+    const summaryList = useSelector((state : RootState) => state.summary.value);
     useEffect(() => {
-        summaryRequest();
+        TaskRequest.summaryRequest();
     }, [])
     return (
         <>
@@ -17,7 +18,7 @@ const Dashboard = () => {
                 marginTop: '30px'
             }}>
                 {
-                    summaryList.map((item, i) => (
+                    summaryList.map((item : any, i : number) => (
                         <Grid item xs={6} md={4} key={i}>
                             <Card>
                                 <CardContent sx={{textAlign : 'center'}}>
