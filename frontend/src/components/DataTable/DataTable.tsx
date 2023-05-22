@@ -1,6 +1,5 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState, SyntheticEvent} from "react";
 import PropTypes from 'prop-types';
-import {alpha} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -16,14 +15,21 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {getTaskList} from "@/APIRequest/APIRequest";
 import {useSelector} from "react-redux";
 import {Search, SearchIconWrapper, StyledInputBase} from "@/styeldComponent/SearchField";
 import SearchIcon from "@mui/icons-material/Search";
-import {deleteSelectedTaskAlert} from "@/helper/DeleteAlert";
+import TaskRequest from "@/APIRequests/task.request";
+import DeleteHelper from "@/helpers/delete.helper";
+import {RootState} from "@/redux/store/store";
 
+interface HeadCell {
+    disablePadding: boolean;
+    id: string;
+    label: string;
+    numeric: boolean;
+}
 
-const headCells = [
+const headCells : readonly  HeadCell[] = [
     {
         id: 'title',
         numeric: false,
@@ -49,8 +55,13 @@ const headCells = [
         label: 'Action',
     }
 ];
+interface EnhancedTableHeadProps {
+    onSelectAllClick: (event: SyntheticEvent) => void;
+    numSelected: number;
+    rowCount: number;
+}
 
-function EnhancedTableHead(props) {
+function EnhancedTableHead(props : EnhancedTableHeadProps) {
     const {onSelectAllClick, numSelected, rowCount} = props;
     return (
         <>
@@ -87,19 +98,19 @@ EnhancedTableHead.propTypes = {
     onSelectAllClick: PropTypes.func.isRequired,
     rowCount: PropTypes.number.isRequired,
 };
-
-function EnhancedTableToolbar(props) {
+interface EnhancedTableToolbarProps {
+    numSelected: number;
+    searchOnChange: (event: SyntheticEvent) => void;
+    deleteSelected: () => void;
+}
+function EnhancedTableToolbar(props : EnhancedTableToolbarProps) {
     const {numSelected, searchOnChange, deleteSelected} = props;
 
     return (
         <Toolbar
             sx={{
-                pl: {sm: 2},
-                pr: {xs: 2, sm: 2},
-                ...(numSelected > 0 && {
-                    bgcolor: (theme) =>
-                        alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-                }),
+                pl: { sm: 2 },
+                pr: { xs: 1, sm: 1 },
             }}
         >
             {numSelected > 0 ? (
@@ -154,31 +165,32 @@ EnhancedTableToolbar.propTypes = {
 
 export default function DataTable() {
 
-    const [selected, setSelected] =useState([]);
+    const [selected, setSelected] =useState<string[]>([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [search, setSearch] = useState('');
 
     useEffect(() => {
-        getTaskList(page, rowsPerPage, search)
+        TaskRequest.getTaskList(page, rowsPerPage, search).then((res) => {
+
+        })
     }, [rowsPerPage, page, search])
 
-    let ALLTask = useSelector((state) => (state.task.ALLTask));
-    let TotalTask = useSelector((state) => (state.task.Total));
+    let ALLTask = useSelector((state : RootState) => (state.task.ALLTask));
+    let TotalTask = useSelector((state : RootState) => (state.task.Total));
 
 
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelected = ALLTask.map((n) => n._id);
+    const handleSelectAllClick = (event: SyntheticEvent) => {
+        if ((event.target as HTMLInputElement).checked) {
+            const newSelected = ALLTask.map((n: any) => n._id);
             setSelected(newSelected);
-            return;
+        } else {
+            setSelected([]);
         }
-        setSelected([]);
     };
-
-    const handleClick = (event, id) => {
+    const handleClick = (event : SyntheticEvent, id : string) => {
         const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
+        let newSelected : string[] = [];
 
         if (selectedIndex === -1) {
             newSelected = newSelected.concat(selected, id);
@@ -196,31 +208,30 @@ export default function DataTable() {
         setSelected(newSelected);
     };
 
-    const handleChangePage = (event, newPage) => {
+    const handleChangePage = (event : React.MouseEvent<HTMLButtonElement> | null, newPage : number) => {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value));
+    const handleChangeRowsPerPage = (event : SyntheticEvent) => {
+        setRowsPerPage(parseInt((event.target as HTMLInputElement).value));
         setPage(0);
     };
 
-    const isSelected = (id) => selected.indexOf(id) !== -1;
+    const isSelected = (id : string) => selected.indexOf(id) !== -1;
 
-    const handleSearchOnChange = (event) => {
+    const handleSearchOnChange = (event : SyntheticEvent) => {
         setPage(0);
-        setSearch(event.target.value);
+        setSearch((event.target as HTMLInputElement).value);
     }
 
     const handleDeleteSelected = () => {
-        deleteSelectedTaskAlert(selected).then((res) => {
-            if(res === true){
+        DeleteHelper.deleteSelectedTaskAlert(selected).then((res: boolean) => {
+            if (res) {
                 setSelected([]);
-                getTaskList(page, rowsPerPage, search)
+                TaskRequest.getTaskList(page, rowsPerPage, search).then((res) => {});
             }
         });
-    }
-
+    };
     return (
         <Box sx={{width: '100%'}}>
             <Paper sx={{width: '100%', mb: 2}}>
@@ -236,7 +247,7 @@ export default function DataTable() {
                             rowCount={parseInt(ALLTask.length)}
                         />
                         <TableBody>
-                            {ALLTask.map((row, index) => {
+                            {ALLTask.map((row : any, index : number) => {
                                 const isItemSelected = isSelected(row._id);
                                 const labelId = `enhanced-table-checkbox-${index}`;
                                 return (
