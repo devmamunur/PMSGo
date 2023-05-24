@@ -1,6 +1,6 @@
 "use client"
-import React, {useRef, useState, ChangeEvent} from 'react';
-import { TextField, Typography, Box, Button, Grid } from '@mui/material';
+import React, {useState, ChangeEvent} from 'react';
+import {TextField, Typography, Box, Button, Grid, Card, CardContent} from '@mui/material';
 import Link from 'next/link';
 import FormHelper from '@/helpers/form.helper';
 import UserRequest from "@/APIRequests/user.request";
@@ -43,49 +43,60 @@ const Registration: React.FC = () => {
 
     return (
         <>
-            <Grid container direction="row" justifyContent="center" alignItems="center" sx={{ paddingTop: '50px' }}>
+            <Grid container justifyContent="center" alignItems="center" sx={{
+                backgroundColor: (theme) =>
+                    theme.palette.mode === 'light'
+                        ? theme.palette.grey[100]
+                        : theme.palette.grey[900],
+                flexGrow: 1,
+                height: '100vh',
+                overflow: 'auto',
+            }}>
                 <Grid item xs={10} md={3}>
-                    <Box sx={{ textAlign: 'center' }}>
-                        <Typography component="h1" variant="h4">
-                            Sign Up
-                        </Typography>
-                        <br/>
-                        email : {mobile}
-                    </Box>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                        <TextField margin="normal" fullWidth label="Email Address" type="email" onChange={(event : ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)} />
-                        <TextField margin="normal" fullWidth label="First Name" onChange={(event : ChangeEvent<HTMLInputElement>) => setFirstName(event.target.value)} />
-                        <TextField margin="normal" fullWidth label="Last Name" onChange={(event : ChangeEvent<HTMLInputElement>) => setLastName(event.target.value)} />
-                        <PhoneInput
-                            country={'us'}
-                            value={mobile}
-                            enableSearch={true}
-                            inputClass="phoneInput"
-                            containerClass="phoneContainer"
-                            onChange={handlePhoneChange}
-                        />
-                        <TextField margin="normal" fullWidth label="Password" type="password" onChange={(event : ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)} />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        >
-                            Sign In
-                        </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <Link href="/" >
-                                    <Typography variant="body2">Forgot password?</Typography>
-                                </Link>
-                            </Grid>
-                            <Grid item>
-                                <Link href="/" >
-                                    <Typography variant="body2">Already have an account? Sign In</Typography>
-                                </Link>
-                            </Grid>
-                        </Grid>
-                    </Box>
+                    <Card>
+                        <CardContent>
+                            <Box sx={{ textAlign: 'center' }}>
+                                <Typography component="h1" variant="h4">
+                                    Sign Up
+                                </Typography>
+                                <br/>
+                            </Box>
+                            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                                <TextField margin="normal" fullWidth label="Email Address" type="email" onChange={(event : ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)} />
+                                <TextField margin="normal" fullWidth label="First Name" onChange={(event : ChangeEvent<HTMLInputElement>) => setFirstName(event.target.value)} />
+                                <TextField margin="normal" fullWidth label="Last Name" onChange={(event : ChangeEvent<HTMLInputElement>) => setLastName(event.target.value)} />
+                                <PhoneInput
+                                    country={'us'}
+                                    value={mobile}
+                                    enableSearch={true}
+                                    inputClass="phoneInput"
+                                    containerClass="phoneContainer"
+                                    onChange={handlePhoneChange}
+                                />
+                                <TextField margin="normal" fullWidth label="Password" type="password" onChange={(event : ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)} />
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                >
+                                    Sign In
+                                </Button>
+                                <Grid container>
+                                    <Grid item xs>
+                                        <Link href="/" >
+                                            <Typography variant="body2">Forgot password?</Typography>
+                                        </Link>
+                                    </Grid>
+                                    <Grid item>
+                                        <Link href="/" >
+                                            <Typography variant="body2">Already have an account? Sign In</Typography>
+                                        </Link>
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                        </CardContent>
+                    </Card>
                 </Grid>
             </Grid>
         </>
