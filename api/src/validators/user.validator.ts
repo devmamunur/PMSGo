@@ -12,6 +12,7 @@ class UserValidator {
         organization: Joi.string().alphanum().required(),
         mobile: Joi.number().min(10).required(),
         password: Joi.string().min(6).trim(true).required(),
+        photo: Joi.string(),
     });
 
     static async validateUniqueEmail(resBody: Request['body']) {
