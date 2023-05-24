@@ -5,16 +5,19 @@ import Link from 'next/link';
 import FormHelper from '@/helpers/form.helper';
 import UserRequest from "@/APIRequests/user.request";
 import PhoneInput from 'react-phone-input-2';
-import {redirect} from "next/navigation";
+import {useRouter} from "next/navigation";
 import ToastHelper from "@/helpers/toast.helper";
 import 'react-phone-input-2/lib/material.css';
+
 
 const Registration: React.FC = () => {
     const [email, setEmail] = useState<string>("");
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
+    const [organization, setOrganization] = useState<string>("");
     const [mobile, setMobile] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const { push } = useRouter();
 
     const handlePhoneChange = (value : string) => {
         setMobile(value);
@@ -28,14 +31,16 @@ const Registration: React.FC = () => {
             ToastHelper.errorToast('First Name Required!');
         } else if (FormHelper.isEmpty(lastName)) {
             ToastHelper.errorToast('Last Name Required!');
-        } else if (!FormHelper.isMobile(mobile)) {
+        } else if(FormHelper.isEmpty(organization)){
+            ToastHelper.errorToast('Organization Name Required!');
+        }else if (!FormHelper.isMobile(mobile)) {
             ToastHelper.errorToast('Minimum 10 Digit Required!');
         } else if (FormHelper.isEmpty(password)) {
             ToastHelper.errorToast('Password Required!');
         } else {
-            UserRequest.registrationRequest(email, firstName, lastName, mobile, password, photo).then((result : boolean) => {
+            UserRequest.registrationRequest(email, firstName, lastName, organization, mobile, password, photo).then((result : boolean) => {
                 if (result) {
-                    redirect('/login');
+                    push("/login");
                 }
             });
         }
@@ -52,19 +57,19 @@ const Registration: React.FC = () => {
                 height: '100vh',
                 overflow: 'auto',
             }}>
-                <Grid item xs={10} md={3}>
+                <Grid item xs={10} xl={4}>
                     <Card>
                         <CardContent>
                             <Box sx={{ textAlign: 'center' }}>
                                 <Typography component="h1" variant="h4">
                                     Sign Up
                                 </Typography>
-                                <br/>
                             </Box>
                             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                                 <TextField margin="normal" fullWidth label="Email Address" type="email" onChange={(event : ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)} />
                                 <TextField margin="normal" fullWidth label="First Name" onChange={(event : ChangeEvent<HTMLInputElement>) => setFirstName(event.target.value)} />
                                 <TextField margin="normal" fullWidth label="Last Name" onChange={(event : ChangeEvent<HTMLInputElement>) => setLastName(event.target.value)} />
+                                <TextField margin="normal" fullWidth label="Organization Name" onChange={(event : ChangeEvent<HTMLInputElement>) => setOrganization(event.target.value)} />
                                 <PhoneInput
                                     country={'us'}
                                     value={mobile}
@@ -89,7 +94,7 @@ const Registration: React.FC = () => {
                                         </Link>
                                     </Grid>
                                     <Grid item>
-                                        <Link href="/" >
+                                        <Link href="/login" >
                                             <Typography variant="body2">Already have an account? Sign In</Typography>
                                         </Link>
                                     </Grid>
