@@ -9,7 +9,14 @@ body{
 .d-none{
     display: none !important;
 }
-/*Line Progress*/
+.phoneInput {
+    width: 100% !important;
+}
+.phoneContainer{
+    margin-top: 16px !important;
+    margin-bottom: 8px !important;
+}
+    /*Line Progress*/
 .LoadingOverlay {
     position:absolute;
     display:block;
