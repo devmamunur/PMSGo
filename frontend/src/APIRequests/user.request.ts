@@ -6,13 +6,14 @@ import ToastHelper from "@/helpers/toast.helper";
 import {setProfile} from "@/redux/state-slice/ProfileSlice";
 
 const AxiosHeader = {headers: {"token": SessionHelper.getToken()}}
-const baseURL = process.env.API_URL;
+let baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 class UserRequest {
-    static registrationRequest(email: string, firstName: string, lastName: string, mobile: string, password: string, photo: any) {
+    static registrationRequest(email: string, firstName: string, lastName: string, organization : string, mobile: string, password: string, photo: any) {
         store.dispatch(showLoader);
-        let URL = baseURL + "/registration";
-        let postBody = {email, firstName, lastName, mobile, password, photo};
+
+        let URL : string = baseURL+"/registration";
+        let postBody = {email, firstName, lastName, organization, mobile, password, photo};
 
         return axios.post(URL, postBody).then((res) => {
             store.dispatch(hideLoader);
