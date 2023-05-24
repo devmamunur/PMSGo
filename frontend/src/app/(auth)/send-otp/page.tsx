@@ -1,11 +1,12 @@
 import React from 'react';
+import SendOTP from "@/components/PasswordRecover/SendOTP";
 
-const Page = () => {
+const SendOtpPage = () => {
     return (
-        <div>
-            
-        </div>
+        <>
+            <SendOTP/>
+        </>
     );
 };
 
-export default Page;
+export default SendOtpPage;
