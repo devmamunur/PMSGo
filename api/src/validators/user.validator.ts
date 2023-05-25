@@ -15,6 +15,11 @@ class UserValidator {
         photo: Joi.string(),
     });
 
+    static loginSchema = Joi.object({
+        email: Joi.string().email().required(),
+        password: Joi.string().min(6).trim(true).required(),
+    });
+
     static async validateUniqueEmail(resBody: Request['body']) {
         const {email} = resBody;
         const existingEmail = await UserModel.findOne({email: email});
@@ -36,6 +41,11 @@ class UserValidator {
         await this.registerSchema.validateAsync(resBody);
         await this.validateUniqueOrganizationName(resBody);
     }
+
+    static async loginValidation(resBody : Request['body']){
+        await this.loginSchema.validateAsync(resBody);
+    }
+
 }
 
 export default UserValidator;
