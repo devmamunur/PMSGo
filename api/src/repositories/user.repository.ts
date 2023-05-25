@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import {Request} from "express";
 import OrganizationModel from "../models/organization.model";
 import GeneratePasswordUtility from "../utility/generate-password.utility";
+import * as process from "process";
+import generateTokenUtility from "../utility/generate-token.utility";
 const objectId = mongoose.Types.ObjectId;
 const jwt = require('jsonwebtoken');
 
@@ -22,28 +24,41 @@ class UserRepository {
         }
     }
 
-    static async login(data: any) {
+    static async login(reqBody: Request['body']) {
         try {
-            const userData = await UserModel.aggregate([
-                {$match: data},
+            reqBody.password = GeneratePasswordUtility(reqBody.password);
+            const userMatched: any = await UserModel.aggregate([
+                { $match: reqBody },
                 {
                     $project: {
-                        _id: 1,
-                        userId: 1,
-                        firstName: 1,
-                        lastName: 1,
-                        mobile: 1,
-                        photo: 1,
+                        email: 1,
+                        password: 1
                     },
                 },
             ]);
-            let Payload = {exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60, data: userData[0]['_id']};
-            let token = jwt.sign(Payload, 'Secret123');
-            return {token: token, data: userData};
+            if (userMatched.length === 1) {
+                const userData: any = await UserModel.aggregate([
+                    { $match: reqBody },
+                    {
+                        $project: {
+                            _id: 1,
+                            userId: 1,
+                            firstName: 1,
+                            lastName: 1,
+                            mobile: 1,
+                            photo: 1,
+                        },
+                    },
+                ]);
+                const payload = { exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60, data: userData[0]['_id'] };
+                const token =  generateTokenUtility(payload);
+                return { token: token, data: userData };
+            }
         } catch (error) {
             throw error;
         }
     }
+
 
     static async updateProfile(userId: string, reqBody: UpdateProfileRequestBody) {
         try {
