@@ -23,6 +23,7 @@
     "eslint-config-next": "13.4.3",
     "mui-one-time-password-input": "^1.1.0",
     "next": "13.4.3",
+    "next-auth": "^4.22.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-phone-input-2": "^2.15.1",
