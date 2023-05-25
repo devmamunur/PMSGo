@@ -43,6 +43,7 @@ class UserRepository {
                         $project: {
                             _id: 1,
                             userId: 1,
+                            email: 1,
                             firstName: 1,
                             lastName: 1,
                             mobile: 1,
