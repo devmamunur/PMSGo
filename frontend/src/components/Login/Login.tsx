@@ -7,14 +7,14 @@ import {Card, CardContent, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import FormHelper from "@/helpers/form.helper";
 import ToastHelper from "@/helpers/toast.helper";
-import UserRequest from "@/APIRequests/user.request";
 import Link from "next/link";
+import {signIn} from "next-auth/react";
 
 const Login: React.FC = () => {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit =  (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         let email = emailRef.current!.value;
@@ -25,10 +25,15 @@ const Login: React.FC = () => {
         } else if (FormHelper.isEmpty(password)) {
             ToastHelper.errorToast("Password Required !")
         } else {
-            UserRequest.loginRequest(email, password).then((result: boolean) => {
-                if (result) {
-                    window.location.href = "/"
-                }
+           signIn('credentials', {
+                email,
+                password,
+                callbackUrl: '/dashboard',
+            }).then((res : any) => {
+                alert('success : ');
+                console.log('login success');
+            }).catch((error) => {
+                console.log('login failed');
             });
         }
     };
