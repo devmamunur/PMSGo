@@ -17,11 +17,11 @@ class UserController {
     // Login
     static async login(req: Request, res: Response) {
         try {
-            const reqBody = req.body;
-            const {token, data} = await UserRepository.login(reqBody);
+            await UserValidator.loginValidation(req.body);
+            const {token, data} = await UserRepository.login(req.body);
             res.status(200).json({success: true, token: token, data: data});
         } catch (error) {
-            res.status(400).json({success: false, data: error});
+            res.status(400).json({success: false, data: error.message});
         }
     }
 
