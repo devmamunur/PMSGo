@@ -1,61 +1,78 @@
 "use client"
-import React, {Fragment, useRef} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {TextField} from "@mui/material";
-import Button from "@mui/material/Button";
+import {Card, CardContent, TextField} from "@mui/material";
+import { LoadingButton } from '@mui/lab';
 import FormHelper from "@/helpers/form.helper";
 import ToastHelper from "@/helpers/toast.helper";
-import {redirect} from "next/navigation";
+import {useRouter} from "next/navigation";
 import UserRequest from "@/APIRequests/user.request";
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 const SendOTP : React.FC = () => {
-    let emailRef=useRef<HTMLInputElement>(null);
-    const handleSubmit=(event : React.FormEvent)=>{
+    const router = useRouter();
+    const [loading, setLoading] = useState<boolean>(false);
+    const [email, setEmail] = useState<string>("");
+    const handleSubmit = async (event : React.FormEvent<HTMLFormElement>)=>{
         event.preventDefault();
-
-        let email=emailRef.current!.value;
 
         if(FormHelper.isEmail(email)){
             ToastHelper.errorToast("Valid Email Address Required !")
         }
         else{
-            UserRequest.recoverVerifyEmailRequest(email).then((result : boolean)=>{
+            setLoading(true);
+            await UserRequest.recoverVerifyEmailRequest(email).then((result : boolean)=>{
+                setLoading(false);
                 if(result){
-                    redirect("/verify-otp")
+                    router.push("/verify-otp")
                 }
             })
         }
     }
     return (
         <>
-            <Grid  container direction="row" justifyContent="center" alignItems="center" sx={{paddingTop : '50px'}} >
-                <Grid item xs={10} md={3}>
-                    <Box sx={{textAlign : 'center'}}>
-                        <Typography component="h1" variant="h4">
-                            Enter Your Email Address
-                        </Typography>
-                    </Box>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            label="Email Address"
-                            type="email"
-                            inputRef={emailRef}
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{mt: 3, mb: 2}}
-                            onClick={handleSubmit}
-                        >
-                            Next
-                        </Button>
-                    </Box>
+            <Grid  container justifyContent="center" alignItems="center" sx={{
+                backgroundColor: (theme) =>
+                    theme.palette.mode === 'light'
+                        ? theme.palette.grey[100]
+                        : theme.palette.grey[900],
+                flexGrow: 1,
+                height: '100vh',
+                overflow: 'auto',
+            }} >
+                <Grid item xs={10} xl={4}>
+                    <Card>
+                        <CardContent>
+                            <Box sx={{textAlign : 'center'}}>
+                                <Typography component="h1" variant="h5" sx={{fontWeight : 600, marginBottom : '25px'}}>
+                                    Enter Your Email
+                                </Typography>
+                            </Box>
+                            <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    label="Email Address"
+                                    type="email"
+                                    onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
+                                />
+                                <LoadingButton
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{mt: 3, mb: 2}}
+                                    endIcon={<KeyboardArrowRightIcon />}
+                                    loading={loading}
+                                    loadingPosition="end"
+                                >
+                                    <span>Next</span>
+                                </LoadingButton>
+                            </Box>
+                        </CardContent>
+                    </Card>
                 </Grid>
             </Grid >
         </>
