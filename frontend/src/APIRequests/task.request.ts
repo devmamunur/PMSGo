@@ -1,7 +1,6 @@
 import store from "@/redux/store/store";
 import {hideLoader, showLoader} from "@/redux/state-slice/SettingsSlice";
 import axios from "axios";
-import SessionHelper from "@/helpers/session.helper";
 import {
     setAllTask,
     setCanceledTask,
@@ -13,7 +12,6 @@ import ToastHelper from "@/helpers/toast.helper";
 import {setSummary} from "@/redux/state-slice/SummarySlice";
 
 
-const AxiosHeader = {headers: {"token": SessionHelper.getToken()}}
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 class TaskRequest {
@@ -22,7 +20,7 @@ class TaskRequest {
         let URL = baseURL + "/task";
         let postBody = {title, description, status};
 
-        return axios.post(URL, postBody, AxiosHeader).then((res) => {
+        return axios.post(URL, postBody).then((res) => {
             store.dispatch(hideLoader);
             if (res.status === 200) {
                 ToastHelper.successToast("New Task Created")
@@ -40,7 +38,7 @@ class TaskRequest {
     static taskListByStatus(status: string) {
         store.dispatch(showLoader())
         let URL = baseURL + "/task/filter/" + status;
-        axios.get(URL, AxiosHeader).then((res) => {
+        axios.get(URL).then((res) => {
             store.dispatch(hideLoader())
             if (res.status === 200) {
                 if (status === "New") {
@@ -78,7 +76,7 @@ class TaskRequest {
     static deleteTask(id: string) {
         store.dispatch(showLoader())
         let URL = baseURL + "/task/" + id;
-        return axios.delete(URL, AxiosHeader).then((res) => {
+        return axios.delete(URL).then((res) => {
             store.dispatch(hideLoader())
             if (res.status === 200) {
                 ToastHelper.successToast("Delete Successful")
@@ -96,7 +94,7 @@ class TaskRequest {
     static updateStatus(id: string, status: string) {
         store.dispatch(showLoader())
         let URL = baseURL + "/task/update/" + id + "/" + status;
-        return axios.get(URL, AxiosHeader).then((res) => {
+        return axios.get(URL).then((res) => {
             store.dispatch(hideLoader())
             if (res.status === 200) {
                 ToastHelper.successToast("Status Updated")
@@ -114,7 +112,7 @@ class TaskRequest {
     static getTaskList(pageNo: number, perPage: number, searchKey: string) {
         store.dispatch(showLoader());
         let URL = baseURL + "/task-list/" + pageNo + "/" + perPage + "/" + searchKey;
-        return axios.get(URL, AxiosHeader).then((res) => {
+        return axios.get(URL).then((res) => {
             store.dispatch(hideLoader())
             if (res.status === 200) {
                 store.dispatch(setAllTask(res.data['data']))
@@ -131,7 +129,7 @@ class TaskRequest {
         store.dispatch(showLoader())
         let URL = baseURL + "/task/delete-selected";
         let postBody = {ids};
-        return axios.post(URL, postBody, AxiosHeader).then((res) => {
+        return axios.post(URL, postBody).then((res) => {
             store.dispatch(hideLoader())
             if (res.status === 200) {
                 ToastHelper.successToast("Delete Successful")
