@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react';
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -63,43 +64,43 @@ const DrawerComponent : React.FC<{open : boolean; clickDrawer : () => void}> = (
             </Toolbar>
             <Divider/>
             <List component="nav">
-                <ListItemButton component={StyledNavLink} to="/">
+                <ListItemButton component={StyledNavLink} href="/dashboard">
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" />
                 </ListItemButton>
-                <ListItemButton component={StyledNavLink} to="/create">
+                <ListItemButton component={StyledNavLink} href="/dashboard/create">
                     <ListItemIcon>
                         <CreateSharp />
                     </ListItemIcon>
                     <ListItemText primary="Create New" />
                 </ListItemButton>
-                <ListItemButton component={StyledNavLink} to="/new-task">
+                <ListItemButton component={StyledNavLink} href="/dashboard/new-task">
                     <ListItemIcon>
                         <NewReleases />
                     </ListItemIcon>
                     <ListItemText primary="New Task" />
                 </ListItemButton>
-                <ListItemButton component={StyledNavLink} to="/progress">
+                <ListItemButton component={StyledNavLink} href="/dashboard/progress">
                     <ListItemIcon>
                         <BarChartIcon />
                     </ListItemIcon>
                     <ListItemText primary="In Progress" />
                 </ListItemButton>
-                <ListItemButton component={StyledNavLink} to="/completed">
+                <ListItemButton component={StyledNavLink} href="/dashboard/completed">
                     <ListItemIcon>
                         <CheckBox />
                     </ListItemIcon>
                     <ListItemText primary="Completed" />
                 </ListItemButton>
-                <ListItemButton component={StyledNavLink} to="/canceled">
+                <ListItemButton component={StyledNavLink} href="/dashboard/canceled">
                     <ListItemIcon>
                         <CancelPresentation />
                     </ListItemIcon>
                     <ListItemText primary="Canceled" />
                 </ListItemButton>
-                <ListItemButton component={StyledNavLink} to="/task-list">
+                <ListItemButton component={StyledNavLink} href="/dashboard/task-list">
                     <ListItemIcon>
                         <TableChart />
                     </ListItemIcon>
