@@ -11,7 +11,7 @@ export default function Layout ({ children } : RootLayoutProps) {
     if(status === "loading"){
         return ("loading...");
     }else if(status === "authenticated"){
-        router.push('/')
+        router.push('/dashboard')
     }else if(status === "unauthenticated") {
         return (
             <>
