@@ -12,8 +12,9 @@ import {
 import ToastHelper from "@/helpers/toast.helper";
 import {setSummary} from "@/redux/state-slice/SummarySlice";
 
+
 const AxiosHeader = {headers: {"token": SessionHelper.getToken()}}
-const baseURL = process.env.API_URL;
+const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 class TaskRequest {
     static newTask(title: string, description: string, status: string = 'New') {
@@ -62,7 +63,7 @@ class TaskRequest {
     static summaryRequest() {
         store.dispatch(showLoader())
         let URL = baseURL + "/task/status-count";
-        axios.get(URL, AxiosHeader).then((res) => {
+        axios.get(URL).then((res) => {
             store.dispatch(hideLoader())
             if (res.status === 200) {
                 store.dispatch(setSummary(res.data['data']))
