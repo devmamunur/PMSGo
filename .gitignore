@@ -1,2 +1,3 @@
 mongodbData/
+node_modules/
 .idea/
