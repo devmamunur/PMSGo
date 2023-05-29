@@ -1,18 +1,23 @@
 "use client"
-import React from 'react';
-import { signOut } from 'next-auth/react';
+import React, {lazy, Suspense} from 'react';
+import {signOut} from "next-auth/react";
+import MasterLayout from "@/components/MasterLayout/MasterLayout";
+import LazyLoader from "@/components/MasterLayout/LazyLoader";
+
+const Dashboard = lazy(() => import('@/components/Dashboard/Dashboard'));
 const DashboardPage = () => {
-    const handelClick = ()=> {
-        signOut({ callbackUrl: '/login' }).then(r => {
-            alert('success');
-        });
-    }
+    // const handelClick = ()=> {
+    //     signOut({ callbackUrl: '/login' }).then(r => {
+    //         alert('success');
+    //     });
+    // }
     return (
         <>
-            <h1>Dashboard</h1>
-            <button  onClick={handelClick}>
-                Sign out
-            </button>
+            <MasterLayout>
+                <Suspense fallback={<LazyLoader/>}>
+                    <Dashboard/>
+                </Suspense>
+            </MasterLayout>
         </>
     );
 };
