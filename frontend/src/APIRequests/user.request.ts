@@ -4,17 +4,13 @@ import axios from "axios";
 import SessionHelper from "@/helpers/session.helper";
 import ToastHelper from "@/helpers/toast.helper";
 import {setProfile} from "@/redux/state-slice/ProfileSlice";
-
-const AxiosHeader = {headers: {"token": SessionHelper.getToken()}}
 let baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 class UserRequest {
     static registrationRequest(email: string, firstName: string, lastName: string, organization : string, mobile: string, password: string, photo: any) {
         store.dispatch(showLoader);
-
         let URL : string = baseURL+"/registration";
         let postBody = {email, firstName, lastName, organization, mobile, password, photo};
-
         return axios.post(URL, postBody).then((res) => {
             store.dispatch(hideLoader);
             ToastHelper.successToast("Registration Success")
@@ -30,18 +26,10 @@ class UserRequest {
         store.dispatch(showLoader);
         let URL = baseURL + "/login";
         let postBody = {email, password};
-
         return axios.post(URL, postBody).then((res) => {
             store.dispatch(hideLoader);
-            if (res.status === 200) {
-                SessionHelper.setToken(res.data['token']);
-                SessionHelper.setUserDetails(res.data['data'])
-                ToastHelper.successToast("Login Success")
-                return true
-            } else {
-                ToastHelper.errorToast("Invalid Email or Password")
-                return false;
-            }
+            ToastHelper.successToast("Login Success")
+            return true
         }).catch((err) => {
             store.dispatch(hideLoader);
             ToastHelper.errorToast("Something Went Wrong!");
@@ -52,7 +40,7 @@ class UserRequest {
     static getProfileDetails() {
         store.dispatch(showLoader())
         let URL = baseURL + "/profile-details";
-        axios.get(URL, AxiosHeader).then((res) => {
+        axios.get(URL).then((res) => {
             store.dispatch(hideLoader())
             if (res.status === 200) {
                 store.dispatch(setProfile(res.data['data'][0]));
@@ -69,7 +57,7 @@ class UserRequest {
         store.dispatch(showLoader())
         let URL = baseURL + "/profile-update";
         let PostBody = {email, firstName, lastName, mobile, password, photo}
-        return axios.post(URL, PostBody, AxiosHeader).then((res) => {
+        return axios.post(URL, PostBody).then((res) => {
             store.dispatch(hideLoader())
             if (res.status === 200) {
                 ToastHelper.successToast("Profile Update Success")
