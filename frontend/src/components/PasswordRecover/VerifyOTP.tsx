@@ -3,25 +3,30 @@ import React, {useState} from 'react';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import { LoadingButton } from '@mui/lab';
 import UserRequest from "@/APIRequests/user.request";
-import {redirect} from "next/navigation";
+import {useRouter} from "next/navigation";
 import ToastHelper from "@/helpers/toast.helper";
 import SessionHelper from "@/helpers/session.helper";
 import {MuiOtpInput} from 'mui-one-time-password-input'
+import {Card, CardContent} from "@mui/material";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 
 const VerifyOTP: React.FC = () => {
-
-    let [OTP, SetOTP] = useState<string>("");
-    const handleSubmit = (event: React.FormEvent) => {
+    const router = useRouter();
+    const [loading, setLoading] = useState<boolean>(false);
+    const [OTP, setOTP] = useState<any>();
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (OTP.length === 6) {
             const email = SessionHelper.getEmail();
             if (email !== null) {
-                UserRequest.recoverVerifyOTPRequest(email, OTP).then((result: boolean) => {
+                setLoading(true);
+                await UserRequest.recoverVerifyOTPRequest(email, OTP).then((result: boolean) => {
+                    setLoading(false);
                     if (result) {
-                        redirect("/create-password");
+                        router.push("/create-password");
                     }
                 });
             } else {
@@ -32,36 +37,51 @@ const VerifyOTP: React.FC = () => {
         }
     };
     const handleOTPChange = (value: string) => {
-        SetOTP(value);
+        setOTP(value);
     };
     return (
         <>
-            <Grid container direction="row" justifyContent="center" alignItems="center" sx={{paddingTop: '50px'}}>
-                <Grid item xs={10} md={3}>
-                    <Box sx={{textAlign: 'center'}}>
-                        <Typography component="h1" variant="h4">
-                            OTP Verification
-                        </Typography>
-                        <Typography component="p" variant="body1">
-                            A 6 Digit verification code has been sent to your email address.
-                        </Typography>
-                    </Box>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 5, textAlign: 'center'}}>
-                        <MuiOtpInput
-                            onChange={handleOTPChange}
-                            length={8}
-                            validateChar={(character: string, index: number) => true}
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{mt: 3, mb: 2}}
-                            onClick={handleSubmit}
-                        >
-                            Next
-                        </Button>
-                    </Box>
+            <Grid container justifyContent="center" alignItems="center" sx={{
+                backgroundColor: (theme) =>
+                    theme.palette.mode === 'light'
+                        ? theme.palette.grey[100]
+                        : theme.palette.grey[900],
+                flexGrow: 1,
+                height: '100vh',
+                overflow: 'auto',
+            }}>
+                <Grid item xs={10} xl={4}>
+                    <Card>
+                        <CardContent>
+                            <Box sx={{textAlign: 'center'}}>
+                                <Typography component="h1" variant="h5" sx={{fontWeight : 600, marginBottom : '25px'}}>
+                                    OTP Verification
+                                </Typography>
+                                <Typography component="p" variant="body1">
+                                    A 6 Digit verification code has been sent to your email address.
+                                </Typography>
+                            </Box>
+                            <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 5, textAlign: 'center'}}>
+                                <MuiOtpInput
+                                    value={OTP}
+                                    onChange={handleOTPChange}
+                                    length={6}
+                                    validateChar={(character: string, index: number) => true}
+                                />
+                                <LoadingButton
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    endIcon={<KeyboardArrowRightIcon />}
+                                    sx={{mt: 3, mb: 2}}
+                                    loading={loading}
+                                    loadingPosition="end"
+                                >
+                                    <span>Next</span>
+                                </LoadingButton>
+                            </Box>
+                        </CardContent>
+                    </Card>
                 </Grid>
             </Grid>
         </>
