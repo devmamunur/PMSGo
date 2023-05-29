@@ -13,7 +13,7 @@ import {useRouter} from "next/navigation";
 
 const Login: React.FC = () => {
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
