@@ -9,6 +9,8 @@ import Box from "@mui/material/Box";
 import {Avatar, Menu, MenuItem, Tooltip} from "@mui/material";
 import SessionHelper from "@/helpers/session.helper";
 import Link from "next/link";
+import {signOut} from "next-auth/react";
+import ToastHelper from "@/helpers/toast.helper";
 
 interface AppBarComponentProps {
     open: boolean;
@@ -28,7 +30,10 @@ const AppBarComponent : React.FC<AppBarComponentProps> = ({open, clickDrawer}) =
         setAnchorElUser(null);
     };
     const logout = () => {
-        SessionHelper.removeSession()
+
+        signOut({ callbackUrl: '/' }).then(r => {
+            ToastHelper.successToast("Successfully Logout")
+        });
     }
     return (
         <>
