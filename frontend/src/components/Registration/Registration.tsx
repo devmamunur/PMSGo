@@ -1,6 +1,6 @@
 "use client"
 import React, {useState, ChangeEvent} from 'react';
-import {TextField, Typography, Box, Button, Grid, Card, CardContent} from '@mui/material';
+import {TextField, Typography, Box, Grid, Card, CardContent} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import FormHelper from '@/helpers/form.helper';
 import UserRequest from "@/APIRequests/user.request";
@@ -9,6 +9,7 @@ import {useRouter} from "next/navigation";
 import ToastHelper from "@/helpers/toast.helper";
 import 'react-phone-input-2/lib/material.css';
 import NextLink from "next/link";
+import {LockOpen} from "@mui/icons-material";
 
 
 const Registration: React.FC = () => {
@@ -66,7 +67,7 @@ const Registration: React.FC = () => {
                     <Card>
                         <CardContent>
                             <Box sx={{ textAlign: 'center' }}>
-                                <Typography component="h1" variant="h4">
+                                <Typography component="h1" variant="h5" sx={{fontWeight : 600, marginBottom : '25px'}}>
                                     Sign Up
                                 </Typography>
                             </Box>
@@ -90,9 +91,10 @@ const Registration: React.FC = () => {
                                     variant="contained"
                                     sx={{ mt: 3, mb: 5 }}
                                     loading={loading}
+                                    endIcon={<LockOpen />}
                                     loadingPosition="end"
                                 >
-                                    Sign In
+                                    <span>Sign Up</span>
                                 </LoadingButton>
                                 <Grid container>
                                     <Grid item xs>
