@@ -61,7 +61,7 @@ const AppBarComponent : React.FC<AppBarComponentProps> = ({open, clickDrawer}) =
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src={SessionHelper.getUserDetails()[0].photo} />
+                                <Avatar alt="Remy Sharp"  />
                             </IconButton>
                         </Tooltip>
 
