@@ -17,7 +17,7 @@ const AxiosHeader = {headers: {"token": SessionHelper.getToken()}}
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 class TaskRequest {
-    static newTask(title: string, description: string, status: string = 'New') {
+    static newTask(title: string, description: string, status: string = 'new') {
         store.dispatch(showLoader);
         let URL = baseURL + "/task";
         let postBody = {title, description, status};

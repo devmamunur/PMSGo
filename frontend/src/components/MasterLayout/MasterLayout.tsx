@@ -1,3 +1,4 @@
+"use client"
 import  React, {ReactNode, useState} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';

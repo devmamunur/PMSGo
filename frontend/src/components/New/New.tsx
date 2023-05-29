@@ -1,3 +1,4 @@
+"use client"
 import React, {useEffect} from 'react';
 import Grid from "@mui/material/Grid";
 import {Search, SearchIconWrapper, StyledInputBase} from "@/styeldComponent/SearchField";
@@ -14,7 +15,7 @@ import {Task} from "@/interfaces/task.interface";
 const New : React.FC = () => {
 
     useEffect(() => {
-        TaskRequest.taskListByStatus('New');
+        TaskRequest.taskListByStatus('new');
     }, [])
 
     const taskNew = useSelector((state : RootState) => state.task.New);
@@ -22,7 +23,7 @@ const New : React.FC = () => {
     const handelDeleteItem = (id : string) => {
        DeleteHelper.deleteToDO(id).then((result : boolean) => {
            if(result){
-               TaskRequest.taskListByStatus('New');
+               TaskRequest.taskListByStatus('new');
            }
        });
     }

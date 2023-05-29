@@ -1,3 +1,4 @@
+"use client"
 import React,  { SyntheticEvent } from 'react';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";

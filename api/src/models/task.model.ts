@@ -10,7 +10,7 @@ const DataSchema: Schema<TaskInterface> = new Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'in progress', 'completed'],
+        enum: ['new', 'pending', 'in progress', 'completed'],
         default: 'pending',
     },
     createdDate: {

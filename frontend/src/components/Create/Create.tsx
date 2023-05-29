@@ -1,3 +1,4 @@
+"use client"
 import React, {useRef} from 'react';
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -5,13 +6,14 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import {TextField} from "@mui/material";
-import {redirect} from "next/navigation";
+import {useRouter} from "next/navigation";
 import TaskRequest from "@/APIRequests/task.request";
 import FormHelper from "@/helpers/form.helper";
 import ToastHelper from "@/helpers/toast.helper";
 
 
 const Create : React.FC = () => {
+    const router = useRouter();
     const titleRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLInputElement>(null);
 
@@ -29,7 +31,7 @@ const Create : React.FC = () => {
         else {
             TaskRequest.newTask(title,description).then((res : boolean)=>{
                 if(res){
-                    redirect("/new-task")
+                    router.push("/dashboard/new-task")
                 }
             })
         }

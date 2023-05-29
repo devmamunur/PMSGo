@@ -1,3 +1,4 @@
+"use client"
 import React, {useEffect} from 'react';
 import Grid from "@mui/material/Grid";
 import {useSelector} from "react-redux";
@@ -6,6 +7,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import {RootState} from "@/redux/store/store";
 import TaskRequest from "@/APIRequests/task.request";
+
 import {useSession} from "next-auth/react";
 const Dashboard = () => {
     const { data : session  } = useSession();
