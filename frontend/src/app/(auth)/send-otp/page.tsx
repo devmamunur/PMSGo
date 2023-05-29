@@ -1,10 +1,13 @@
-import React from 'react';
-import SendOTP from "@/components/PasswordRecover/SendOTP";
+import React, {lazy, Suspense} from 'react';
+import LazyLoader from "@/components/MasterLayout/LazyLoader";
 
-const SendOtpPage = () => {
+const SendOTP = lazy(() => import('@/components/PasswordRecover/SendOTP'));
+const SendOtpPage : React.FC = () => {
     return (
         <>
-            <SendOTP/>
+            <Suspense fallback={<LazyLoader/>}>
+                <SendOTP/>
+            </Suspense>
         </>
     );
 };
