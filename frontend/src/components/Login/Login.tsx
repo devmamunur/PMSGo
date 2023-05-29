@@ -1,5 +1,5 @@
 "use client"
-import React, {useRef} from 'react';
+import React, {ChangeEvent, useRef, useState} from 'react';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -9,32 +9,33 @@ import FormHelper from "@/helpers/form.helper";
 import ToastHelper from "@/helpers/toast.helper";
 import Link from "next/link";
 import {signIn} from "next-auth/react";
+import {useRouter} from "next/navigation";
 
 const Login: React.FC = () => {
-    const emailRef = useRef<HTMLInputElement>(null);
-    const passwordRef = useRef<HTMLInputElement>(null);
+    const router = useRouter();
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
-    const handleSubmit =  (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async  (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        let email = emailRef.current!.value;
-        let password = passwordRef.current!.value;
 
         if (FormHelper.isEmail(email)) {
             ToastHelper.errorToast("Valid Email Address Required !")
         } else if (FormHelper.isEmpty(password)) {
             ToastHelper.errorToast("Password Required !")
         } else {
-           signIn('credentials', {
+
+            const result = await signIn('credentials', {
                 email,
                 password,
+                redirect: false,
                 callbackUrl: '/dashboard',
-            }).then((res : any) => {
-                alert('success : ');
-                console.log('login success');
-            }).catch((error) => {
-                console.log('login failed');
-            });
+            })
+            if(result!.ok){
+                router.push('/dashboard');
+            }else {
+                ToastHelper.errorToast('Email or Password Not Match');
+            }
         }
     };
 
@@ -64,7 +65,7 @@ const Login: React.FC = () => {
                                     fullWidth
                                     label="Email Address"
                                     type="email"
-                                    inputRef={emailRef}
+                                    onChange={(event : ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
                                 />
                                 <TextField
                                     margin="normal"
@@ -72,7 +73,7 @@ const Login: React.FC = () => {
                                     fullWidth
                                     label="Password"
                                     type="password"
-                                    inputRef={passwordRef}
+                                    onChange={(event : ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
                                 />
                                 <Button
                                     type="submit"
