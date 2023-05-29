@@ -30,9 +30,9 @@ class UserRequest {
             store.dispatch(hideLoader);
             ToastHelper.successToast("Login Success")
             return true
-        }).catch((err) => {
+        }).catch((error) => {
             store.dispatch(hideLoader);
-            ToastHelper.errorToast("Something Went Wrong!");
+            ToastHelper.errorToast(error.response.data.data);
             return false
         })
     }
@@ -61,14 +61,13 @@ class UserRequest {
             store.dispatch(hideLoader())
             if (res.status === 200) {
                 ToastHelper.successToast("Profile Update Success")
-                SessionHelper.setUserDetails(res.data.data);
                 return true;
             } else {
                 ToastHelper.errorToast("Something Went Wrong")
                 return false;
             }
         }).catch((err) => {
-            ToastHelper.errorToast("Something Went Wrong")
+            ToastHelper.errorToast("Something Went Wrong");
             store.dispatch(hideLoader())
             return false;
         });
@@ -76,53 +75,31 @@ class UserRequest {
 
     static recoverVerifyEmailRequest(email: string) {
         store.dispatch(showLoader())
-        let URL = baseURL + "/recover-verify-email/" + email;
-        return axios.get(URL).then((res) => {
+        let URL = baseURL + "/recover-verify-email";
+        let postBody = {email}
+        return axios.post(URL, postBody).then((res) => {
             store.dispatch(hideLoader())
-            if (res.status === 200) {
-                if (res.data['success'] === false) {
-                    ToastHelper.errorToast("No user found");
-                    return false;
-                } else {
-                    SessionHelper.setEmail(email)
-                    ToastHelper.successToast("A 6 Digit verification code has been sent to your email address. ");
-                    return true;
-                }
-            }
-            if (res.status === 204) {
-                ToastHelper.errorToast("No user found");
-                return false;
-            } else {
-                ToastHelper.errorToast("Something Went Wrong");
-                return false;
-            }
-        }).catch((err) => {
-            ToastHelper.errorToast("Something Went Wrong")
+            SessionHelper.setEmail(email);
+            ToastHelper.successToast("A 6 Digit verification code has been sent to your email address. ");
+            return true;
+        }).catch((error) => {
             store.dispatch(hideLoader())
+            ToastHelper.errorToast(error.response.data.data);
             return false;
         });
     }
 
     static recoverVerifyOTPRequest(email: string, OTP: string) {
         store.dispatch(showLoader())
-        let URL = baseURL + "/recover-verify-otp/" + email + "/" + OTP;
-        return axios.get(URL).then((res) => {
+        let URL = baseURL + "/recover-verify-otp";
+        let postBody = {email, OTP}
+        return axios.post(URL, postBody).then((res) => {
             store.dispatch(hideLoader())
-            if (res.status === 200) {
-                if (res.data['status'] === "fail") {
-                    ToastHelper.errorToast(res.data['data']);
-                    return false;
-                } else {
-                    SessionHelper.setOTP(OTP)
-                    ToastHelper.successToast("Code Verification Success");
-                    return true;
-                }
-            } else {
-                ToastHelper.errorToast("Something Went Wrong")
-                return false;
-            }
-        }).catch((err) => {
-            ToastHelper.errorToast("Something Went Wrong")
+            SessionHelper.setOTP(OTP)
+            ToastHelper.successToast("Code Verification Success");
+            return true;
+        }).catch((error) => {
+            ToastHelper.errorToast(error.response.data.data)
             store.dispatch(hideLoader())
             return false;
         });
@@ -133,20 +110,10 @@ class UserRequest {
         let URL = baseURL + "/recover-reset-pass";
         let PostBody = {email: email, OTP: OTP, password: password}
         return axios.post(URL, PostBody).then((res) => {
-            store.dispatch(hideLoader())
-            if (res.status === 200) {
-                if (res.data['status'] === "fail") {
-                    ToastHelper.errorToast(res.data['data']);
-                    return false;
-                } else {
-                    SessionHelper.setOTP(OTP)
-                    ToastHelper.successToast("NEW PASSWORD CREATED");
-                    return true;
-                }
-            } else {
-                ToastHelper.errorToast("Something Went Wrong")
-                return false;
-            }
+            store.dispatch(hideLoader());
+            SessionHelper.removeEmailAndOTP();
+            ToastHelper.successToast("New Password Created");
+            return true;
         }).catch((err) => {
             ToastHelper.errorToast("Something Went Wrong")
             store.dispatch(hideLoader())
