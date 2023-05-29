@@ -1,6 +1,6 @@
 import React, {lazy, Suspense} from 'react';
 import LazyLoader from "@/components/MasterLayout/LazyLoader";
-const LoginComponent = lazy(() => import('@/components/Login/Login'));
+const LoginComponent = lazy(() => import('@/components/Login/LoginComponent'));
 const Login : React.FC = () => {
     return (
         <>
