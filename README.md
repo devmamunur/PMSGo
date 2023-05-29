@@ -1,4 +1,4 @@
-# TaskSimplify - Project Management System
+# PSMGo - Project Management System
 
 ## API Features
 - User Register API
