@@ -6,11 +6,6 @@ import LazyLoader from "@/components/MasterLayout/LazyLoader";
 
 const Dashboard = lazy(() => import('@/components/Dashboard/Dashboard'));
 const DashboardPage = () => {
-    // const handelClick = ()=> {
-    //     signOut({ callbackUrl: '/login' }).then(r => {
-    //         alert('success');
-    //     });
-    // }
     return (
         <>
             <MasterLayout>
