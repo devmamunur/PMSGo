@@ -4,7 +4,7 @@
       PSMGo - SaaS Project Management System
 </h1>
 <p align="center">
-Introducing PSMGo SaaS, your ultimate solution for project management. Whether you're a busy organization handling multiple projects or an individual seeking task optimization, PSMGo SaaS is here for you. With its intuitive interface and robust functionality, project management becomes a breeze. Experience seamless efficiency and simplicity as you effortlessly create and customize plans through the super admin login. Elevate your business operations and unlock your true potential with PSMGo SaaS. Get ready to revolutionize your project management journey like never before. (🚧🔨 The project is in the development phase 🚧🔨)
+Introducing PSMGo SaaS, your ultimate solution for project management. Whether you're a busy organization handling multiple projects or an individual seeking task optimization, PSMGo SaaS is here for you. With its intuitive interface and robust functionality, project management becomes a breeze. Experience seamless efficiency and simplicity as you effortlessly create and customize plans through the super admin login. Elevate your business operations and unlock your true potential with PSMGo SaaS. Get ready to revolutionize your project management journey like never before. (🚧🔨 The project is still under active development! 🔨🚧)
  </p>
 <br>
 
