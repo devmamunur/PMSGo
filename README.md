@@ -12,10 +12,17 @@
 🃏 Jest Tests
 🐳 Docker
 
-
-
-
-
+## Frontend Technology
+🌐 Next.js
+📜 TypeScript
+🎨 MUI
+🔁 Redux Toolkit
+🔍 Eslint
+📡 Axios
+🔐 Next-Auth
+🧪 Unit Tests
+🃏 Jest Tests
+🐳 Docker
 
 ## Features will be added (Expected)
 
