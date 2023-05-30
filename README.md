@@ -1,6 +1,6 @@
 # PSMGo - Project Management System
 
-## Backend Technology
+## 🔙 Backend Technology
 🔧 Node.js
 🚀 Express.js
 📜 TypeScript
@@ -12,7 +12,7 @@
 🃏 Jest Tests
 🐳 Docker
 
-## Frontend Technology
+## 🔝 Frontend Technology
 🌐 Next.js
 📜 TypeScript
 🎨 MUI
@@ -24,7 +24,7 @@
 🃏 Jest Tests
 🐳 Docker
 
-## Features will be added (Expected)
+## ⚡️ Features will be added (Expected)
 
 🔑 Implement authentication and authorization for secure access to the system.
 
