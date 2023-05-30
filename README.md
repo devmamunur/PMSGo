@@ -1,4 +1,4 @@
-# PSMGo - Project Management System
+# PSMGo - SaaS Project Management System
 
 ## 🗄️ Backend Technology
 - 🔧 Node.js
