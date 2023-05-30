@@ -32,7 +32,7 @@ Introducing PSMGo SaaS, your ultimate solution for project management. Whether y
 - 🃏 Jest Tests
 - 🐳 Docker
 
-## ⚡️ Features will be added (Expected)
+## ⚡️ Features will be added (expected)
 - 🔑 Implement authentication and authorization for secure access to the system.
 - 👑 Add login as a Super Admin, Company, Client, and User for different access levels.
 - 📊 Develop an effective dashboard with graphical representations of tasks and projects.
