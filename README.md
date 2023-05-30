@@ -1,6 +1,6 @@
 # PSMGo - Project Management System
 
-## 🔙 Backend Technology
+🔙 Backend Technology
 🔧 Node.js
 🚀 Express.js
 📜 TypeScript
