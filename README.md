@@ -8,7 +8,7 @@ Introducing PSMGo SaaS, your ultimate solution for project management. Whether y
  </p>
 <br>
 
-## 🗄️ Backend Technology
+## 🗄️ Backend Technology (Will Use)
 - 🔧 Node.js
 - 🚀 Express.js
 - 📜 TypeScript
@@ -20,7 +20,7 @@ Introducing PSMGo SaaS, your ultimate solution for project management. Whether y
 - 🃏 Jest Tests
 - 🐳 Docker
 
-## 🖥️ Frontend Technology
+## 🖥️ Frontend Technology (Will Use)
 - 🌐 Next.js
 - 📜 TypeScript
 - 🎨 MUI
