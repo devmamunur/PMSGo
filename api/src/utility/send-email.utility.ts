@@ -1,8 +1,9 @@
 import nodemailer, { Transporter } from 'nodemailer';
+import {envConfig} from "../config/env.config";
 
 const SendEmailUtility = async (EmailTo: string, EmailText: string, EmailSubject: string): Promise<void> => {
-    let FROM_EMAIL = process.env.FROM_EMAIL;
-    let EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
+    let FROM_EMAIL = envConfig.FROM_EMAIL;
+    let EMAIL_PASSWORD = envConfig.EMAIL_PASSWORD;
 
     let transporter: Transporter = nodemailer.createTransport({
         service: 'gmail',
