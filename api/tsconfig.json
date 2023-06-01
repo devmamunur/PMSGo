@@ -1,13 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
-    "module": "NodeNext",
+    "target": "es2015",
+    "module": "commonjs",
+    "lib": ["DOM", "ES2015"],
+    "baseUrl": ".",
+    "outDir": "./build",
+    "rootDir": ".",
+//    "strict": true,
+//    "noImplicitAny": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "moduleResolution": "node",
-    "baseUrl": "src",
-    "outDir": "dist",
+    "esModuleInterop": true,
     "sourceMap": true,
-    "noImplicitAny": true,
-    "pretty": true
-  },
-  "include": ["src/**/*"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "pretty": true,
+    "resolveJsonModule": true,
+  }
 }
