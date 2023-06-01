@@ -1,23 +1,26 @@
-import mongoose, {Model, Schema} from 'mongoose';
-import {TaskInterface} from '../interfaces/task.interface';
+import mongoose, { Model, Schema } from 'mongoose';
+import { TaskInterface } from '../interfaces/task.interface';
 
-const DataSchema: Schema<TaskInterface> = new Schema({
+const DataSchema: Schema<TaskInterface> = new Schema(
+  {
     title: {
-        type: String
+      type: String
     },
     description: {
-        type: String
+      type: String
     },
     status: {
-        type: String,
-        enum: ['new', 'pending', 'in progress', 'completed'],
-        default: 'pending',
+      type: String,
+      enum: ['new', 'pending', 'in progress', 'completed'],
+      default: 'pending'
     },
     createdDate: {
-        type: Date,
-        default: Date.now()
+      type: Date,
+      default: Date.now()
     }
-}, {versionKey: false});
+  },
+  { versionKey: false }
+);
 
 const TaskModel: Model<TaskInterface> = mongoose.model<TaskInterface>('tasks', DataSchema);
 

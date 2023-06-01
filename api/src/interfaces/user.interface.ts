@@ -1,21 +1,21 @@
-import {Document, Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export interface UserInterface extends Document {
-    email: string;
-    firstName: string;
-    lastName: string;
-    mobile: string;
-    password: string;
-    photo: string;
-    organization : Types.ObjectId,
-    createdDate: Date;
+  email: string;
+  firstName: string;
+  lastName: string;
+  mobile: string;
+  password: string;
+  photo: string;
+  organization: Types.ObjectId;
+  createdDate: Date;
 }
 
 export interface UpdateProfileRequestBody {
-    email: string;
-    firstName: string;
-    lastName: string;
-    mobile: string;
-    password?: string;
-    photo?: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  mobile: string;
+  password?: string;
+  photo?: string;
 }
