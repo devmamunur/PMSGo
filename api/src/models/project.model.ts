@@ -1,42 +1,49 @@
-import mongoose, {Model, Schema} from 'mongoose';
-import {ProjectInterface} from "../interfaces/project.interface";
+import mongoose, { Model, Schema } from 'mongoose';
+import { ProjectInterface } from '../interfaces/project.interface';
 
-const DataSchema: Schema<ProjectInterface> = new Schema({
+const DataSchema: Schema<ProjectInterface> = new Schema(
+  {
     title: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
     description: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
     dueDate: {
-        type: Date,
+      type: Date
     },
     startDate: {
-        type: Date,
+      type: Date
     },
     endDate: {
-        type: Date,
+      type: Date
     },
     createdDate: {
-        type: Date,
-        default: Date.now()
+      type: Date,
+      default: Date.now()
     },
     organization: {
-        type: Schema.Types.ObjectId,
-        ref: 'organizations',
-        required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'organizations',
+      required: true
     },
-    assignedUsers: [{
+    assignedUsers: [
+      {
         type: Schema.Types.ObjectId,
-        ref: 'users',
-    }],
-    tasks: [{
+        ref: 'users'
+      }
+    ],
+    tasks: [
+      {
         type: Schema.Types.ObjectId,
-        ref: 'tasks',
-    }]
-}, {versionKey: false});
+        ref: 'tasks'
+      }
+    ]
+  },
+  { versionKey: false }
+);
 
 const ProjectModel: Model<ProjectInterface> = mongoose.model<ProjectInterface>('projects', DataSchema);
 
