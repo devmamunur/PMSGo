@@ -1,4 +1,5 @@
-import { Application, json, urlencoded, Response, Request, NextFunction } from 'express';
+import { Application, json, NextFunction, Request, Response, urlencoded } from 'express';
+import http from 'http';
 import cors from 'cors';
 import helmet from 'helmet';
 import hpp from 'hpp';
@@ -10,6 +11,9 @@ import 'express-async-errors';
 import mongoSanitize from 'express-mongo-sanitize';
 import Logger from 'bunyan';
 import rateLimit from 'express-rate-limit';
+import { Server } from 'socket.io';
+import { createClient } from 'redis';
+import { createAdapter } from '@socket.io/redis-adapter';
 import { envConfig } from './config/env.config';
 import appRoutes from './routes';
 import { logConfig } from './config/log.config';
@@ -70,7 +74,6 @@ export class PMSGoServer {
     app.all('*', (req: Request, res: Response) => {
       res.status(HTTP_STATUS.NOT_FOUND).json({ message: `${req.originalUrl} not found` });
     });
-
     app.use((error: IErrorResponse, _req: Request, res: Response, next: NextFunction) => {
       log.error(error);
       if (error instanceof CustomError) {
@@ -80,9 +83,37 @@ export class PMSGoServer {
     });
   }
 
-  private startServer(app: Application): void {
+  private async startServer(app: Application): Promise<void> {
+    try {
+      const httpServer: http.Server = new http.Server(app);
+      const socketIO: Server = await this.createSocketIO(httpServer);
+      this.expressServer(app);
+      this.socketIOConnections(socketIO);
+    } catch (error) {
+      log.error(error);
+    }
+  }
+
+  private expressServer(app: Application): void {
+    // log.info(`Server has started with process ${process.pid}`);
     app.listen(envConfig.APP_PORT, () => {
       log.info(`Application Start On Port ${envConfig.APP_PORT}`);
     });
   }
+
+  private async createSocketIO(httpServer: http.Server): Promise<Server> {
+    const io: Server = new Server(httpServer, {
+      cors: {
+        origin: envConfig.CLIENT_URL || '*',
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+      }
+    });
+    const pubClient = createClient({ url: envConfig.REDIS_HOST });
+    const subClient = pubClient.duplicate();
+    await Promise.all([pubClient.connect(), subClient.connect()]);
+    io.adapter(createAdapter(pubClient, subClient));
+    return io;
+  }
+
+  private socketIOConnections(io: Server): void {}
 }
