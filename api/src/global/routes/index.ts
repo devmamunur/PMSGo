@@ -1,7 +1,7 @@
 import { Application } from 'express';
-import userRouter from './user.route';
-import otpRoute from './otp.route';
-import taskRouter from './task.route';
+import userRouter from '../../modules/user/routes/user.route';
+import otpRoute from '../../modules/otp/routes/otp.route';
+import taskRouter from '../../modules/task/routes/task.route';
 
 const appRoutes = (app: Application) => {
   const routes = () => {

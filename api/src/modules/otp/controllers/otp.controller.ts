@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import OtpRepository from '../repositories/otp.repository';
-import OtpValidator from '../validators/otp.validator';
+import OtpValidator from '../validations/otp.validator';
 
 class OtpController {
   static async RecoverVerifyEmail(req: Request, res: Response) {

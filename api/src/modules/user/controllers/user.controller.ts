@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import UserRepository from '../repositories/user.repository';
-import UserValidator from '../validators/user.validator';
+import UserValidator from '../validations/user.validator';
 
 class UserController {
   // Registration

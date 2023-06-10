@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import OrganizationModel from '../models/organization.model';
+import CompanyModel from '../../company/models/company.model';
 import UserModel from '../models/user.model';
 
 const Joi = require('joi');
@@ -30,7 +30,7 @@ class UserValidator {
 
   static async validateUniqueOrganizationName(resBody: Request['body']) {
     const { organization } = resBody;
-    const existingOrganization = await OrganizationModel.findOne({ name: organization });
+    const existingOrganization = await CompanyModel.findOne({ name: organization });
     if (existingOrganization) {
       throw new Error('Organization name must be unique');
     }

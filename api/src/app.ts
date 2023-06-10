@@ -1,7 +1,7 @@
 import express, { Express } from 'express';
 import { PMSGoServer } from './server';
-import databaseConnection from './config/database.config';
-import { envConfig } from './config/env.config';
+import databaseConnection from './global/config/database.config';
+import { envConfig } from './global/config/env.config';
 
 class Application {
   public initialize(): void {
