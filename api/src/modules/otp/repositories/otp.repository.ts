@@ -1,8 +1,8 @@
 import OTPModel from '../models/otp.model';
-import SendEmailUtility from '../utility/send-email.utility';
-import UserModel from '../models/user.model';
+import SendEmailUtility from '../../../global/utility/send-email.utility';
+import UserModel from '../../user/models/user.model';
 import { Request } from 'express';
-import GeneratePasswordUtility from '../utility/generate-password.utility';
+import GeneratePasswordUtility from '../../../global/utility/generate-password.utility';
 
 class OtpRepository {
   static async RecoverVerifyEmail(reqBody: Request['body']) {

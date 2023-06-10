@@ -2,16 +2,16 @@ import UserModel from '../models/user.model';
 import { UpdateProfileRequestBody } from '../interfaces/user.interface';
 import mongoose from 'mongoose';
 import { Request } from 'express';
-import OrganizationModel from '../models/organization.model';
-import GeneratePasswordUtility from '../utility/generate-password.utility';
+import CompanyModel from '../../company/models/company.model';
+import GeneratePasswordUtility from '../../../global/utility/generate-password.utility';
 
-import generateTokenUtility from '../utility/generate-token.utility';
+import generateTokenUtility from '../../../global/utility/generate-token.utility';
 const objectId = mongoose.Types.ObjectId;
 
 class UserRepository {
   static async registration(reqBody: Request['body']) {
     try {
-      const organization = await OrganizationModel.create({
+      const organization = await CompanyModel.create({
         name: reqBody.organization
       });
       // Hash the user's password with SHA-256

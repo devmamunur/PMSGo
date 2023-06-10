@@ -1,5 +1,5 @@
 import express from 'express';
-import AuthVerifyMiddleware from '../middleware/auth.middleware';
+import AuthVerifyMiddleware from '../../../global/middleware/auth.middleware';
 import TaskController from '../controllers/task.controller';
 const taskRouter = express.Router();
 

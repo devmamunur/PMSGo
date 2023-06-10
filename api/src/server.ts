@@ -14,10 +14,10 @@ import rateLimit from 'express-rate-limit';
 import { Server } from 'socket.io';
 import { createClient } from 'redis';
 import { createAdapter } from '@socket.io/redis-adapter';
-import { envConfig } from './config/env.config';
-import appRoutes from './routes';
-import { logConfig } from './config/log.config';
-import { CustomError, IErrorResponse } from './utility/error.handler.utility';
+import { envConfig } from './global/config/env.config';
+import appRoutes from './global/routes';
+import { logConfig } from './global/config/log.config';
+import { CustomError, IErrorResponse } from './global/utility/error.handler.utility';
 
 const log: Logger = logConfig.createLogger('server');
 
@@ -95,7 +95,7 @@ export class PMSGoServer {
   }
 
   private expressServer(app: Application): void {
-    // log.info(`Server has started with process ${process.pid}`);
+    log.info(`Server has started with process ${process.pid}`);
     app.listen(envConfig.APP_PORT, () => {
       log.info(`Application Start On Port ${envConfig.APP_PORT}`);
     });
@@ -115,5 +115,7 @@ export class PMSGoServer {
     return io;
   }
 
-  private socketIOConnections(io: Server): void {}
+  private socketIOConnections(io: Server): void {
+    console.log(io);
+  }
 }
