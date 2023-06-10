@@ -13,7 +13,8 @@ Introducing PSMGo SaaS, your ultimate solution for project management. Whether y
 - 🚀 Express.js
 - 📜 TypeScript
 - 📦 MongoDB
-- 📧 NodeMailer
+- ⚡ Socket.io
+- 🔄 Redis
 - 🔑 Joi
 - 🔐 JWT
 - 🧪 Unit Tests
@@ -25,6 +26,7 @@ Introducing PSMGo SaaS, your ultimate solution for project management. Whether y
 - 📜 TypeScript
 - 🎨 MUI
 - 🔁 Redux Toolkit
+- ⚡ Socket.io
 - 🔍 Eslint
 - 📡 Axios
 - 🔐 Next-Auth
