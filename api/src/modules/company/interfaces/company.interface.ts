@@ -4,7 +4,7 @@ export interface CompanyInterface extends Document {
   name: string;
   email: string;
   password: string;
-  currant_workspace: number;
+  currant_workspace: number | null;
   avatar: string | null;
   type: string;
   plan: number | null;
