@@ -3,30 +3,22 @@ import { UserInterface } from '../interfaces/user.interface';
 
 const DataSchema: Schema<UserInterface> = new Schema(
   {
-    email: {
-      type: String,
-      unique: true
-    },
-    firstName: {
-      type: String
-    },
-    lastName: {
-      type: String
-    },
-    mobile: {
-      type: String
-    },
-    password: {
-      type: String
-    },
-    photo: {
-      type: String
-    },
-    organization: {
-      type: Schema.Types.ObjectId,
-      ref: 'organizations'
-    },
-    createdDate: { type: Date, default: Date.now() }
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    email_verified_at: { type: Date, default: null },
+    password: { type: String, required: true },
+    remember_token: { type: String, default: null },
+    type: { type: String, required: true, default: 'user' },
+    currant_workspace: { type: Number, default: null },
+    avatar: { type: String, default: null },
+    address: { type: String, default: null },
+    city: { type: String, default: null },
+    state: { type: String, default: null },
+    zipcode: { type: String, default: null },
+    country: { type: String, default: null },
+    telephone: { type: String, default: null },
+    created_at: { type: Date, default: null },
+    updated_at: { type: Date, default: null }
   },
   { versionKey: false }
 );
