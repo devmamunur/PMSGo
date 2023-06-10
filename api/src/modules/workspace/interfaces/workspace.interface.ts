@@ -1,0 +1,33 @@
+import { Document, Types } from 'mongoose';
+export interface WorkspaceInterface extends Document {
+  name: string;
+  slug: string;
+  created_by: Types.ObjectId;
+  lang: string;
+  currency: string;
+  interval_time: number;
+  currency_code?: string;
+  company?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipcode?: string;
+  country?: string;
+  telephone?: string;
+  logo?: string;
+  logo_white?: string;
+  theme_bg?: string;
+  rtl?: string;
+  dark_layout?: string;
+  theme_color?: string;
+  is_stripe_enabled: number;
+  stripe_key: string;
+  stripe_secret: string;
+  invoice_template?: string;
+  invoice_color?: string;
+  invoice_footer_title: string;
+  invoice_footer_notes: string;
+  zoom_api_key?: string;
+  zoom_api_secret?: string;
+  is_active: number;
+}
