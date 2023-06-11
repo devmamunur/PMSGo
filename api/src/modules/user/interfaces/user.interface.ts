@@ -16,3 +16,12 @@ export interface UserInterface extends Document {
   created_at?: Date | null;
   updated_at?: Date | null;
 }
+
+export interface UpdateProfileRequestBody {
+  email: string;
+  firstName: string;
+  lastName: string;
+  mobile: string;
+  password?: string;
+  photo?: string;
+}

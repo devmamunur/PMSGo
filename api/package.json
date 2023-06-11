@@ -8,7 +8,8 @@
     "lint:check": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "prettier:check": "prettier --check src/**/*.{ts,json}",
-    "prettier:fix": "prettier --write src/**/*.{ts,json}"
+    "prettier:fix": "prettier --write src/**/*.{ts,json}",
+    "db:seed": "node -r ts-node/register -r tsconfig-paths/register src/global/database/seeder/seed.ts"
   },
   "keywords": [],
   "author": "",

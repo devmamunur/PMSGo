@@ -4,8 +4,8 @@ import Logger from 'bunyan';
 import { logConfig } from './log.config';
 const log: Logger = logConfig.createLogger('server');
 export default () => {
-  let URI = envConfig.DATABASE_URL;
-  let OPTION = { user: '', pass: '', autoIndex: true };
+  const URI = envConfig.DATABASE_URL;
+  const OPTION = { user: '', pass: '', autoIndex: true };
   const connect = () => {
     mongoose
       .connect(URI, OPTION)
