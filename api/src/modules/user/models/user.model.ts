@@ -5,9 +5,7 @@ const DataSchema: Schema<UserInterface> = new Schema(
   {
     name: { type: String, required: true },
     email: { type: String, required: true },
-    email_verified_at: { type: Date, default: null },
     password: { type: String, required: true },
-    remember_token: { type: String, default: null },
     type: { type: String, required: true, default: 'user' },
     currant_workspace: { type: Number, default: null },
     avatar: { type: String, default: null },
