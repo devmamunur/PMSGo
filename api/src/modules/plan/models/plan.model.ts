@@ -7,6 +7,7 @@ const DataSchema: Schema<PlanInterface> = new Schema(
     monthly_price: { type: Number, default: 0 },
     annual_price: { type: Schema.Types.Decimal128, default: '0.00' },
     status: { type: Number, required: true, default: 0 },
+    is_default: { type: Number, required: true, default: 0 },
     trial_days: { type: Number, required: true, default: 0 },
     max_workspaces: { type: Number, required: true, default: 0 },
     max_users: { type: Number, required: true, default: 0 },

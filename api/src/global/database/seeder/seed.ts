@@ -33,7 +33,8 @@ async function seedPlan(): Promise<void> {
       max_clients: 100,
       max_projects: 100,
       image: 'free_plan.png',
-      status: 1
+      status: 1,
+      is_default : 1
     });
     console.log('Plan created successfully!');
     await mongoose.disconnect();

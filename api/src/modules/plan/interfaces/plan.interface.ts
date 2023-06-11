@@ -5,6 +5,7 @@ export interface PlanInterface extends Document {
   monthly_price: number;
   annual_price: Types.Decimal128;
   status: number;
+  is_default: number;
   trial_days: number;
   max_workspaces: number;
   max_users: number;
