@@ -1,7 +1,7 @@
 import Joi from 'joi';
-import {Request} from "express";
-import CompanyModel from "../../company/models/company.model";
-import {JoiRequestValidationError} from "../../../global/utility/error.handler.utility";
+import {Request} from 'express';
+import CompanyModel from '../../company/models/company.model';
+import {JoiRequestValidationError} from '../../../global/utility/error.handler.utility';
 
 class SignupValidation {
   static signupSchema = Joi.object({

@@ -1,7 +1,7 @@
-import {Request, Response} from "express";
-import SignupValidation from "../validations/signup.validation";
-import SignupRepository from "../repositories/signup.repository";
-import {SignupInterface} from "../interfaces/signup.interface";
+import {Request, Response} from 'express';
+import SignupValidation from '../validations/signup.validation';
+import SignupRepository from '../repositories/signup.repository';
+import {SignupInterface} from '../interfaces/signup.interface';
 import HTTP_STATUS from 'http-status-codes';
 
 class SignupController{

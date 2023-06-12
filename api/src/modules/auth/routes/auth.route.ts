@@ -1,5 +1,5 @@
 import express, {Router} from 'express';
-import SignupController from "../controllers/signup.controller";
+import SignupController from '../controllers/signup.controller';
 
 class AuthRoute{
   private readonly router: Router;
