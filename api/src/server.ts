@@ -116,6 +116,6 @@ export class PMSGoServer {
   }
 
   private socketIOConnections(io: Server): void {
-    console.log(io);
+    // console.log(io);
   }
 }

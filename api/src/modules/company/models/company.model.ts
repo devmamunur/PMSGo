@@ -8,7 +8,7 @@ const DataSchema: Schema<CompanyInterface> = new Schema(
     password: { type: String, required: true },
     currant_workspace: { type: Number, default: null },
     avatar: { type: String, default: null },
-    type: { type: String, required: true },
+    type: { type: String, required: true, default: 'company' },
     plan: { type: Number, default: null },
     requested_plan: { type: Number, required: true, default: 0 },
     plan_expire_date: { type: Date, default: null },
