@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import UserRepository from '../repositories/user.repository';
+
+// @ts-ignore
 import UserValidator from '../validations/user.validator';
 
 class UserController {

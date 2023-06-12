@@ -5,7 +5,7 @@ import {SignupInterface} from "../interfaces/signup.interface";
 import HTTP_STATUS from 'http-status-codes';
 
 class SignupController{
-  public async signup(req : Request, res : Response){
+  static async signup(req : Request, res : Response){
     const reqBody : SignupInterface = req.body;
     await SignupValidation.validate(reqBody);
     const data = await SignupRepository.signup(reqBody);
