@@ -1,16 +1,19 @@
 import {Request, Response} from 'express';
-import SignupValidation from '../validations/signup.validation';
-import SignupRepository from '../repositories/signup.repository';
+import {signupValidation} from '../validations/signup.validation';
 import {SignupInterface} from '../interfaces/signup.interface';
-import HTTP_STATUS from 'http-status-codes';
+import {signupRepository} from '../repositories/signup.repository';
 
 class SignupController{
-  static async signup(req : Request, res : Response){
-    const reqBody : SignupInterface = req.body;
-    await SignupValidation.validate(reqBody);
-    const data = await SignupRepository.signup(reqBody);
-    res.status(HTTP_STATUS.CREATED).json({message : 'Company created successfully', data});
+   async signup(req : Request, res : Response){
+    try {
+      const reqBody : SignupInterface = req.body;
+      await signupValidation.validate(reqBody);
+      await signupRepository.signup(reqBody);
+      res.status(200).json({message : 'Company created successfully'});
+    }catch (error){
+      res.status(400).json({error : error.message});
+    }
   }
 }
 
-export default SignupController;
+export const signupController : SignupController = new SignupController();
