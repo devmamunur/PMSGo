@@ -2,7 +2,8 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "prettier"
   ],
   "extends": [
     "eslint:recommended",
@@ -10,8 +11,9 @@
     "prettier"
   ],
   "parserOptions":  {
-    "ecmaVersion":  2020,  // Allows for the parsing of modern ECMAScript features
-    "sourceType":  "module"  // Allows for the use of imports
+    "ecmaVersion":  2020,
+    "sourceType":  "module",
+    "project": "./tsconfig.json"
   },
   "rules": {
     "semi": [2, "always"],
