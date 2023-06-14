@@ -1,11 +1,16 @@
 import CompanyModel from '../../company/models/company.model';
 import GeneratePasswordUtility from '../../../global/utility/generate-password.utility';
 import {SignupInterface} from '../interfaces/signup.interface';
+import {ServerError} from '../../../global/utility/error.handler.utility';
 
 class SignupRepository{
-  static async signup(reqBody : SignupInterface){
+  async signup(reqBody : SignupInterface){
+    try{
       reqBody.password = GeneratePasswordUtility(reqBody.password);
-      return await CompanyModel.create(reqBody);
+      await CompanyModel.create(reqBody);
+    }catch (error){
+      throw new ServerError('Failed to create company');
+    }
   }
 }
-export default SignupRepository;
+export const signupRepository :SignupRepository = new SignupRepository();
