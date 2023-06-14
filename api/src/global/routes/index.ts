@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import {authRouter} from "../../modules/auth/routes/auth.route";
+import {authRouter} from '../../modules/auth/routes/auth.route';
 
 const apiVersion = '/api/v1';
 

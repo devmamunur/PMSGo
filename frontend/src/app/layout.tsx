@@ -8,22 +8,21 @@ import '@fontsource/roboto/700.css';
 import "react-toastify/dist/ReactToastify.css";
 import '@/assets/css/global.css'
 import {SessionProvider} from "next-auth/react";
-import {RootLayoutPropsWithSession} from "@/interfaces/layout-props.interface";
 import {Provider} from "react-redux";
 import store from "@/redux/store/store";
-import SetAxiosHeaders from "@/components/Axios/SetAxiosHeaders";
+import {RootLayoutProps} from '@/interfaces/layout-props.interface';
 
-export default function RootLayout({children, session}: RootLayoutPropsWithSession) {
+
+export default function RootLayout({children} : RootLayoutProps) {
     return (
         <html lang="en">
         <body>
-        <Provider store={store}>
-            <SessionProvider session={session}>
-                <SetAxiosHeaders/>
-                {children}
+            <SessionProvider>
+                <Provider store={store}>
+                    {children}
+                    <ToastContainer/>
+                </Provider>
             </SessionProvider>
-            <ToastContainer/>
-        </Provider>
         </body>
         </html>
     )
