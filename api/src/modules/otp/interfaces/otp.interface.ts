@@ -1,8 +1,15 @@
-import { Document } from 'mongoose';
+// *******************************
+// I Will Rewrite All those Code
+// ******************************
 
-export interface OTPInterface extends Document {
-  email: string;
-  otp: string;
-  status: number;
-  createdDate: Date;
-}
+
+
+
+// import { Document } from 'mongoose';
+//
+// export interface OTPInterface extends Document {
+//   email: string;
+//   otp: string;
+//   status: number;
+//   createdDate: Date;
+// }
