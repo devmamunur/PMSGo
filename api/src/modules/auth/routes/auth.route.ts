@@ -1,5 +1,5 @@
 import express, {Router} from 'express';
-import SignupController from '../controllers/signup.controller';
+import {signupController} from '../controllers/signup.controller';
 
 class AuthRoute{
   private readonly router: Router;
@@ -8,7 +8,7 @@ class AuthRoute{
   }
 
   public routes() : Router{
-    this.router.post('/signup', SignupController.signup);
+    this.router.post('/signup', signupController.signup);
     return this.router;
   }
 
