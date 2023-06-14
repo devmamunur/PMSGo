@@ -6,5 +6,5 @@ export interface RootLayoutProps {
 
 export interface RootLayoutPropsWithSession {
     children: React.ReactNode;
-    session: Session | null;
+    session?: any;
 }
