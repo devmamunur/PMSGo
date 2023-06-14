@@ -17,7 +17,6 @@ Introducing PSMGo SaaS, your ultimate solution for project management. Whether y
 - 🔄 Redis
 - 🔑 Joi
 - 🔐 JWT
-- 🧪 Unit Tests
 - 🃏 Jest Tests
 - 🐳 Docker
 
@@ -30,8 +29,7 @@ Introducing PSMGo SaaS, your ultimate solution for project management. Whether y
 - 🔍 Eslint
 - 📡 Axios
 - 🔐 Next-Auth
-- 🧪 Unit Tests
-- 🃏 Jest Tests
+- 🃏 Cypress Tests
 - 🐳 Docker
 
 ## ⚡️ Features will be added (expected)
