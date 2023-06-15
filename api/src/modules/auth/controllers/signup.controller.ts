@@ -1,10 +1,10 @@
 import {Request, Response} from 'express';
 import {signupValidation} from '../validations/signup.validation';
-import {SignupInterface} from '../interfaces/signup.interface';
+import {SignupInterface} from '../interfaces/auth.interface';
 import {signupRepository} from '../repositories/signup.repository';
 
 class SignupController{
-   async signup(req : Request, res : Response){
+   async signup(req : Request, res : Response) : Promise<void>{
     try {
       const reqBody : SignupInterface = req.body;
       await signupValidation.validate(reqBody);
