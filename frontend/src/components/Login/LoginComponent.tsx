@@ -3,7 +3,7 @@ import React, {ChangeEvent, useState} from 'react';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {Card, CardContent, TextField} from "@mui/material";
+import {Card, CardContent, FormControl, MenuItem, Select, SelectChangeEvent, TextField} from "@mui/material";
 import { LoadingButton } from '@mui/lab';
 import FormHelper from "@/helpers/form.helper";
 import ToastHelper from "@/helpers/toast.helper";
@@ -11,19 +11,24 @@ import NextLink from "next/link";
 import {signIn} from "next-auth/react";
 import {useRouter} from "next/navigation";
 import {Login} from "@mui/icons-material";
+import InputLabel from '@mui/material/InputLabel';
+
 
 const LoginComponent: React.FC = () => {
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
+    const [type, setType] = useState<string>("company");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (FormHelper.isEmail(email)) {
-            ToastHelper.errorToast("Valid Email Address Required !")
+        if(FormHelper.isType(type)){
+            ToastHelper.errorToast("User type not valid!")
+        }else if (FormHelper.isEmail(email)) {
+            ToastHelper.errorToast("Valid email address required !")
         } else if (FormHelper.isEmpty(password)) {
-            ToastHelper.errorToast("Password Required !")
+            ToastHelper.errorToast("Password required !")
         } else {
             setLoading(true);
             const result = await signIn('credentials', {
@@ -33,11 +38,11 @@ const LoginComponent: React.FC = () => {
             });
             if (result!.ok) {
                 setLoading(false);
-                ToastHelper.successToast("Successfully SignIn")
+                ToastHelper.successToast("Successfully signIn")
                 router.push('/dashboard');
             } else {
                 setLoading(false);
-                ToastHelper.errorToast('Email or Password Not Match');
+                ToastHelper.errorToast('Email or password not match');
             }
         }
     }
@@ -62,6 +67,23 @@ const LoginComponent: React.FC = () => {
                                 </Typography>
                             </Box>
                             <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
+                                <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-autowidth-label">Sign In As</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-autowidth-label"
+                                    id="demo-simple-select-autowidth"
+                                    required
+                                    fullWidth
+                                    value={type}
+                                    label="Sign In As"
+                                    onChange={(event: SelectChangeEvent) => setType(event.target.value)}
+                                >
+                                    <MenuItem value='admin'>Admin</MenuItem>
+                                    <MenuItem value='company'>Company</MenuItem>
+                                    <MenuItem value='client'>Client</MenuItem>
+                                    <MenuItem value='user'>User</MenuItem>
+                                </Select>
+                                </FormControl>
                                 <TextField
                                     margin="normal"
                                     required
