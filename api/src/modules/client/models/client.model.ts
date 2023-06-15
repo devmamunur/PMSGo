@@ -4,7 +4,7 @@ import { ClientInterface } from '../interfaces/client.interface';
 const DataSchema: Schema<ClientInterface> = new Schema(
   {
     name: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique : true  },
     password: { type: String, required: true },
     type: { type: String, required: true, default: 'client' },
     currant_workspace: { type: Number, default: null },

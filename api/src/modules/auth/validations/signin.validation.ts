@@ -1,3 +1,31 @@
+import Joi from 'joi';
+import {Request} from 'express';
+
+class SigninValidation{
+
+  signinSchema = Joi.object({
+    type: Joi.string().valid('company', 'user', 'client', 'admin').required().messages({
+      'any.only' : 'Type must be valid',
+    }),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).trim(true).required(),
+  });
+  async validate(resBody: Request['body']) {
+    await this.signinSchema.validateAsync(resBody);
+  }
+}
+
+export const signinValidation : SigninValidation = new SigninValidation();
+
+
+
+
+
+
+
+
+
+
 // *******************************
 // I Will Rewrite All those Code
 // ******************************

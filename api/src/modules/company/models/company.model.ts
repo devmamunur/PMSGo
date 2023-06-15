@@ -4,7 +4,7 @@ import { CompanyInterface } from '../interfaces/company.interface';
 const DataSchema: Schema<CompanyInterface> = new Schema(
   {
     name: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique : true },
     password: { type: String, required: true },
     currant_workspace: { type: Number, default: null },
     avatar: { type: String, default: null },
