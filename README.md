@@ -29,7 +29,7 @@ Introducing PSMGo SaaS, your ultimate solution for project management. Whether y
 - 🔍 Eslint
 - 📡 Axios
 - 🔐 Next-Auth
-- 🃏 Cypress Tests
+- 🌲 Cypress Tests
 - 🐳 Docker
 
 ## ⚡️ Features will be added (expected)
