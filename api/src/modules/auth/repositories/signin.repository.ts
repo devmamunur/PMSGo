@@ -1,7 +1,6 @@
 import {CompanyDataForToken, SigninInterface, SigninReturnInterface} from '../interfaces/auth.interface';
 import GeneratePasswordUtility from '../../../global/utility/generate-password.utility';
 import CompanyModel from '../../company/models/company.model';
-import {ServerError} from '../../../global/utility/error.handler.utility';
 import generateTokenUtility from '../../../global/utility/generate-token.utility';
 
 class SigninRepository {
@@ -22,10 +21,10 @@ class SigninRepository {
           const token = generateTokenUtility(payload);
           return { token: token, data: userData[0] };
         }else{
-          throw new ServerError('Login Failed');
+          throw new Error('Login Failed');
         }
       }else {
-        throw new ServerError('Login Failed');
+        throw new Error('User Not Available');
       }
   }
   async isCompanyAvailable(reqBody: SigninInterface): Promise<SigninInterface[]> {
@@ -40,7 +39,7 @@ class SigninRepository {
         },
       ]);
     }catch (error){
-      throw new ServerError('Login Failed');
+      throw new Error('Login Failed');
     }
   }
   async getCompanyDataForToken(reqBody: SigninInterface) : Promise<CompanyDataForToken[]> {
@@ -57,7 +56,7 @@ class SigninRepository {
         }
       ]);
     }catch (error){
-      throw new ServerError('Login Failed');
+      throw new Error('Login Failed');
     }
   }
 }
