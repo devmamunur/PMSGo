@@ -4,7 +4,7 @@ import { UserInterface } from '../interfaces/user.interface';
 const DataSchema: Schema<UserInterface> = new Schema(
   {
     name: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique : true  },
     password: { type: String, required: true },
     type: { type: String, required: true, default: 'user' },
     currant_workspace: { type: Number, default: null },
