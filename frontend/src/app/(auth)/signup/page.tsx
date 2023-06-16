@@ -1,15 +1,14 @@
 "use client"
 import React, {lazy, Suspense} from 'react';
 import LazyLoader from "@/components/MasterLayout/LazyLoader";
-const LoginComponent = lazy(() => import('@/components/Login/LoginComponent'));
-const Login : React.FC = () => {
+const SignUp = lazy(() => import('@/components/SignUp/SignUp'));
+const Register : React.FC = () => {
     return (
         <>
             <Suspense fallback={<LazyLoader/>}>
-                <LoginComponent/>
+                <SignUp/>
             </Suspense>
         </>
     );
 };
-
-export default Login;
+export default Register;

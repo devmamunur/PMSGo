@@ -1,36 +1,31 @@
 import NextAuth, {NextAuthOptions } from 'next-auth';
 import CredentialProvider from 'next-auth/providers/credentials';
+import axios from '@/services/axios';
 
 export const authOptions : NextAuthOptions  = {
     providers: [
         CredentialProvider({
             name: 'Credentials',
             credentials: {
+                type: { label: 'Type', type: 'text'},
                 email: { label: 'Email', type: 'email', placeholder: 'email@example.com' },
                 password: { label: 'Password', type: 'password' },
             },
             authorize: async (credentials: Record<string, string> | undefined) => {
                 try {
                     let payload = {
+                        type   : credentials?.type,
                         email   : credentials?.email,
                         password: credentials?.password
                     }
-
-                    const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/login', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(payload),
-                    });
-                    const user = await response.json();
-                    if (user) {
-                        return user;
+                    const response = await axios.post('/signin', payload);
+                    if (response.data.user) {
+                        return response.data.user;
                     } else {
                         return null;
                     }
                 } catch (error) {
-                    console.error('Failed to authenticate:', error);
+                    console.error('Failed to authenticate:', error.message);
                     return null;
                 }
             },

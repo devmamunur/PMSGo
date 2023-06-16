@@ -10,12 +10,14 @@ import '@/assets/css/global.css'
 import {SessionProvider} from "next-auth/react";
 import {Provider} from "react-redux";
 import store from "@/redux/store/store";
-import {RootLayoutProps} from '@/interfaces/layout-props.interface';
+import {RootLayoutProps, RootLayoutPropsWithSession} from '@/interfaces/layout-props.interface';
 
 
-export default function RootLayout({children} : RootLayoutProps) {
+export default function RootLayout(
+    {children} : RootLayoutProps
+) {
     return (
-        <html lang="en">
+        <html lang="en"  suppressHydrationWarning={true}>
         <body>
             <SessionProvider>
                 <Provider store={store}>
