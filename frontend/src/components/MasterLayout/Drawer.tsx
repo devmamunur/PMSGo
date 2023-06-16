@@ -56,7 +56,7 @@ const DrawerComponent : React.FC<{open : boolean; clickDrawer : () => void}> = (
                     noWrap
                     sx={{flexGrow: 1}}
                 >
-                    TaskManager
+                    PSMGo
                 </Typography>
                 <IconButton onClick={toggleDrawer}>
                     <ChevronLeftIcon/>
