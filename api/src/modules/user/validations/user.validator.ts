@@ -17,7 +17,13 @@ class UserValidator{
       throw new Error('Email must be unique');
     }
   }
+
+  async createValidate(resBody : Request['body']){
+    await this.createSchema.validateAsync(resBody);
+  }
 }
+
+export const userValidator : UserValidator = new UserValidator();
 
 
 
