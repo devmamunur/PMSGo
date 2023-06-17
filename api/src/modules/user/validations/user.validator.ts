@@ -1,3 +1,22 @@
+import Joi from 'joi';
+
+class UserValidator{
+  createSchema = Joi.object({
+    name : Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).trim(true).required(),
+  });
+}
+
+
+
+
+
+
+
+
+
+
 // *******************************
 // I Will Rewrite All those Code
 // ******************************
