@@ -1,3 +1,39 @@
+import Joi from 'joi';
+import {Request} from 'express';
+import CompanyModel from '../../company/models/company.model';
+import {JoiRequestValidationError} from '../../../global/utility/error.handler.utility';
+import UserModel from '../models/user.model';
+
+class UserValidator{
+  createSchema = Joi.object({
+    name : Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).trim(true).required(),
+  });
+  async validateUniqueEmail(resBody: Request['body']) {
+    const {email} = resBody;
+    const existingEmail = await UserModel.findOne({email: email});
+    if (existingEmail) {
+      throw new Error('Email must be unique');
+    }
+  }
+
+  async createValidate(resBody : Request['body']){
+    await this.createSchema.validateAsync(resBody);
+  }
+}
+
+export const userValidator : UserValidator = new UserValidator();
+
+
+
+
+
+
+
+
+
+
 // *******************************
 // I Will Rewrite All those Code
 // ******************************
