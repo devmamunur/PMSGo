@@ -3,11 +3,18 @@ import {Request, Response} from 'express';
 class UserController{
     async create(req: Request, res: Response) : Promise<void>{
       try{
-
+        console.log('Hello');
       }catch (error){
         res.status(400).json({error : error.message});
       }
     }
+    async getAllUser(req: Request, res: Response) : Promise<void>{
+      try{
+        console.log('Hello');
+      }catch (error){
+        res.status(400).json({error : error.message});
+      }
+  }
 }
 export const userController  : UserController = new UserController();
 
