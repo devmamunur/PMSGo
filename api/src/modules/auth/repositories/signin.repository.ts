@@ -8,12 +8,12 @@ class SigninRepository {
 
       reqBody.password = GeneratePasswordUtility(reqBody.password);
       let availableUser = [];
-      if(reqBody.type == 'company'){
+      if(reqBody.type == 'company' || reqBody.type == 'admin'){
         availableUser = await this.isCompanyAvailable(reqBody);
       }
       if (availableUser.length === 1) {
         let userData = [];
-        if(reqBody.type == 'company'){
+        if(reqBody.type == 'company' || reqBody.type == 'admin'){
           userData = await this.getCompanyDataForToken(reqBody);
         }
         if(userData.length === 1){
