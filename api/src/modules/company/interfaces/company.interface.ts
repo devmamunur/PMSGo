@@ -1,13 +1,13 @@
-import { Document } from 'mongoose';
+import {Document, Types} from 'mongoose';
 
 export interface CompanyInterface extends Document {
   name: string;
   email: string;
   password: string;
-  currant_workspace: number | null;
+  currant_workspace: Types.ObjectId | null;
   avatar: string | null;
   type: string;
-  plan: number | null;
+  plan: Types.ObjectId | null;
   requested_plan: number;
   plan_expire_date: Date | null;
   payment_subscription_id: string | null;
