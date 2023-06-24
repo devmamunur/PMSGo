@@ -1,6 +1,7 @@
-import { Document } from 'mongoose';
+import {Document, Types} from 'mongoose';
 
 export interface UserInterface extends Document {
+  company : Types.ObjectId;
   name: string;
   email: string;
   password?: string | null;
@@ -15,6 +16,11 @@ export interface UserInterface extends Document {
   telephone?: string | null;
   created_at?: Date | null;
   updated_at?: Date | null;
+}
+
+export interface UserWorkspaceInterface{
+  user : Types.ObjectId;
+  workspace : Types.ObjectId;
 }
 
 export interface UpdateProfileRequestBody {
