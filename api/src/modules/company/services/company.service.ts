@@ -13,7 +13,7 @@ class CompanyService{
       });
       return createdCompany._id;
     } catch (error) {
-      throw new Error('Company create failed');
+      throw new Error('Company create failed: '+error.message);
     }
   }
   async setCompanyCurrantWorkspace(companyId : Types.ObjectId, workspaceId : Types.ObjectId){

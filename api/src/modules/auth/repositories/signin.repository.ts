@@ -1,21 +1,18 @@
-import {CompanyDataForToken, SigninInterface, SigninReturnInterface} from '../interfaces/auth.interface';
+import {SigninInterface, SigninReturnInterface} from '../interfaces/auth.interface';
 import GeneratePasswordUtility from '../../../global/utility/generate-password.utility';
-import CompanyModel from '../../company/models/company.model';
 import generateTokenUtility from '../../../global/utility/generate-token.utility';
+import {authService} from '../services/auth.service';
 
 class SigninRepository {
   async signin(reqBody: SigninInterface): Promise<SigninReturnInterface> {
-
       reqBody.password = GeneratePasswordUtility(reqBody.password);
       let availableUser = [];
-      if(reqBody.type == 'company' || reqBody.type == 'admin'){
-        availableUser = await this.isCompanyAvailable(reqBody);
-      }
+      availableUser = await this.checkIsAvailable(reqBody);
+
       if (availableUser.length === 1) {
         let userData = [];
-        if(reqBody.type == 'company' || reqBody.type == 'admin'){
-          userData = await this.getCompanyDataForToken(reqBody);
-        }
+        userData = await this.getUserData(reqBody);
+
         if(userData.length === 1){
           const payload = { exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60, data: userData};
           const token = generateTokenUtility(payload);
@@ -27,36 +24,16 @@ class SigninRepository {
         throw new Error('User Not Available');
       }
   }
-  async isCompanyAvailable(reqBody: SigninInterface): Promise<SigninInterface[]> {
-    try {
-      return CompanyModel.aggregate([
-        {$match: reqBody},
-        {
-          $project: {
-            email: 1,
-            password: 1,
-          },
-        },
-      ]);
-    }catch (error){
-      throw new Error('Login Failed');
+
+  async checkIsAvailable(reqBody : SigninInterface){
+    if(reqBody.type == 'company' || reqBody.type == 'admin'){
+      return await authService.isCompanyAvailable(reqBody);
     }
   }
-  async getCompanyDataForToken(reqBody: SigninInterface) : Promise<CompanyDataForToken[]> {
-    try{
-      return CompanyModel.aggregate([
-        {$match: reqBody},
-        {
-          $project: {
-            _id: 1,
-            name: 1,
-            email: 1,
-            type: 1
-          }
-        }
-      ]);
-    }catch (error){
-      throw new Error('Login Failed');
+
+  async getUserData(reqBody : SigninInterface){
+    if(reqBody.type == 'company' || reqBody.type == 'admin'){
+      return  await authService.getCompanyDataForToken(reqBody);
     }
   }
 }

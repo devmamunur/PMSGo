@@ -3,6 +3,11 @@ import { UserInterface } from '../interfaces/user.interface';
 
 const DataSchema: Schema<UserInterface> = new Schema(
   {
+    company: {
+      type: Schema.Types.ObjectId,
+      ref: 'companies',
+      required: true
+    },
     name: { type: String, required: true },
     email: { type: String, required: true, unique : true  },
     password: { type: String, required: true },
