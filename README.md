@@ -4,7 +4,10 @@
       PSMGo - SaaS Project Management System
 </h1>
 <p align="center">
-Introducing PSMGo SaaS, your ultimate solution for project management. Whether you're a busy organization handling multiple projects or an individual seeking task optimization, PSMGo SaaS is here for you. (🚧  The project is under active development! 🔨)
+Introducing PSMGo SaaS, your ultimate solution for project management. Whether you're a busy organization handling multiple projects or an individual seeking task optimization, PSMGo SaaS is here for you. 
+
+ <p align="center">
+       (🚧  The project is under active development! 🔨)
  </p>
 <br>
 
