@@ -12,10 +12,8 @@ class SigninRepository {
       if (availableUser.length === 1) {
         let userData = [];
         userData = await this.getUserData(reqBody);
-
         if(userData.length === 1){
-          const payload = { exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60, data: userData};
-          const token = generateTokenUtility(payload);
+          const token = generateTokenUtility(userData);
           return { token: token, data: userData[0] };
         }else{
           throw new Error('Login Failed');

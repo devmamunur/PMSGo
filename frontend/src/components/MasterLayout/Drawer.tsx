@@ -11,6 +11,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ListItemText from "@mui/material/ListItemText";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import PersonIcon from '@mui/icons-material/Person';
 import {
     CancelPresentation,
     CheckBox,
@@ -69,6 +70,12 @@ const DrawerComponent : React.FC<{open : boolean; clickDrawer : () => void}> = (
                         <DashboardIcon />
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" />
+                </ListItemButton>
+                <ListItemButton component={StyledNavLink} href="/dashboard/user">
+                    <ListItemIcon>
+                        <PersonIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="User" />
                 </ListItemButton>
                 <ListItemButton component={StyledNavLink} href="/dashboard/create">
                     <ListItemIcon>
