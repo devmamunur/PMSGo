@@ -5,10 +5,17 @@ import Typography from '@mui/material/Typography';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 
 
-const AddUserCard : React.FC  = () => {
+interface AddUserCardProps {
+    clickDialog: () => void;
+}
+
+const AddUserCard : React.FC<AddUserCardProps>  = ({clickDialog}) => {
+    const toggleDrawer = () => {
+        clickDialog()
+    }
     return (
         <div>
-            <Card elevation={2} >
+            <Card elevation={2} onClick={toggleDrawer}>
                 <CardContent sx={{
                     textAlign: "center"
                 }}>

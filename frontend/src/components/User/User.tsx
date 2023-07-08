@@ -1,12 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import {Search, SearchIconWrapper, StyledInputBase} from '@/styeldComponent/SearchField';
 import SearchIcon from '@mui/icons-material/Search';
 import TaskCard from '@/components/TaskCard/TaskCard';
 import AddUserCard from '@/components/User/AddUserCard';
+import AddUserDialog from '@/components/User/AddUserDialog';
+import Button from '@mui/material/Button';
 
 const User : React.FC = () => {
+    const [open, setOpen] = useState(false);
+    const clickDialog = () => {
+        setOpen(!open);
+    };
     return (
         <>
             <Grid
@@ -42,10 +48,11 @@ const User : React.FC = () => {
             >
 
                 <Grid item md={3}  >
-                    <AddUserCard/>
+                    <AddUserCard clickDialog={clickDialog}/>
                 </Grid>
 
             </Grid>
+            <AddUserDialog clickDialog={clickDialog} open={open}/>
         </>
     );
 };
