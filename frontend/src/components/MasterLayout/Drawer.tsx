@@ -71,7 +71,7 @@ const DrawerComponent : React.FC<{open : boolean; clickDrawer : () => void}> = (
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" />
                 </ListItemButton>
-                <ListItemButton component={StyledNavLink} href="/user">
+                <ListItemButton component={StyledNavLink} href="/dashboard/user">
                     <ListItemIcon>
                         <PersonIcon/>
                     </ListItemIcon>
