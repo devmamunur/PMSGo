@@ -12,7 +12,7 @@ const DataSchema: Schema<UserInterface> = new Schema(
     email: { type: String, required: true, unique : true  },
     password: { type: String, required: true },
     type: { type: String, required: true, default: 'user' },
-    currant_workspace: { type: Number, default: null },
+    currant_workspace: { type: Schema.Types.ObjectId, default: null },
     avatar: { type: String, default: null },
     address: { type: String, default: null },
     city: { type: String, default: null },
