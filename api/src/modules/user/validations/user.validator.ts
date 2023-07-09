@@ -1,9 +1,11 @@
 import Joi from 'joi';
 import {Request} from 'express';
+import CompanyModel from '../../company/models/company.model';
 import UserModel from '../models/user.model';
 
 class UserValidator{
   createSchema = Joi.object({
+    company : Joi.string().required(),
     name : Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).trim(true).required(),
@@ -17,6 +19,7 @@ class UserValidator{
   }
 
   async createValidate(resBody : Request['body']){
+    await this.validateUniqueEmail(resBody);
     await this.createSchema.validateAsync(resBody);
   }
 }
