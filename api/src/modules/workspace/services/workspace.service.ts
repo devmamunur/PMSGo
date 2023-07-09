@@ -14,8 +14,16 @@ class WorkspaceService {
       });
       return createdWorkspace._id;
     } catch (error) {
-      throw new Error('Workspace create failed'+error.message);
+      throw new Error('Workspace create failed '+error.message);
     }
+  }
+
+  async getFirstWorkspaceByCompany(company : string) : Promise<Types.ObjectId> {
+      const workspace = await WorkspaceModel.findOne({created_by : company}, '_id').sort({ _id: 1 }).exec();
+      if(!workspace) {
+        throw new Error('Workspace get failed');
+      }
+    return workspace._id;
   }
 }
 
