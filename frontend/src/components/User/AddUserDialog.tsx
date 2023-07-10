@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -11,6 +11,7 @@ import {Box, Grid, TextField} from '@mui/material';
 import {LoadingButton} from '@mui/lab';
 import {LockOpen, Save} from '@mui/icons-material';
 import NextLink from 'next/link';
+import {useSession} from 'next-auth/react';
 
 
 export interface DialogTitleProps {
@@ -53,7 +54,13 @@ const AddUserDialog : React.FC<AddUserDialogProps> = ({clickDialog, open}) => {
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const { data: session } = useSession();
 
+    useEffect(() => {
+        if (session && session.user && (session.user as { _id: string })._id) {
+            setCompany((session.user as { _id: string })._id);
+        }
+    }, [session]);
     const handleClose = () => {
         clickDialog()
     };
