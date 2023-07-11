@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -7,6 +7,17 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
+import {Box, Grid, TextField} from '@mui/material';
+import {LoadingButton} from '@mui/lab';
+import {LockOpen, Save} from '@mui/icons-material';
+import NextLink from 'next/link';
+import {useSession} from 'next-auth/react';
+import FormHelper from '@/helpers/form.helper';
+import ToastHelper from '@/helpers/toast.helper';
+import {authService} from '@/services/api/auth/auth.service';
+import {AxiosError} from 'axios';
+import {ErrorResponse} from '@/interfaces/common';
+import {userService} from '@/services/api/user/user.service';
 
 
 export interface DialogTitleProps {
@@ -44,8 +55,42 @@ interface AddUserDialogProps {
     open : boolean
 }
 const AddUserDialog : React.FC<AddUserDialogProps> = ({clickDialog, open}) => {
+    const [loading, setLoading] = useState<boolean>(false);
+    const [company, setCompany] = useState<string>("");
+    const [name, setName] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const { data: session } = useSession();
+
+    useEffect(() => {
+        if (session && session.user && (session.user as { _id: string })._id) {
+            setCompany((session.user as { _id: string })._id);
+        }
+    }, [session]);
     const handleClose = () => {
         clickDialog()
+    };
+
+    const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if(FormHelper.isEmpty(name)){
+            ToastHelper.errorToast('Name required!');
+        }else if(FormHelper.isEmail(email)){
+            ToastHelper.errorToast('Valid email address required!');
+        }else if(FormHelper.isEmpty(password)){
+            ToastHelper.errorToast('Password required!');
+        }else {
+            try{
+                setLoading(true);
+                const result = await userService.create({company, name, email, password});
+                setLoading(false);
+                ToastHelper.successToast(result.data.message);
+            }catch (error){
+                const axiosError = error as AxiosError<ErrorResponse>;
+                setLoading(false);
+                ToastHelper.errorToast(axiosError?.response?.data?.error);
+            }
+        }
     };
     return (
         <>
@@ -58,28 +103,29 @@ const AddUserDialog : React.FC<AddUserDialogProps> = ({clickDialog, open}) => {
                     Add user
                 </BootstrapDialogTitle>
                 <DialogContent dividers>
-                    <Typography gutterBottom>
-                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                        dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                        consectetur ac, vestibulum at eros.
-                    </Typography>
-                    <Typography gutterBottom>
-                        Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-                        Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-                    </Typography>
-                    <Typography gutterBottom>
-                        Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-                        magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-                        ullamcorper nulla non metus auctor fringilla.
-                    </Typography>
+                    <Box component="form" noValidate sx={{mt: 1}}>
+                        {name}
+                        <TextField margin="normal" fullWidth label="Full Name"
+                                   onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}/>
+                        <TextField margin="normal" fullWidth label="Email Address" type="email"
+                                   onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}/>
+                        <TextField margin="normal" fullWidth label="Password" type="password"
+                                   onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}/>
+                    </Box>
                 </DialogContent>
-                <DialogActions>
+                <DialogActions sx={{paddingTop : "14px", paddingBottom : "14px"}}>
                     <Button onClick={handleClose}>
                         Close
                     </Button>
-                    <Button>
-                        Save
-                    </Button>
+                    <LoadingButton
+                        onClick={handleSubmit}
+                        variant="contained"
+                        loading={loading}
+                        endIcon={<Save/>}
+                        loadingPosition="end"
+                    >
+                        <span>Save</span>
+                    </LoadingButton>
                 </DialogActions>
             </Dialog>
         </>

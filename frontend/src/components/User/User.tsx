@@ -7,14 +7,23 @@ import TaskCard from '@/components/TaskCard/TaskCard';
 import AddUserCard from '@/components/User/AddUserCard';
 import AddUserDialog from '@/components/User/AddUserDialog';
 import Button from '@mui/material/Button';
+import {useSession} from 'next-auth/react';
+
 
 const User : React.FC = () => {
     const [open, setOpen] = useState(false);
+
+    const { data: session } = useSession();
+
     const clickDialog = () => {
         setOpen(!open);
     };
     return (
         <>
+            <p>
+                {JSON.stringify(session!.user)}
+            </p>
+
             <Grid
                 container
                 direction="row"
