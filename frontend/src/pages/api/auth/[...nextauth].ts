@@ -24,7 +24,7 @@ export const authOptions : NextAuthOptions  = {
                     } else {
                         return null;
                     }
-                } catch (error) {
+                } catch (error: any) {
                     console.error('Failed to authenticate:', error.message);
                     return null;
                 }

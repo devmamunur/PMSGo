@@ -10,7 +10,8 @@ import '@/assets/css/global.css'
 import {SessionProvider} from "next-auth/react";
 import {Provider} from "react-redux";
 import store from "@/redux/store/store";
-import {RootLayoutProps, RootLayoutPropsWithSession} from '@/interfaces/layout-props.interface';
+import {RootLayoutProps} from '@/interfaces/layout-props.interface';
+import AxiosProvider from '@/services/AxiosProvider';
 
 
 export default function RootLayout(
@@ -21,7 +22,9 @@ export default function RootLayout(
         <body>
             <SessionProvider>
                 <Provider store={store}>
+                    <AxiosProvider>
                     {children}
+                    </AxiosProvider>
                     <ToastContainer/>
                 </Provider>
             </SessionProvider>

@@ -58,7 +58,7 @@ const AddUserDialog : React.FC<AddUserDialogProps> = ({clickDialog, open}) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [company, setCompany] = useState<string>("");
     const [name, setName] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
+    const [email, setEmail] = useState<string>("d");
     const [password, setPassword] = useState<string>("");
     const { data: session } = useSession();
 
@@ -71,8 +71,7 @@ const AddUserDialog : React.FC<AddUserDialogProps> = ({clickDialog, open}) => {
         clickDialog()
     };
 
-    const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const handleSubmit = async () => {
         if(FormHelper.isEmpty(name)){
             ToastHelper.errorToast('Name required!');
         }else if(FormHelper.isEmail(email)){
@@ -84,6 +83,7 @@ const AddUserDialog : React.FC<AddUserDialogProps> = ({clickDialog, open}) => {
                 setLoading(true);
                 const result = await userService.create({company, name, email, password});
                 setLoading(false);
+                handleClose();
                 ToastHelper.successToast(result.data.message);
             }catch (error){
                 const axiosError = error as AxiosError<ErrorResponse>;
@@ -104,7 +104,6 @@ const AddUserDialog : React.FC<AddUserDialogProps> = ({clickDialog, open}) => {
                 </BootstrapDialogTitle>
                 <DialogContent dividers>
                     <Box component="form" noValidate sx={{mt: 1}}>
-                        {name}
                         <TextField margin="normal" fullWidth label="Full Name"
                                    onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}/>
                         <TextField margin="normal" fullWidth label="Email Address" type="email"

@@ -14,7 +14,9 @@ class SigninRepository {
         userData = await this.getUserData(reqBody);
         if(userData.length === 1){
           const token = generateTokenUtility(userData);
-          return { token: token, data: userData[0] };
+          const user = userData[0];
+          user.accessToken = token;
+          return user;
         }else{
           throw new Error('Login Failed');
         }

@@ -7,8 +7,8 @@ class SigninController{
     try{
       const reqBody : SigninInterface = req.body;
       await signinValidation.validate(reqBody);
-      const {token, data} = await signinRepository.signin(reqBody);
-      res.status(200).json({message : 'Login successfully',  accessToken: token, user : data});
+      const  user = await signinRepository.signin(reqBody);
+      res.status(200).json({message : 'Login successfully',  user : user});
     }catch (error){
       res.status(400).json({error : error.message});
     }

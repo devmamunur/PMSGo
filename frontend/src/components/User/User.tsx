@@ -18,12 +18,10 @@ const User : React.FC = () => {
     const clickDialog = () => {
         setOpen(!open);
     };
+
+    // @ts-ignore
     return (
         <>
-            <p>
-                {JSON.stringify(session!.user)}
-            </p>
-
             <Grid
                 container
                 direction="row"
