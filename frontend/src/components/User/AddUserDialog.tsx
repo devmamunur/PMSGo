@@ -12,6 +12,12 @@ import {LoadingButton} from '@mui/lab';
 import {LockOpen, Save} from '@mui/icons-material';
 import NextLink from 'next/link';
 import {useSession} from 'next-auth/react';
+import FormHelper from '@/helpers/form.helper';
+import ToastHelper from '@/helpers/toast.helper';
+import {authService} from '@/services/api/auth/auth.service';
+import {AxiosError} from 'axios';
+import {ErrorResponse} from '@/interfaces/common';
+import {userService} from '@/services/api/user/user.service';
 
 
 export interface DialogTitleProps {
@@ -65,8 +71,26 @@ const AddUserDialog : React.FC<AddUserDialogProps> = ({clickDialog, open}) => {
         clickDialog()
     };
 
-    const handleSubmit = () => {
-
+    const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if(FormHelper.isEmpty(name)){
+            ToastHelper.errorToast('Name required!');
+        }else if(FormHelper.isEmail(email)){
+            ToastHelper.errorToast('Valid email address required!');
+        }else if(FormHelper.isEmpty(password)){
+            ToastHelper.errorToast('Password required!');
+        }else {
+            try{
+                setLoading(true);
+                const result = await userService.create({company, name, email, password});
+                setLoading(false);
+                ToastHelper.successToast(result.data.message);
+            }catch (error){
+                const axiosError = error as AxiosError<ErrorResponse>;
+                setLoading(false);
+                ToastHelper.errorToast(axiosError?.response?.data?.error);
+            }
+        }
     };
     return (
         <>
@@ -80,6 +104,7 @@ const AddUserDialog : React.FC<AddUserDialogProps> = ({clickDialog, open}) => {
                 </BootstrapDialogTitle>
                 <DialogContent dividers>
                     <Box component="form" noValidate sx={{mt: 1}}>
+                        {name}
                         <TextField margin="normal" fullWidth label="Full Name"
                                    onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}/>
                         <TextField margin="normal" fullWidth label="Email Address" type="email"
@@ -94,7 +119,6 @@ const AddUserDialog : React.FC<AddUserDialogProps> = ({clickDialog, open}) => {
                     </Button>
                     <LoadingButton
                         onClick={handleSubmit}
-                        type="submit"
                         variant="contained"
                         loading={loading}
                         endIcon={<Save/>}
