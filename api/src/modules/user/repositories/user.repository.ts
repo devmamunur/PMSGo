@@ -14,6 +14,14 @@ class UserRepository{
       res.status(400).json({error : error.message});
     }
   }
+  async get(req : Request, res: Response) : Promise<void>{
+    try {
+      const user = await userService.get(req);
+      res.status(200).json({message : 'User get successfully', data : user});
+    }catch (error){
+      res.status(400).json({error : error.message});
+    }
+  }
 }
 
 export const userRepository : UserRepository = new UserRepository();
