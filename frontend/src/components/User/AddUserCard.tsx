@@ -19,8 +19,8 @@ const AddUserCard : React.FC<AddUserCardProps>  = ({clickDialog}) => {
                 <CardContent sx={{
                     textAlign: "center"
                 }}>
-                    <Typography color="text.secondary" component="p">
-                       <ControlPointIcon sx={{ fontSize: "54px" }}/>
+                    <Typography color="text.secondary" component="p" sx={{margin : '14px 20px'}}>
+                       <ControlPointIcon sx={{ fontSize: "64px" }}/>
                     </Typography>
                     <Typography variant="h5" component="h4">
                        Add new user

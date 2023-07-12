@@ -5,12 +5,8 @@ class UserController{
     async create(req: Request, res: Response) : Promise<void>{
      await userRepository.create(req, res);
     }
-    async getAllUser(req: Request, res: Response) : Promise<void>{
-      try{
-        console.log('Hello');
-      }catch (error){
-        res.status(400).json({error : error.message});
-      }
+    async get(req: Request, res: Response) : Promise<void>{
+      await userRepository.get(req, res);
   }
 }
 export const userController  : UserController = new UserController();

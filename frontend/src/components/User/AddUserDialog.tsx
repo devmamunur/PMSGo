@@ -79,17 +79,13 @@ const AddUserDialog : React.FC<AddUserDialogProps> = ({clickDialog, open}) => {
         }else if(FormHelper.isEmpty(password)){
             ToastHelper.errorToast('Password required!');
         }else {
-            try{
-                setLoading(true);
-                const result = await userService.create({company, name, email, password});
+            setLoading(true);
+            await userService.create({company, name, email, password}).then((res : boolean) => {
+                if(res){
+                    handleClose();
+                }
                 setLoading(false);
-                handleClose();
-                ToastHelper.successToast(result.data.message);
-            }catch (error){
-                const axiosError = error as AxiosError<ErrorResponse>;
-                setLoading(false);
-                ToastHelper.errorToast(axiosError?.response?.data?.error);
-            }
+            });
         }
     };
     return (
