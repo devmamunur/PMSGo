@@ -3,7 +3,7 @@ import {hideLoader, showLoader} from "@/redux/state-slice/SettingsSlice";
 import axios from "axios";
 import SessionHelper from "@/helpers/session.helper";
 import ToastHelper from "@/helpers/toast.helper";
-import {setProfile} from "@/redux/state-slice/ProfileSlice";
+import {setProfile} from "@/redux/state-slice/UserSlice";
 let baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 class UserRequest {
