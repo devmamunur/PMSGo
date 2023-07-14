@@ -6,14 +6,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import {RootState} from "@/redux/store/store";
-import TaskRequest from "@/APIRequests/task.request";
 
 import {useSession} from "next-auth/react";
 const Dashboard = () => {
     const { data : session  } = useSession();
-    const summaryList = useSelector((state : RootState) => state.summary.value);
     useEffect(() => {
-        TaskRequest.summaryRequest();
     }, [])
     return (
         <>
@@ -21,7 +18,7 @@ const Dashboard = () => {
                 marginTop: '30px'
             }}>
                 {/*{session}*/}
-                {
+              {/*  {
                     summaryList.map((item : any, i : number) => (
                         <Grid item xs={6} md={4} key={i}>
                             <Card>
@@ -39,7 +36,7 @@ const Dashboard = () => {
                             </Card>
                         </Grid>
                     ))
-                }
+                }*/}
             </Grid>
         </>
     );
