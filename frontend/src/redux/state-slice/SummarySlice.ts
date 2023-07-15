@@ -1,21 +1,21 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface SummaryState {
-    value: any;
+  value: any;
 }
 
 const initialState: SummaryState = {
-    value: [],
+  value: [],
 };
 
 export const summarySlice = createSlice({
-    name: 'summary',
-    initialState,
-    reducers: {
-        setSummary: (state, action: PayloadAction<any[]>) => {
-            state.value = action.payload;
-        },
+  name: 'summary',
+  initialState,
+  reducers: {
+    setSummary: (state, action: PayloadAction<any[]>) => {
+      state.value = action.payload;
     },
+  },
 });
 
 export const { setSummary } = summarySlice.actions;
