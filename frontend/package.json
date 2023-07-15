@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\""
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -33,5 +34,8 @@
     "sweetalert2": "^11.7.5",
     "sweetalert2-react-content": "^5.0.7",
     "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.0"
   }
 }
