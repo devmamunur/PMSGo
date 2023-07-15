@@ -1,6 +1,6 @@
-export interface UserCreateInterface{
-    company : string;
-    name : string;
-    email : string;
-    password : string;
+export interface UserCreateInterface {
+  company: string;
+  name: string;
+  email: string;
+  password: string;
 }
