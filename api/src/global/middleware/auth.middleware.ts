@@ -32,7 +32,7 @@ class AuthMiddleware {
     try {
       const token = authHeader.split(' ')[1];
       const payload: CustomJwtPayload  = jwt.verify(token, envConfig.JWT_SECRET_KEY) as CustomJwtPayload;
-      req.currentUser = payload.data[0];
+      req.currentUser = payload.data;
     } catch (error) {
       throw new NotAuthorizedError('Token is invalid. Please login again.');
     }
