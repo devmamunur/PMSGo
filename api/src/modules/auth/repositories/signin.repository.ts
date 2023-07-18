@@ -13,7 +13,7 @@ class SigninRepository {
         let userData = [];
         userData = await this.getUserData(reqBody);
         if(userData.length === 1){
-          const token = generateTokenUtility(userData);
+          const token = generateTokenUtility(userData[0]);
           const user = userData[0];
           user.accessToken = token;
           return user;
