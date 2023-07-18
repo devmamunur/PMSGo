@@ -1,6 +1,5 @@
 import Joi from 'joi';
 import {Request} from 'express';
-import CompanyModel from '../../company/models/company.model';
 import UserModel from '../models/user.model';
 
 class UserValidator{
