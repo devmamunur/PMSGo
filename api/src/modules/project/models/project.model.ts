@@ -1,57 +1,24 @@
-// *******************************
-// I Will Rewrite All those Code
-// ******************************
+import mongoose, { Model, Schema } from 'mongoose';
+import {ProjectInterface, ProjectStatus} from '../interfaces/project.interface';
 
+const DataSchema: Schema<ProjectInterface> = new Schema(
+  {
+    id: { type: mongoose.Schema.Types.ObjectId, required: true, unique: true },
+    name: { type: String, required: true },
+    status: { type: String, required: true, enum: Object.values(ProjectStatus), default: ProjectStatus.Ongoing },
+    description: { type: String },
+    start_date: { type: Date, default: null },
+    end_date: { type: Date, default: null },
+    budget: { type: Number, default: 0 },
+    workspace: { type: Number, required: true },
+    created_by: { type: Schema.Types.ObjectId, ref: 'companies', required: true },
+    is_active: { type: Number, required: true, default: 1 },
+    created_at: { type: Date, default: null },
+    updated_at: { type: Date, default: null },
+  },
+  { versionKey: false }
+);
 
+const ProjectModel: Model<ProjectInterface> = mongoose.model<ProjectInterface>('projects', DataSchema);
 
-
-// import mongoose, { Model, Schema } from 'mongoose';
-// import { ProjectInterface } from '../interfaces/project.interface';
-//
-// const DataSchema: Schema<ProjectInterface> = new Schema(
-//   {
-//     title: {
-//       type: String,
-//       required: true
-//     },
-//     description: {
-//       type: String,
-//       required: true
-//     },
-//     dueDate: {
-//       type: Date
-//     },
-//     startDate: {
-//       type: Date
-//     },
-//     endDate: {
-//       type: Date
-//     },
-//     createdDate: {
-//       type: Date,
-//       default: Date.now()
-//     },
-//     organization: {
-//       type: Schema.Types.ObjectId,
-//       ref: 'organizations',
-//       required: true
-//     },
-//     assignedUsers: [
-//       {
-//         type: Schema.Types.ObjectId,
-//         ref: 'users'
-//       }
-//     ],
-//     tasks: [
-//       {
-//         type: Schema.Types.ObjectId,
-//         ref: 'tasks'
-//       }
-//     ]
-//   },
-//   { versionKey: false }
-// );
-//
-// const ProjectModel: Model<ProjectInterface> = mongoose.model<ProjectInterface>('projects', DataSchema);
-//
-// export default ProjectModel;
+export default ProjectModel;
