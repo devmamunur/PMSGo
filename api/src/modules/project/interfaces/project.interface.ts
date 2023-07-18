@@ -1,19 +1,40 @@
-// *******************************
-// I Will Rewrite All those Code
-// ******************************
+import  { Document, Types } from 'mongoose';
+
+export enum ProjectStatus {
+  Ongoing = 'Ongoing',
+  Finished = 'Finished',
+  Hold = 'Hold',
+}
 
 
+export interface ProjectInterface extends Document{
+  name: string;
+  status: ProjectStatus;
+  description?: string;
+  start_date?: Date | null;
+  end_date?: Date | null;
+  budget?: number;
+  workspace: number;
+  created_by: Types.ObjectId;
+  is_active: number;
+  created_at?: Date | null;
+  updated_at?: Date | null;
+}
 
+export interface UserProjectInterface extends Document {
+  user: Types.ObjectId;
+  project: Types.ObjectId;
+  is_active: number;
+  permission?: string;
+  created_at?: Date | null;
+  updated_at?: Date | null;
+}
 
-// import { Document, Types } from 'mongoose';
-// export interface ProjectInterface extends Document {
-//   title: string;
-//   description: string;
-//   dueDate?: Date;
-//   startDate?: Date;
-//   endDate?: Date;
-//   createdDate: Date;
-//   organization: Types.ObjectId;
-//   assignedUsers: Types.ObjectId[];
-//   tasks: Types.ObjectId[];
-// }
+export interface ProjectCreateInterface  {
+  name: string;
+  status: number;
+  description?: string;
+  start_date?: Date | null;
+  end_date?: Date | null;
+  budget: number;
+}
