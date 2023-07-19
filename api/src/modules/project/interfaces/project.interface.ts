@@ -14,7 +14,7 @@ export interface ProjectInterface extends Document{
   start_date?: Date | null;
   end_date?: Date | null;
   budget?: number;
-  workspace: number;
+  workspace: Types.ObjectId;
   created_by: Types.ObjectId;
   is_active: number;
   created_at?: Date | null;
