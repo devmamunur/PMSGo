@@ -25,5 +25,14 @@ class ProjectRepository{
       res.status(400).json({error : error.message});
     }
   }
+
+  async getSingleProject(req : Request, res: Response) :  Promise<void>{
+    try {
+      const project = await projectService.getSingleProject(req);
+      res.status(200).json({message : 'Project get successfully', data : project});
+    }catch (error){
+      res.status(400).json({error : error.message});
+    }
+  }
 }
 export const projectRepository : ProjectRepository = new ProjectRepository();
