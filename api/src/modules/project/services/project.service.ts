@@ -44,6 +44,15 @@ class ProjectService{
       throw new Error('Project get failed: '+error.message);
     }
   }
+
+  async getSingleProject(req : Request){
+    try{
+      const projectId = req.params.id;
+      return  await projectModel.findById(projectId);
+    }catch (error){
+      throw new Error('Project get failed: '+error.message);
+    }
+  }
 }
 
 export const projectService : ProjectService = new ProjectService();
