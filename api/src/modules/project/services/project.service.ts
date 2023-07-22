@@ -3,6 +3,7 @@ import ProjectModel from '../models/project.model';
 import {ProjectCreateInterface} from '../interfaces/project.interface';
 import userProjectModel from '../models/user.project.model';
 import {Request} from 'express';
+import projectModel from '../models/project.model';
 
 class ProjectService{
   async createProjectGetId(req : Request, companyCurrantWorkspaceId : Types.ObjectId) : Promise<Types.ObjectId>{
@@ -33,6 +34,14 @@ class ProjectService{
       });
     }catch (error){
       throw new Error('User project create failed: '+error.message);
+    }
+  }
+
+  async getAllProjects(companyCurrantWorkspaceId : Types.ObjectId) {
+    try{
+      return await projectModel.find({workspace : companyCurrantWorkspaceId});
+    }catch (error){
+      throw new Error('Project get failed: '+error.message);
     }
   }
 }

@@ -10,7 +10,7 @@ class ProjectRoute{
   }
 
   public routes() : Router {
-    this.router.get('/projects', projectController.get);
+    this.router.get('/projects',  authMiddleware.onlyCompany, projectController.get);
     this.router.post('/projects', authMiddleware.onlyCompany, projectController.create);
     return this.router;
   }

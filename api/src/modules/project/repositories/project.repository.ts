@@ -17,7 +17,13 @@ class ProjectRepository{
     }
   }
   async get(req : Request, res: Response)  : Promise<void>{
-
+    try {
+      const companyCurrantWorkspaceId = await companyService.getCompanyCurrantWorkspaceId(req);
+      const projects =  await projectService.getAllProjects(companyCurrantWorkspaceId);
+      res.status(200).json({message : 'Project get successfully', data : projects});
+    }catch (error) {
+      res.status(400).json({error : error.message});
+    }
   }
 }
 export const projectRepository : ProjectRepository = new ProjectRepository();
