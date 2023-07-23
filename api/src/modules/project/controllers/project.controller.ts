@@ -11,6 +11,9 @@ class ProjectController{
   async getSingleProject(req: Request, res: Response): Promise<void>{
     await projectRepository.getSingleProject(req, res);
   }
+  async delete(req: Request, res: Response): Promise<void>{
+    await projectRepository.delete(req, res);
+  }
 }
 
 export const projectController : ProjectController = new ProjectController();

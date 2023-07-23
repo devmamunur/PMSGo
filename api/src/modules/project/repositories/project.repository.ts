@@ -1,7 +1,6 @@
 import {Request, Response} from 'express';
 import {projectValidator} from '../validations/project.validator';
 import {projectService} from '../services/project.service';
-import {userService} from '../../user/services/user.service';
 import {companyService} from '../../company/services/company.service';
 
 class ProjectRepository{
@@ -30,6 +29,14 @@ class ProjectRepository{
     try {
       const project = await projectService.getSingleProject(req);
       res.status(200).json({message : 'Project get successfully', data : project});
+    }catch (error){
+      res.status(400).json({error : error.message});
+    }
+  }
+  async delete(req : Request, res: Response) : Promise<void>{
+    try {
+
+      res.status(200).json({message : 'Project deleted successfully'});
     }catch (error){
       res.status(400).json({error : error.message});
     }

@@ -53,6 +53,18 @@ class ProjectService{
       throw new Error('Project get failed: '+error.message);
     }
   }
+
+  async deleteProject(req : Request): Promise<void>{
+    const projectIdsToDelete = req.body.projectIds;
+    if (!projectIdsToDelete) {
+      throw new Error('Project not selected');
+    }
+    try {
+
+    }catch (error){
+      throw new Error('Project delete failed: '+error.message);
+    }
+  }
 }
 
 export const projectService : ProjectService = new ProjectService();
