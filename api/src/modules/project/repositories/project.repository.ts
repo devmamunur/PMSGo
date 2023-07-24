@@ -35,7 +35,8 @@ class ProjectRepository{
   }
   async delete(req : Request, res: Response) : Promise<void>{
     try {
-
+      await projectValidator.deleteValidate(req.body);
+      await projectService.delete(req);
       res.status(200).json({message : 'Project delete successfully'});
     }catch (error){
       res.status(400).json({error : error.message});
