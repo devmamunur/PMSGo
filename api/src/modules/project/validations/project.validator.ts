@@ -11,8 +11,14 @@ class ProjectValidator{
     end_date: Joi.string().required(),
     budget: Joi.number().required()
   });
+  deleteSchema = Joi.object({
+    projectIds: Joi.array().items(Joi.string().length(24)).min(1).required()
+  });
   async createValidate(resBody : Request['body']){
     await this.createSchema.validateAsync(resBody);
+  }
+  async deleteValidate(resBody : Request['body']){
+    await this.deleteSchema.validateAsync(resBody);
   }
 }
 export const projectValidator : ProjectValidator = new ProjectValidator();
