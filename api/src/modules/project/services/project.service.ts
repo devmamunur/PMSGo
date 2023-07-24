@@ -53,6 +53,14 @@ class ProjectService{
       throw new Error('Project get failed: '+error.message);
     }
   }
+  async delete(req : Request) : Promise<void>{
+    try {
+      const projectIdsToDelete = req.body.projectIds;
+      await ProjectModel.deleteMany({ _id: { $in: projectIdsToDelete } });
+    }catch (error){
+      throw new Error('Project delete failed: '+error.message);
+    }
+  }
 }
 
 export const projectService : ProjectService = new ProjectService();
