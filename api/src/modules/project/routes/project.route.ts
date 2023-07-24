@@ -13,6 +13,7 @@ class ProjectRoute{
     this.router.post('/projects', authMiddleware.onlyCompany, projectController.create);
     this.router.get('/projects',  authMiddleware.onlyCompany, projectController.get);
     this.router.get('/projects/:id',  authMiddleware.onlyCompany, projectController.getSingleProject);
+    this.router.delete('/projects',  authMiddleware.onlyCompany, projectController.delete);
     return this.router;
   }
 
