@@ -42,5 +42,14 @@ class ProjectRepository{
       res.status(400).json({error : error.message});
     }
   }
+  async update(req : Request, res: Response) : Promise<void>{
+    try {
+      await projectValidator.updateValidate(req.body);
+      await projectService.update(req);
+      res.status(200).json({message : 'Project updated successfully'});
+    }catch (error){
+      res.status(400).json({error : error.message});
+    }
+  }
 }
 export const projectRepository : ProjectRepository = new ProjectRepository();

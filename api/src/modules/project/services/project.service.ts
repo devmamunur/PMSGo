@@ -27,11 +27,14 @@ class ProjectService{
   }
   async createUserProject(reqBody, projectId) : Promise<void>{
     try{
-      await userProjectModel.create({
-        user : reqBody.user,
-        project : projectId,
-        created_at : Date.now()
-      });
+      const users = reqBody.users;
+      for(let i = 0; i < users.length; i++){
+        await userProjectModel.create({
+          user : users[i],
+          project : projectId,
+          created_at : Date.now()
+        });
+      }
     }catch (error){
       throw new Error('User project create failed: '+error.message);
     }
@@ -59,6 +62,21 @@ class ProjectService{
       await ProjectModel.deleteMany({ _id: { $in: projectIdsToDelete } });
     }catch (error){
       throw new Error('Project delete failed: '+error.message);
+    }
+  }
+  async update(req : Request) : Promise<void>{
+    const projectId = req.params.id;
+    const updateData = req.body;
+    const project = await ProjectModel.findById(projectId);
+    if (!project) {
+      throw new Error('Project not available');
+    }
+    try{
+      const filter = { _id: new Types.ObjectId(projectId) };
+      const update = {$set: updateData};
+      await ProjectModel.updateOne(filter, update);
+    }catch (error){
+      throw new Error('Project update failed: '+ error.message);
     }
   }
 }

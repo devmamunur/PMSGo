@@ -14,6 +14,9 @@ class ProjectController{
   async delete(req: Request, res: Response) : Promise<void>{
     await projectRepository.delete(req, res);
   }
+  async update(req: Request, res: Response) : Promise<void>{
+    await projectRepository.update(req, res);
+  }
 }
 
 export const projectController : ProjectController = new ProjectController();

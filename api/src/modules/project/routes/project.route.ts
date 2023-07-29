@@ -14,8 +14,8 @@ class ProjectRoute{
     this.router.get('/projects',  authMiddleware.onlyCompany, projectController.get);
     this.router.get('/projects/:id',  authMiddleware.onlyCompany, projectController.getSingleProject);
     this.router.delete('/projects',  authMiddleware.onlyCompany, projectController.delete);
+    this.router.put('/projects/:id',  authMiddleware.onlyCompany, projectController.update);
     return this.router;
   }
-
 }
 export const projectRouter : ProjectRoute = new ProjectRoute();
