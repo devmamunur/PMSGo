@@ -1,6 +1,7 @@
 import WorkspaceModel from '../models/workspace.model';
 import {Types} from 'mongoose';
 import generateSlug from '../../../global/utility/generate.slug.utility';
+import {Request} from 'express';
 
 class WorkspaceService {
   async createWorkspaceGetId(companyId: Types.ObjectId, name: string): Promise<Types.ObjectId> {
@@ -17,8 +18,9 @@ class WorkspaceService {
       throw new Error('Workspace create failed '+error.message);
     }
   }
-  async getFirstWorkspaceByCompany(company : string) : Promise<Types.ObjectId> {
-      const workspace = await WorkspaceModel.findOne({created_by : company}, '_id').sort({ _id: 1 }).exec();
+  async getFirstWorkspaceByCompany(req : Request) : Promise<Types.ObjectId> {
+      const companyId = req.currentUser._id;
+      const workspace = await WorkspaceModel.findOne({created_by : companyId}, '_id').sort({ _id: 1 }).exec();
       if(!workspace) {
         throw new Error('Workspace get failed');
       }

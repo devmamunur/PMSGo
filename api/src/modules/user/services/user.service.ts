@@ -6,8 +6,12 @@ import {Types} from 'mongoose';
 
 
 class UserService{
-  async create(reqBody :userCreateInterface) : Promise<void>{
+  async create(req : Request) : Promise<void>{
     try {
+      const companyId = req.currentUser._id;
+      const reqBody : userCreateInterface = req.body;
+      reqBody.company = companyId;
+
       reqBody.password = GeneratePasswordUtility(reqBody.password);
       await UserModel.create(reqBody);
     }catch (error){

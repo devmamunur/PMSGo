@@ -6,18 +6,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
-import { Box, Grid, TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { LockOpen, Save } from '@mui/icons-material';
-import NextLink from 'next/link';
-import { useSession } from 'next-auth/react';
+import { Save } from '@mui/icons-material';
 import FormHelper from '@/helpers/form.helper';
 import ToastHelper from '@/helpers/toast.helper';
-import { authService } from '@/services/api/auth/auth.service';
-import { AxiosError } from 'axios';
-import { ErrorResponse } from '@/interfaces/common';
-import { userService } from '@/services/api/user/user.service';
+import { usersService } from '@/services/api/users/users.service';
 
 export interface DialogTitleProps {
   id: string;
@@ -55,17 +49,10 @@ interface AddUserDialogProps {
 }
 const AddUserDialog: React.FC<AddUserDialogProps> = ({ clickDialog, open }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [company, setCompany] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('d');
   const [password, setPassword] = useState<string>('');
-  const { data: session } = useSession();
 
-  useEffect(() => {
-    if (session && session.user && (session.user as { _id: string })._id) {
-      setCompany((session.user as { _id: string })._id);
-    }
-  }, [session]);
   const handleClose = () => {
     clickDialog();
   };
@@ -79,8 +66,8 @@ const AddUserDialog: React.FC<AddUserDialogProps> = ({ clickDialog, open }) => {
       ToastHelper.errorToast('Password required!');
     } else {
       setLoading(true);
-      await userService
-        .create({ company, name, email, password })
+      await usersService
+        .create({ name, email, password })
         .then((res: boolean) => {
           if (res) {
             handleClose();

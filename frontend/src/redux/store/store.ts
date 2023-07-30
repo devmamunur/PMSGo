@@ -1,8 +1,9 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import settingsReducer from '@/redux/state-slice/SettingsSlice';
 import taskReducer from '@/redux/state-slice/TaskSlice';
 import summaryReducer from '@/redux/state-slice/SummarySlice';
 import userReducer from '@/redux/state-slice/UserSlice';
+import projectReducer from '@/redux/state-slice/ProjectSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     task: taskReducer,
     summary: summaryReducer,
     users: userReducer,
+    projects: projectReducer,
   },
 });
 

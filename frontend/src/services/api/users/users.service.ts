@@ -3,7 +3,7 @@ import { UserCreateInterface } from '@/interfaces/user/user.interface';
 import ToastHelper from '@/helpers/toast.helper';
 import store from '@/redux/store/store';
 import { setUser } from '@/redux/state-slice/UserSlice';
-class UserService {
+class UsersService {
   async create(body: UserCreateInterface) {
     return await axios
       .post('/users', body)
@@ -20,7 +20,6 @@ class UserService {
     return await axios
       .get('/users')
       .then(res => {
-        console.log(res.data.data);
         store.dispatch(setUser(res.data.data));
         return true;
       })
@@ -31,4 +30,4 @@ class UserService {
   }
 }
 
-export const userService: UserService = new UserService();
+export const usersService: UsersService = new UsersService();

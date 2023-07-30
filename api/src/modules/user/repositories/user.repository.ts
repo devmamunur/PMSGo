@@ -7,8 +7,8 @@ class UserRepository{
   async create(req : Request, res: Response) : Promise<void>{
     try{
       await userValidator.createValidate(req.body);
-      req.body.currant_workspace = await workspaceService.getFirstWorkspaceByCompany(req.body.company);
-      await userService.create(req.body);
+      req.body.currant_workspace = await workspaceService.getFirstWorkspaceByCompany(req);
+      await userService.create(req);
       res.status(200).json({message : 'User create successfully'});
     }catch (error){
       res.status(400).json({error : error.message});
