@@ -4,7 +4,6 @@ import UserModel from '../models/user.model';
 
 class UserValidator{
   createSchema = Joi.object({
-    company : Joi.string().required(),
     name : Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).trim(true).required(),
