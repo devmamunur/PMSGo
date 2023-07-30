@@ -40,9 +40,67 @@ class ProjectService{
     }
   }
 
-  async getAllProjects(companyCurrantWorkspaceId : Types.ObjectId) {
+  async getAllProjects(req : Request, companyCurrantWorkspaceId : Types.ObjectId) {
     try{
-      return await projectModel.find({workspace : companyCurrantWorkspaceId});
+      const pageNo = parseInt(req.query.pageNo as string, 10) || 1;
+      const perPage = parseInt(req.query.perPage as string, 10) || 10;
+      const searchText = req.query.searchText as string || '';
+      // Create a pipeline array to hold the aggregation stages
+      const pipeline = [];
+      // Match projects that belong to the specified workspace
+      pipeline.push({
+        $match: { workspace: companyCurrantWorkspaceId }
+      });
+      // Optionally, add a $match stage to search projects by name
+      if (searchText) {
+        pipeline.push({
+          $match: { name: { $regex: searchText, $options: 'i' } }
+        });
+      }
+      // Perform a left outer join with the UserProject collection
+      pipeline.push({
+        $lookup: {
+          from: 'user_projects',
+          localField: '_id',
+          foreignField: 'project',
+          as: 'assigned_users'
+        }
+      });
+      // Perform a second lookup to fetch the user details for each assigned user
+      pipeline.push({
+        $lookup: {
+          from: 'users',
+          localField: 'assigned_users.user',
+          foreignField: '_id',
+          as: 'users'
+        }
+      });
+      // Project only the required fields for the final output
+      pipeline.push({
+        $project: {
+          name: 1,
+          status: 1,
+          description: 1,
+          start_date: 1,
+          end_date: 1,
+          budget: 1,
+          workspace: 1,
+          created_by: 1,
+          is_active: 1,
+          created_at: 1,
+          updated_at: 1,
+          assigned_users: '$users'
+        }
+      });
+      // Optionally, add pagination stages
+      if (pageNo && perPage) {
+        const skip = (pageNo - 1) * perPage;
+        pipeline.push({ $skip: skip });
+        pipeline.push({ $limit: perPage });
+      }
+      // Execute the aggregation pipeline
+      return await ProjectModel.aggregate(pipeline);
+
     }catch (error){
       throw new Error('Project get failed: '+error.message);
     }
