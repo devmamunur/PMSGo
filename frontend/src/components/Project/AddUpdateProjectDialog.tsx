@@ -1,5 +1,10 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -13,11 +18,6 @@ import { Save } from '@mui/icons-material';
 import FormHelper from '@/helpers/form.helper';
 import ToastHelper from '@/helpers/toast.helper';
 import {usersService} from '@/services/api/users/users.service';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
-import {DateTimePicker} from '@mui/x-date-pickers';
 import Grid from '@mui/material/Grid';
 import AddProjectCard from '@/components/Project/AddProjectCard';
 
@@ -64,14 +64,9 @@ const AddUpdateProjectDialog: React.FC<AddProjectDialogProps> = ({ clickDialog, 
   const [users, setUsers] = useState<any>([]);
   const [status, setStatus] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [start_date, setStart_date] = useState<Dayjs | null>(dayjs('2022-04-17T15:30'));
-  const [end_date, setEnd_date] = useState<Dayjs | null>(dayjs('2022-04-17T15:30'));
+  const [start_date, setStart_date] = useState<Dayjs | null>(null);
+  const [end_date, setEnd_date] = useState<Dayjs | null>(null);
 
-  const [selectedDate, setSelectedDate] = React.useState(null);
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
 
   useEffect(() => {
 
@@ -105,6 +100,7 @@ const AddUpdateProjectDialog: React.FC<AddProjectDialogProps> = ({ clickDialog, 
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
+        maxWidth="md"
       >
         <BootstrapDialogTitle
           id="customized-dialog-title"
@@ -113,10 +109,6 @@ const AddUpdateProjectDialog: React.FC<AddProjectDialogProps> = ({ clickDialog, 
           {project ? 'Edit Project' : 'Add Project'}
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          <pre>
-            name : {name} <br/>
-            start_date : {start_date}
-          </pre>
           <Box component="form" noValidate sx={{ mt: 1 }}>
             <Grid
                 container
@@ -143,15 +135,15 @@ const AddUpdateProjectDialog: React.FC<AddProjectDialogProps> = ({ clickDialog, 
               </Grid>
               <Grid item md={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={['DatePicker']}>
+                  <DemoContainer components={['DateTimePicker', 'DateTimePicker']}>
                     <DateTimePicker
                         label="Start Date"
+                        value={start_date}
                         viewRenderers={{
                           hours: renderTimeViewClock,
                           minutes: renderTimeViewClock,
                           seconds: renderTimeViewClock,
                         }}
-                        value={start_date}
                         sx={{ width : '100%' }}
                         onChange={(newValue) => setStart_date(newValue)}
                     />
@@ -161,17 +153,17 @@ const AddUpdateProjectDialog: React.FC<AddProjectDialogProps> = ({ clickDialog, 
 
               <Grid item md={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={['DatePicker']}>
+                  <DemoContainer components={['DateTimePicker', 'DateTimePicker']}>
                     <DateTimePicker
                         label="End Date"
+                        value={end_date}
                         viewRenderers={{
                           hours: renderTimeViewClock,
                           minutes: renderTimeViewClock,
                           seconds: renderTimeViewClock,
                         }}
-                        onChange={(newValue) => setEnd_date(newValue)}
                         sx={{ width : '100%' }}
-
+                        onChange={(newValue) => setEnd_date(newValue)}
                     />
                   </DemoContainer>
                 </LocalizationProvider>
