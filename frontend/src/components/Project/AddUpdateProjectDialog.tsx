@@ -63,6 +63,7 @@ const AddUpdateProjectDialog: React.FC<AddProjectDialogProps> = ({ clickDialog, 
   const [name, setName] = useState<string>('');
   const [users, setUsers] = useState<any>([]);
   const [status, setStatus] = useState<string>('');
+  const [budget, setBudget] = useState<number>(0);
   const [description, setDescription] = useState<string>('');
   const [start_date, setStart_date] = useState<Dayjs | null>(null);
   const [end_date, setEnd_date] = useState<Dayjs | null>(null);
@@ -124,15 +125,6 @@ const AddUpdateProjectDialog: React.FC<AddProjectDialogProps> = ({ clickDialog, 
                     }
                 />
               </Grid>
-              <Grid item md={12}>
-                <TextField
-                    fullWidth
-                    label="Status"
-                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        setStatus(event.target.value)
-                    }
-                />
-              </Grid>
               <Grid item md={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={['DateTimePicker', 'DateTimePicker']}>
@@ -167,6 +159,25 @@ const AddUpdateProjectDialog: React.FC<AddProjectDialogProps> = ({ clickDialog, 
                     />
                   </DemoContainer>
                 </LocalizationProvider>
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                    fullWidth
+                    label="Status"
+                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                        setStatus(event.target.value)
+                    }
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                    fullWidth
+                    label="Budget"
+                    type='number'
+                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                        setBudget(parseFloat(event.target.value))
+                    }
+                />
               </Grid>
               <Grid item md={12}>
                 <TextField
