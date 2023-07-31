@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -15,11 +15,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Box, TextField } from '@mui/material';
 import {LoadingButton} from '@mui/lab';
 import { Save } from '@mui/icons-material';
-import FormHelper from '@/helpers/form.helper';
-import ToastHelper from '@/helpers/toast.helper';
 import {usersService} from '@/services/api/users/users.service';
 import Grid from '@mui/material/Grid';
-import AddProjectCard from '@/components/Project/AddProjectCard';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/redux/store/store';
 import FormControl from '@mui/material/FormControl';
@@ -29,6 +26,9 @@ import InputLabel from '@mui/material/InputLabel';
 import Chip from '@mui/material/Chip';
 import MenuItem from '@mui/material/MenuItem';
 import { Theme, useTheme } from '@mui/material/styles';
+import FormHelper from '@/helpers/form.helper';
+import ToastHelper from '@/helpers/toast.helper';
+import {projectsService} from '@/services/api/projects/projects.service';
 
 
 const ITEM_HEIGHT = 48;
@@ -103,37 +103,50 @@ const AddUpdateProjectDialog: React.FC<AddProjectDialogProps> = ({ clickDialog, 
     usersService.get().then(res => {});
   }, []);
 
-  const userslist = useSelector((state: RootState) => state.users.value);
+  const userList = useSelector((state: RootState) => state.users.value);
 
   const handleChange = (event: SelectChangeEvent<typeof users>) => {
     const {target: { value, }} = event;
     setUsers(typeof value === 'string' ? value.split(',') : value,);
   };
 
-  console.log(users, " user array")
-
   const handleClose = () => {
     clickDialog();
   };
 
   const handleSubmit = async () => {
-/*    if (FormHelper.isEmpty(name)) {
+    if (FormHelper.isEmpty(name)) {
       ToastHelper.errorToast('Name required!');
-    } else if (FormHelper.isEmail(email)) {
-      ToastHelper.errorToast('Valid email address required!');
-    } else if (FormHelper.isEmpty(password)) {
-      ToastHelper.errorToast('Password required!');
-    } else {
+    }
+    else if (FormHelper.isEmpty(users)) {
+      ToastHelper.errorToast('Users required!');
+    }
+    else if (FormHelper.isEmpty(status)) {
+      ToastHelper.errorToast('Status required!');
+    }
+    else if (FormHelper.isEmpty(budget)) {
+      ToastHelper.errorToast('Budget required!');
+    }
+    else if (FormHelper.isEmpty(description)) {
+      ToastHelper.errorToast('Description required!');
+    }
+    else if (FormHelper.isEmpty(start_date)) {
+      ToastHelper.errorToast('Start Date required!');
+    }
+    else if (FormHelper.isEmpty(end_date)) {
+      ToastHelper.errorToast('End Date required!');
+    }
+    else {
       setLoading(true);
-      await usersService
-        .create({ name, email, password })
+      await projectsService.create({ name, users, status, budget, description, start_date, end_date })
         .then((res: boolean) => {
           if (res) {
             handleClose();
+            projectsService.get().then(res => {});
           }
           setLoading(false);
         });
-    }*/
+    }
   };
   return (
     <>
@@ -201,13 +214,22 @@ const AddUpdateProjectDialog: React.FC<AddProjectDialogProps> = ({ clickDialog, 
                 </LocalizationProvider>
               </Grid>
               <Grid item md={6}>
-                <TextField
-                    fullWidth
-                    label="Status"
-                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        setStatus(event.target.value)
-                    }
-                />
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                  <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={status}
+                      label="Status"
+                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                          setStatus(event.target.value)
+                      }
+                  >
+                    <MenuItem value='Ongoing'>Ongoing</MenuItem>
+                    <MenuItem value='Hold'>Hold</MenuItem>
+                    <MenuItem value='Finished'>Finished</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item md={6}>
                 <TextField
@@ -231,15 +253,15 @@ const AddUpdateProjectDialog: React.FC<AddProjectDialogProps> = ({ clickDialog, 
                       input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                       renderValue={(selected) => (
                           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                            {selected.map((value) => {
-                              const user = userslist.find((user) => user._id === value);
-                              return <Chip key={value} label={user.name ?? item.email} />;
+                            {selected.map((value : any) => {
+                              const user = userList.find((user) => user._id === value);
+                              return <Chip key={value} label={user.name ?? user.email} />;
                             })}
                           </Box>
                       )}
                       MenuProps={MenuProps}
                   >
-                    {userslist.map((item) => (
+                    {userList.map((item) => (
                         <MenuItem
                             key={item.name ?? item.email}
                             value={item._id}
