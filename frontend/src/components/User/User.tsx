@@ -10,7 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddUserCard from '@/components/User/AddUserCard';
 import AddUserDialog from '@/components/User/AddUserDialog';
 import { useSession } from 'next-auth/react';
-import { userService } from '@/services/api/user/user.service';
+import { usersService } from '@/services/api/users/users.service';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/store';
 import ShowUserCard from '@/components/User/ShowUserCard';
@@ -18,7 +18,7 @@ const User: React.FC = () => {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
   useEffect(() => {
-    userService.get().then(res => {});
+    usersService.get().then(res => {});
   }, []);
   const users = useSelector((state: RootState) => state.users.value);
   const clickDialog = () => {

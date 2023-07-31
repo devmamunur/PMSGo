@@ -1,12 +1,13 @@
 import axios from '@/services/axios';
-import { UserCreateInterface } from '@/interfaces/user/user.interface';
 import ToastHelper from '@/helpers/toast.helper';
 import store from '@/redux/store/store';
 import {setProject} from '@/redux/state-slice/ProjectSlice';
+import {ProjectCreateInterface} from '@/interfaces/project/project.interface';
+
 class ProjectsService {
-    async create(body: UserCreateInterface) {
+    async create(body: ProjectCreateInterface) {
         return await axios
-            .post('/users', body)
+            .post('/projects', body)
             .then(res => {
                 ToastHelper.successToast(res.data.message);
                 return true;
@@ -16,6 +17,7 @@ class ProjectsService {
                 return false;
             });
     }
+
     async get() {
         return await axios
             .get('/projects')

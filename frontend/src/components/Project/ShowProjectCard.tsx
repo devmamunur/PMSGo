@@ -107,7 +107,7 @@ const ShowProjectCard: React.FC<any> = ({ project }) => {
             <Typography sx={{ paddingTop : '10px' }} variant="button" component="p">
                 Members
             </Typography>
-            <AvatarGroup  sx={{ justifyContent : 'start' }} max={4}>
+            <AvatarGroup className="member-group-custom"  sx={{ justifyContent : 'start' }} max={4}>
             {project.assigned_users.map((user : any, i : any) =>  (
                 <Avatar sx={{ bgcolor: 'blue', fontSize : '13px',  width: 27, height: 27 }} alt={user.name} src={user.avatar}  key={i} >
                     {user.name.substring(0, 2).toUpperCase()}

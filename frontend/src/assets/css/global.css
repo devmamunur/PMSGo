@@ -135,3 +135,10 @@ a{
  .swal2-container {
      z-index: 99999999 !important;
  }
+
+.member-group-custom  .MuiAvatar-root{
+    width: 27px;
+    height: 27px;
+    font-size: 12px;
+}
+
