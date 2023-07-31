@@ -20,6 +20,37 @@ import ToastHelper from '@/helpers/toast.helper';
 import {usersService} from '@/services/api/users/users.service';
 import Grid from '@mui/material/Grid';
 import AddProjectCard from '@/components/Project/AddProjectCard';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/redux/store/store';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import Chip from '@mui/material/Chip';
+import MenuItem from '@mui/material/MenuItem';
+import { Theme, useTheme } from '@mui/material/styles';
+
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function getStyles(name: string, personName: readonly string[], theme: Theme) {
+  return {
+    fontWeight:
+        personName.indexOf(name) === -1
+            ? theme.typography.fontWeightRegular
+            : theme.typography.fontWeightMedium,
+  };
+}
+
 
 export interface DialogTitleProps {
   id: string;
@@ -57,9 +88,8 @@ interface AddProjectDialogProps {
   project : any;
 }
 const AddUpdateProjectDialog: React.FC<AddProjectDialogProps> = ({ clickDialog, open, project }) => {
+  const theme = useTheme();
   const [loading, setLoading] = useState<boolean>(false);
-  const [company, setCompany] = useState<string>('');
-
   const [name, setName] = useState<string>('');
   const [users, setUsers] = useState<any>([]);
   const [status, setStatus] = useState<string>('');
@@ -70,8 +100,18 @@ const AddUpdateProjectDialog: React.FC<AddProjectDialogProps> = ({ clickDialog, 
 
 
   useEffect(() => {
-
+    usersService.get().then(res => {});
   }, []);
+
+  const userslist = useSelector((state: RootState) => state.users.value);
+
+  const handleChange = (event: SelectChangeEvent<typeof users>) => {
+    const {target: { value, }} = event;
+    setUsers(typeof value === 'string' ? value.split(',') : value,);
+  };
+
+  console.log(users, " user array")
+
   const handleClose = () => {
     clickDialog();
   };
@@ -180,13 +220,36 @@ const AddUpdateProjectDialog: React.FC<AddProjectDialogProps> = ({ clickDialog, 
                 />
               </Grid>
               <Grid item md={12}>
-                <TextField
-                    fullWidth
-                    label="Users"
-                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        setUsers(event.target.value)
-                    }
-                />
+                <FormControl sx={{  width: '100%' }}>
+                  <InputLabel id="demo-multiple-chip-label">Users</InputLabel>
+                  <Select
+                      labelId="demo-multiple-chip-label"
+                      id="demo-multiple-chip"
+                      multiple
+                      value={users}
+                      onChange={handleChange}
+                      input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                      renderValue={(selected) => (
+                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                            {selected.map((value) => {
+                              const user = userslist.find((user) => user._id === value);
+                              return <Chip key={value} label={user.name ?? item.email} />;
+                            })}
+                          </Box>
+                      )}
+                      MenuProps={MenuProps}
+                  >
+                    {userslist.map((item) => (
+                        <MenuItem
+                            key={item.name ?? item.email}
+                            value={item._id}
+                            style={getStyles(item, users, theme)}
+                        >
+                          {item.name ?? item.email}
+                        </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item md={12}>
                 <TextField
