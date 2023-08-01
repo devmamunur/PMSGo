@@ -15,15 +15,15 @@ import ShowUserCard from '@/components/User/ShowUserCard';
 import {projectsService} from '@/services/api/projects/projects.service';
 import ShowProjectCard from '@/components/Project/ShowProjectCard';
 import AddProjectCard from '@/components/Project/AddProjectCard';
-import AddUpdateProjectDialog from '@/components/Project/AddUpdateProjectDialog';
+import AddProjectDialog from '@/components/Project/AddProjectDialog';
 const Project: React.FC = () => {
     const [open, setOpen] = useState(false);
-    const [project, setProject] = useState();
 
     useEffect(() => {
         projectsService.get().then(res => {});
     }, []);
     const projects = useSelector((state: RootState) => state.projects.value);
+
     const clickDialog = () => {
         setOpen(!open);
     };
@@ -64,15 +64,15 @@ const Project: React.FC = () => {
             >
                 {projects.map((project, i) => (
                     <Grid item md={3} key={i}>
-                        <ShowProjectCard project={project} />
+                        <ShowProjectCard clickDialog={clickDialog} project={project} />
                     </Grid>
                 ))}
 
                 <Grid item md={3}>
-                    <AddProjectCard clickDialog={clickDialog} />
+                    <AddProjectCard/>
                 </Grid>
             </Grid>
-            <AddUpdateProjectDialog clickDialog={clickDialog} open={open} project={project} />
+            <AddProjectDialog/>
         </>
     );
 };
