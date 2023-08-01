@@ -3,17 +3,15 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import store from '@/redux/store/store';
+import { setProjectAddDialog} from '@/redux/state-slice/ProjectSlice';
 
-interface AddUserCardProps {
-  clickDialog: () => void;
-}
-
-const AddUserCard: React.FC<AddUserCardProps> = ({ clickDialog }) => {
-  const toggleDrawer = () => {
-    clickDialog();
-  };
+const AddUserCard: React.FC = () => {
+    const addProject = () => {
+        store.dispatch(setProjectAddDialog(true));
+    }
   return (
-      <Card sx={{height : '100%', display : 'flex', alignItems : 'center', justifyContent : 'center'}} elevation={2} onClick={toggleDrawer}>
+      <Card sx={{height : '100%', display : 'flex', alignItems : 'center', justifyContent : 'center'}} elevation={2} onClick={addProject}>
         <CardContent
           sx={{
             textAlign: 'center',
