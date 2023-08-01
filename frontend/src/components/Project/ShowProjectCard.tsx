@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
@@ -11,10 +11,14 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
+import EditProjectDialog from '@/components/Project/EditProjectDialog';
+import store from '@/redux/store/store';
+import {setProjectAddDialog, setProjectEditDialog} from '@/redux/state-slice/ProjectSlice';
 
-const ShowProjectCard: React.FC<any> = ({ project }) => {
-    console.log(project, "value is");
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+const ShowProjectCard: React.FC<any> = ({ project } : any) => {
+
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -22,6 +26,9 @@ const ShowProjectCard: React.FC<any> = ({ project }) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const handleEdit = () => {
+        store.dispatch(setProjectAddDialog(true));
+    }
     const getButtonColor = (status : string) : string => {
         switch (status){
             case 'Ongoing' :
@@ -40,7 +47,7 @@ const ShowProjectCard: React.FC<any> = ({ project }) => {
           <CardHeader
               sx={{ paddingBottom : '0px' }}
               avatar={
-                  <Avatar sx={{ bgcolor: 'purple' }} aria-label="recipe">
+                  <Avatar sx={{ backgroundColor: 'purple' }} aria-label="recipe">
                       {project.name.substring(0, 2).toUpperCase()}
                   </Avatar>
               }
@@ -69,7 +76,7 @@ const ShowProjectCard: React.FC<any> = ({ project }) => {
                               horizontal: 'right',
                           }}
                       >
-                          <MenuItem onClick={handleClose}>Edit</MenuItem>
+                          <MenuItem onClick={handleEdit}>Edit</MenuItem>
                           <MenuItem onClick={handleClose}>Delete</MenuItem>
                       </Menu>
                   </>
@@ -109,13 +116,14 @@ const ShowProjectCard: React.FC<any> = ({ project }) => {
             </Typography>
             <AvatarGroup className="member-group-custom"  sx={{ justifyContent : 'start' }} max={4}>
             {project.assigned_users.map((user : any, i : any) =>  (
-                <Avatar sx={{ bgcolor: 'blue', fontSize : '13px',  width: 27, height: 27 }} alt={user.name} src={user.avatar}  key={i} >
+                <Avatar sx={{ backgroundColor: 'blue', fontSize : '13px',  width: 27, height: 27 }} alt={user.name} src={user.avatar}  key={i} >
                     {user.name.substring(0, 2).toUpperCase()}
                 </Avatar>
             ))}
             </AvatarGroup>
         </CardContent>
       </Card>
+        <EditProjectDialog/>
     </>
   );
 };
