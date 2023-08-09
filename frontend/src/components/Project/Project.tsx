@@ -29,8 +29,6 @@ const Project: React.FC = () => {
     };
     return (
         <>
-
-
             <Grid container direction="row" justifyContent="space-between">
                 <Grid item md={6}>
                     <Typography
