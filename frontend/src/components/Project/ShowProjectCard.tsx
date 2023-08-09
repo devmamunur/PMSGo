@@ -18,6 +18,7 @@ import {setProjectAddDialog, setProjectEditDialog} from '@/redux/state-slice/Pro
 const ShowProjectCard: React.FC<any> = ({ project } : any) => {
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [openDialog, setOpenDialog] = useState(false);
 
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -26,8 +27,12 @@ const ShowProjectCard: React.FC<any> = ({ project } : any) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const handleEdit = () => {
-        store.dispatch(setProjectAddDialog(true));
+    const handleEdit = (id : any) => {
+        setOpenDialog(true);
+        // store.dispatch(setProjectAddDialog(true));
+    }
+    const handelCloseModal = (value) => {
+        setOpenDialog(value);
     }
     const getButtonColor = (status : string) : string => {
         switch (status){
@@ -43,7 +48,7 @@ const ShowProjectCard: React.FC<any> = ({ project } : any) => {
     }
   return (
     <>
-      <Card elevation={2}>
+        <Card elevation={2}>
           <CardHeader
               sx={{ paddingBottom : '0px' }}
               avatar={
@@ -76,7 +81,7 @@ const ShowProjectCard: React.FC<any> = ({ project } : any) => {
                               horizontal: 'right',
                           }}
                       >
-                          <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                          <MenuItem onClick={() => handleEdit(project)}>Edit</MenuItem>
                           <MenuItem onClick={handleClose}>Delete</MenuItem>
                       </Menu>
                   </>
@@ -123,7 +128,8 @@ const ShowProjectCard: React.FC<any> = ({ project } : any) => {
             </AvatarGroup>
         </CardContent>
       </Card>
-        <EditProjectDialog/>
+        {openDialog ? <EditProjectDialog handelCloseModal={handelCloseModal} project={project} isOpenDialog={openDialog} /> : null}
+
     </>
   );
 };
