@@ -12,8 +12,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import EditProjectDialog from '@/components/Project/EditProjectDialog';
-import store from '@/redux/store/store';
-import {setProjectAddDialog, setProjectEditDialog} from '@/redux/state-slice/ProjectSlice';
 
 const ShowProjectCard: React.FC<any> = ({ project } : any) => {
 
@@ -29,10 +27,9 @@ const ShowProjectCard: React.FC<any> = ({ project } : any) => {
     };
     const handleEdit = (id : any) => {
         setOpenDialog(true);
-        // store.dispatch(setProjectAddDialog(true));
     }
-    const handelCloseModal = (value) => {
-        setOpenDialog(value);
+    const handelCloseModal = () => {
+        setOpenDialog(false);
     }
     const getButtonColor = (status : string) : string => {
         switch (status){
