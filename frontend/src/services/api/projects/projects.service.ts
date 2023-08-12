@@ -2,7 +2,7 @@ import axios from '@/services/axios';
 import ToastHelper from '@/helpers/toast.helper';
 import store from '@/redux/store/store';
 import {setProject} from '@/redux/state-slice/ProjectSlice';
-import {ProjectCreateInterface} from '@/interfaces/project/project.interface';
+import {ProjectCreateInterface, ProjectUpdateInterface} from '@/interfaces/project/project.interface';
 
 class ProjectsService {
     async create(body: ProjectCreateInterface) {
@@ -10,6 +10,7 @@ class ProjectsService {
             .post('/projects', body)
             .then(res => {
                 ToastHelper.successToast(res.data.message);
+                this.get();
                 return true;
             })
             .catch(err => {
@@ -23,6 +24,20 @@ class ProjectsService {
             .get('/projects')
             .then(res => {
                 store.dispatch(setProject(res.data.data));
+                return true;
+            })
+            .catch(err => {
+                ToastHelper.errorToast(err.response.data.error);
+                return false;
+            });
+    }
+
+    async update(body: ProjectUpdateInterface, id : string) {
+        return await axios
+            .put('/projects/'+id, body)
+            .then(res => {
+                ToastHelper.successToast(res.data.message);
+                this.get();
                 return true;
             })
             .catch(err => {
