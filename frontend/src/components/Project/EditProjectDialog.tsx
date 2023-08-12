@@ -1,10 +1,10 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import dayjs, { Dayjs } from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
+import React, {ChangeEvent, useEffect, useState} from 'react';
+import dayjs, {Dayjs} from 'dayjs';
+import {DemoContainer} from '@mui/x-date-pickers/internals/demo';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import {DateTimePicker} from '@mui/x-date-pickers/DateTimePicker';
+import {renderTimeViewClock} from '@mui/x-date-pickers/timeViewRenderers';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -12,24 +12,23 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, TextField } from '@mui/material';
+import {Box, TextField} from '@mui/material';
 import {LoadingButton} from '@mui/lab';
-import { Save } from '@mui/icons-material';
+import {Save} from '@mui/icons-material';
 import {usersService} from '@/services/api/users/users.service';
 import Grid from '@mui/material/Grid';
 import {useSelector} from 'react-redux';
-import store, {RootState} from '@/redux/store/store';
+import {RootState} from '@/redux/store/store';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select, {SelectChangeEvent} from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import Chip from '@mui/material/Chip';
 import MenuItem from '@mui/material/MenuItem';
-import { Theme, useTheme } from '@mui/material/styles';
+import {Theme, useTheme} from '@mui/material/styles';
 import FormHelper from '@/helpers/form.helper';
 import ToastHelper from '@/helpers/toast.helper';
 import {projectsService} from '@/services/api/projects/projects.service';
-import {setProjectAddDialog} from '@/redux/state-slice/ProjectSlice';
 
 
 const ITEM_HEIGHT = 48;
@@ -52,7 +51,6 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
     };
 }
 
-
 export interface DialogTitleProps {
     id: string;
     children?: React.ReactNode;
@@ -60,10 +58,10 @@ export interface DialogTitleProps {
 }
 
 function BootstrapDialogTitle(props: DialogTitleProps) {
-    const { children, onClose, ...other } = props;
+    const {children, onClose, ...other} = props;
 
     return (
-        <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+        <DialogTitle sx={{m: 0, p: 2}} {...other}>
             {children}
             {onClose ? (
                 <IconButton
@@ -76,16 +74,21 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
                         color: theme => theme.palette.grey[500],
                     }}
                 >
-                    <CloseIcon />
+                    <CloseIcon/>
                 </IconButton>
             ) : null}
         </DialogTitle>
     );
 }
 
-const EditProjectDialog: React.FC = ({handelCloseModal, project, isOpenDialog}) => {
+interface EditProjectDialogProps {
+    handelCloseModal: () => void;
+    project: any;
+    isOpenDialog: boolean;
+}
+
+const EditProjectDialog: React.FC<EditProjectDialogProps> = ({handelCloseModal, project, isOpenDialog}) => {
     const theme = useTheme();
-    const projectAddDialog = false;
     const [loading, setLoading] = useState<boolean>(false);
     const [name, setName] = useState<string>('');
     const [users, setUsers] = useState<any>([]);
@@ -97,11 +100,7 @@ const EditProjectDialog: React.FC = ({handelCloseModal, project, isOpenDialog}) 
 
 
     useEffect(() => {
-        if(project){
-            if(project.assigned_users.length > 0){
-                let users = project.assigned_users.map((item : any) => item._id);
-                setUsers(users);
-            }
+        if (project) {
             setName(project.name);
             setStatus(project.status);
             setBudget(project.budget);
@@ -110,49 +109,40 @@ const EditProjectDialog: React.FC = ({handelCloseModal, project, isOpenDialog}) 
             setEnd_date(dayjs(project.end_date));
         }
 
-        usersService.get().then(res => {});
+        usersService.get().then(res => {
+        });
     }, [project]);
 
     const handleClose = () => {
-        handelCloseModal(false);
+        handelCloseModal();
     }
 
     const userList = useSelector((state: RootState) => state.users.value);
 
     const handleChange = (event: SelectChangeEvent<typeof users>) => {
-        const {target: { value, }} = event;
+        const {target: {value,}} = event;
         setUsers(typeof value === 'string' ? value.split(',') : value,);
     };
 
     const handleSubmit = async () => {
         if (FormHelper.isEmpty(name)) {
             ToastHelper.errorToast('Name required!');
-        }
-        else if (FormHelper.isEmpty(users)) {
-            ToastHelper.errorToast('Users required!');
-        }
-        else if (FormHelper.isEmpty(status)) {
+        } else if (FormHelper.isEmpty(status)) {
             ToastHelper.errorToast('Status required!');
-        }
-        else if (FormHelper.isEmpty(budget)) {
+        } else if (FormHelper.isEmpty(budget)) {
             ToastHelper.errorToast('Budget required!');
-        }
-        else if (FormHelper.isEmpty(description)) {
+        } else if (FormHelper.isEmpty(description)) {
             ToastHelper.errorToast('Description required!');
-        }
-        else if (FormHelper.isEmpty(start_date)) {
+        } else if (FormHelper.isEmpty(start_date)) {
             ToastHelper.errorToast('Start Date required!');
-        }
-        else if (FormHelper.isEmpty(end_date)) {
+        } else if (FormHelper.isEmpty(end_date)) {
             ToastHelper.errorToast('End Date required!');
-        }
-        else {
+        } else {
             setLoading(true);
-            await projectsService.create({ name, users, status, budget, description, start_date, end_date })
+            await projectsService.update({name, status, budget, description, start_date, end_date}, project._id)
                 .then((res: boolean) => {
                     if (res) {
                         handleClose();
-                        projectsService.get().then(res => {});
                     }
                     setLoading(false);
                 });
@@ -173,7 +163,7 @@ const EditProjectDialog: React.FC = ({handelCloseModal, project, isOpenDialog}) 
                     Edit Project
                 </BootstrapDialogTitle>
                 <DialogContent dividers>
-                    <Box component="form" noValidate sx={{ mt: 1 }}>
+                    <Box component="form" noValidate sx={{mt: 1}}>
                         <Grid
                             container
                             direction="row"
@@ -200,7 +190,7 @@ const EditProjectDialog: React.FC = ({handelCloseModal, project, isOpenDialog}) 
                                                 minutes: renderTimeViewClock,
                                                 seconds: renderTimeViewClock,
                                             }}
-                                            sx={{ width : '100%' }}
+                                            sx={{width: '100%'}}
                                             onChange={(newValue) => setStart_date(newValue)}
                                         />
                                     </DemoContainer>
@@ -218,7 +208,7 @@ const EditProjectDialog: React.FC = ({handelCloseModal, project, isOpenDialog}) 
                                                 minutes: renderTimeViewClock,
                                                 seconds: renderTimeViewClock,
                                             }}
-                                            sx={{ width : '100%' }}
+                                            sx={{width: '100%'}}
                                             onChange={(newValue) => setEnd_date(newValue)}
                                         />
                                     </DemoContainer>
@@ -253,38 +243,41 @@ const EditProjectDialog: React.FC = ({handelCloseModal, project, isOpenDialog}) 
                                     }
                                 />
                             </Grid>
-                            <Grid item md={12}>
-                                <FormControl sx={{  width: '100%' }}>
-                                    <InputLabel id="demo-multiple-chip-label">Users</InputLabel>
-                                    <Select
-                                        labelId="demo-multiple-chip-label"
-                                        id="demo-multiple-chip"
-                                        multiple
-                                        value={users}
-                                        onChange={handleChange}
-                                        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-                                        renderValue={(selected) => (
-                                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                                {selected.map((value : any) => {
-                                                    const user = userList.find((user) => user._id === value);
-                                                    return <Chip key={value} label={user.name ?? user.email} />;
-                                                })}
-                                            </Box>
-                                        )}
-                                        MenuProps={MenuProps}
-                                    >
-                                        {userList.map((item) => (
-                                            <MenuItem
-                                                key={item.name ?? item.email}
-                                                value={item._id}
-                                                style={getStyles(item, users, theme)}
-                                            >
-                                                {item.name ?? item.email}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Grid>
+                            {!project ?
+                                <Grid item md={12}>
+                                    <FormControl sx={{width: '100%'}}>
+                                        <InputLabel id="demo-multiple-chip-label">Users</InputLabel>
+                                        <Select
+                                            labelId="demo-multiple-chip-label"
+                                            id="demo-multiple-chip"
+                                            multiple
+                                            value={users}
+                                            onChange={handleChange}
+                                            input={<OutlinedInput id="select-multiple-chip" label="Chip"/>}
+                                            renderValue={(selected) => (
+                                                <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5}}>
+                                                    {selected.map((value: any) => {
+                                                        const user = userList.find((user) => user._id === value);
+                                                        return <Chip key={value} label={user.name ?? user.email}/>;
+                                                    })}
+                                                </Box>
+                                            )}
+                                            MenuProps={MenuProps}
+                                        >
+                                            {userList.map((item) => (
+                                                <MenuItem
+                                                    key={item.name ?? item.email}
+                                                    value={item._id}
+                                                    style={getStyles(item, users, theme)}
+                                                >
+                                                    {item.name ?? item.email}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                : null
+                            }
                             <Grid item md={12}>
                                 <TextField
                                     multiline
@@ -300,13 +293,13 @@ const EditProjectDialog: React.FC = ({handelCloseModal, project, isOpenDialog}) 
                         </Grid>
                     </Box>
                 </DialogContent>
-                <DialogActions sx={{ paddingTop: '14px', paddingBottom: '14px' }}>
+                <DialogActions sx={{paddingTop: '14px', paddingBottom: '14px'}}>
                     <Button onClick={handleClose}>Close</Button>
                     <LoadingButton
                         onClick={handleSubmit}
                         variant="contained"
                         loading={loading}
-                        endIcon={<Save />}
+                        endIcon={<Save/>}
                         loadingPosition="end"
                     >
                         <span>Save</span>
