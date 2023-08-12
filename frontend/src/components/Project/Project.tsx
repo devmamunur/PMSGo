@@ -7,15 +7,12 @@ import {
     StyledInputBase,
 } from '@/styeldComponent/SearchField';
 import SearchIcon from '@mui/icons-material/Search';
-import AddUserCard from '@/components/User/AddUserCard';
-import AddUserDialog from '@/components/User/AddUserDialog';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/store';
-import ShowUserCard from '@/components/User/ShowUserCard';
 import {projectsService} from '@/services/api/projects/projects.service';
 import ShowProjectCard from '@/components/Project/ShowProjectCard';
+import AddUpdateProject from '@/components/Project/AddUpdateProject';
 import AddProjectCard from '@/components/Project/AddProjectCard';
-import AddProjectDialog from '@/components/Project/AddProjectDialog';
 const Project: React.FC = () => {
     const [open, setOpen] = useState(false);
 
@@ -70,7 +67,7 @@ const Project: React.FC = () => {
                     <AddProjectCard/>
                 </Grid>
             </Grid>
-            <AddProjectDialog/>
+            <AddUpdateProject/>
         </>
     );
 };
