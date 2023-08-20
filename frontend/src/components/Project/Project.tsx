@@ -19,7 +19,7 @@ const Project: React.FC = () => {
     useEffect(() => {
         projectsService.get().then(res => {});
     }, []);
-    const projects = useSelector((state: RootState) => state.projects.value);
+    const projects = useSelector((state: RootState) => state.projects.projects);
 
     const clickDialog = () => {
         setOpen(!open);
