@@ -4,7 +4,7 @@ import MasterLayout from '@/components/MasterLayout/MasterLayout';
 import LazyLoader from '@/components/MasterLayout/LazyLoader';
 
 const Project = lazy(() => import('@/components/Project/Project'));
-const DashboardPage = () => {
+const ProjectPage = () => {
     return (
         <>
             <MasterLayout>
@@ -16,4 +16,4 @@ const DashboardPage = () => {
     );
 };
 
-export default DashboardPage;
+export default ProjectPage;
