@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import EditProjectDialog from '@/components/Project/EditProjectDialog';
+import Link from 'next/link';
 
 const ShowProjectCard: React.FC<any> = ({ project } : any) => {
 
@@ -84,7 +85,9 @@ const ShowProjectCard: React.FC<any> = ({ project } : any) => {
                   </>
               }
               title={
-              <h4>{CommonHelper.showFirstNCharacters(project.name, 10)}</h4>
+              <Link href={`/projects/${project._id}`}>
+                  <h4>{CommonHelper.showFirstNCharacters(project.name, 10)}</h4>
+              </Link>
               }
           />
         <CardContent sx={{paddingTop : '0px'}}>
