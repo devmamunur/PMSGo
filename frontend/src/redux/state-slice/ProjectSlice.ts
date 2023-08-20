@@ -1,13 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface ProjectState {
-    value: any[];
+    projects: any[];
+    project: any;
     projectAddDialog : boolean;
     projectEditDialog : boolean;
 }
 
 const initialState: ProjectState = {
-    value: [],
+    projects: [],
+    project: {},
     projectAddDialog: false,
     projectEditDialog: false,
 };
@@ -15,8 +17,11 @@ export const projectSlice = createSlice({
     name: 'projects',
     initialState,
     reducers: {
-        setProject: (state, action: PayloadAction<any[]>) => {
-            state.value = action.payload;
+        setProjects: (state, action: PayloadAction<any[]>) => {
+            state.projects = action.payload;
+        },
+        setSingleProject: (state, action: PayloadAction<any[]>) => {
+            state.project = action.payload;
         },
         setProjectAddDialog: (state, action: PayloadAction<boolean>) => {
             state.projectAddDialog = action.payload;
@@ -26,5 +31,5 @@ export const projectSlice = createSlice({
         },
     },
 });
-export const { setProject, setProjectAddDialog, setProjectEditDialog } = projectSlice.actions;
+export const { setProjects, setSingleProject, setProjectAddDialog, setProjectEditDialog } = projectSlice.actions;
 export default projectSlice.reducer;

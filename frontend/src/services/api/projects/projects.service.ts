@@ -1,7 +1,7 @@
 import axios from '@/services/axios';
 import ToastHelper from '@/helpers/toast.helper';
 import store from '@/redux/store/store';
-import {setProject} from '@/redux/state-slice/ProjectSlice';
+import {setProjects, setSingleProject} from '@/redux/state-slice/ProjectSlice';
 import {ProjectCreateInterface, ProjectUpdateInterface} from '@/interfaces/project/project.interface';
 
 class ProjectsService {
@@ -23,7 +23,20 @@ class ProjectsService {
         return await axios
             .get('/projects')
             .then(res => {
-                store.dispatch(setProject(res.data.data));
+                store.dispatch(setProjects(res.data.data));
+                return true;
+            })
+            .catch(err => {
+                ToastHelper.errorToast(err.response.data.error);
+                return false;
+            });
+    }
+
+    async getSingle(id : string) {
+        return await axios
+            .get('/projects/'+id)
+            .then(res => {
+                store.dispatch(setSingleProject(res.data.data));
                 return true;
             })
             .catch(err => {
