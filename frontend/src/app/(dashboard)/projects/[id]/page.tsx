@@ -1,4 +1,4 @@
-
+'use client';
 import React, {lazy, Suspense} from 'react';
 import MasterLayout from '@/components/MasterLayout/MasterLayout';
 import LazyLoader from '@/components/MasterLayout/LazyLoader';

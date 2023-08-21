@@ -9,32 +9,23 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import AvatarGroup from '@mui/material/AvatarGroup';
 import Card from '@mui/material/Card';
 import {projectsService} from '@/services/api/projects/projects.service';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/redux/store/store';
 
 const ProjectDetails = () => {
-    const params  = useParams();
+    const params   = useParams();
     const projectId = Array.isArray(params?.id) ? params?.id[0] : params?.id;
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [openDialog, setOpenDialog] = useState(false);
     const open = Boolean(anchorEl);
-    
+
+
     useEffect(() => {
-        let isMounted = true;
         if(projectId){
-            projectsService.getSingle(projectId).then((res) => {
-                isMounted = false;
-            }).catch((err) => {
-                isMounted = false
-            });
+            projectsService.getSingle(projectId.toString());
         }
-        return () => {
-            isMounted = false;
-        };
     }, [projectId]);
 
     const project = useSelector((state: RootState) => state.projects.project);
@@ -89,20 +80,26 @@ const ProjectDetails = () => {
                                 </>
                             }
                             title={
-                              <h4 className="text-2xl font-medium">project name</h4>
+                              <h4 className="text-2xl font-medium">{project.name}</h4>
                             }
                         />
                         <CardContent sx={{paddingTop : '0px'}}>
-                            <Grid container direction="row">
+                            <Grid container direction="row" className="pb-3">
                                 <Grid item md={3}>
                                    <span className="font-normal text-xs text-gray-700">
                                        Start Date:
                                    </span>
+                                    <p>
+                                        {project.start_date}
+                                    </p>
                                 </Grid>
                                 <Grid item md={3}>
                                    <span className="font-normal text-xs text-gray-700">
                                        End Date:
                                    </span>
+                                    <p>
+                                        {project.end_date}
+                                    </p>
                                 </Grid>
                                 <Grid item md={3}>
                                    <span className="font-normal text-xs text-gray-700">
@@ -113,9 +110,15 @@ const ProjectDetails = () => {
                                    <span className="font-normal text-xs text-gray-700">
                                       Status:
                                    </span>
+                                    <p>
+                                        {project.status}
+                                    </p>
                                 </Grid>
                             </Grid>
                             <Typography variant="body2" component="p">
+                                 <span className="font-normal text-xs text-gray-700">
+                                      Details:
+                                   </span> <br/>
                                 Project details
                             </Typography>
                         </CardContent>
