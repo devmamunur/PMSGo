@@ -1,6 +1,7 @@
 import NextAuth, {NextAuthOptions} from 'next-auth';
 import CredentialProvider from 'next-auth/providers/credentials';
 import axios from '@/services/axios';
+const jsonwebtoken = require('jsonwebtoken');
 
 
 export const authOptions: NextAuthOptions = {
@@ -44,26 +45,13 @@ export const authOptions: NextAuthOptions = {
       return {...token, ...user};
     },
     async session({ session, token }) {
-      const jwtToken : any = token.accessToken;
-      function getExpirationDate(jwtToken: any) {
-        const base64Url = jwtToken.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const decodedPayload = decodeURIComponent(
-            atob(base64)
-                .split('')
-                .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-                .join('')
-        );
-        const payload = JSON.parse(decodedPayload);
-        const expTimestamp = payload.exp;
-        return new Date(expTimestamp * 1000).toISOString();
+      const decodedToken = jsonwebtoken.decode(token.accessToken);
+      if (decodedToken && decodedToken.exp) {
+        session.expires = decodedToken.exp * 1000;
+      } else {
+        session.expires = new Date().getTime() + 30 * 24 * 60 * 60 * 1000;
       }
-      const expirationDate = getExpirationDate(jwtToken);
       session.user = token as any;
-      if (session && session.user) {
-        (session.user as any).exp = Math.floor(new Date(expirationDate).getTime() / 1000);
-      }
-      session.expires = expirationDate;
       return session;
     },
   },
