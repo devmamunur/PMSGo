@@ -2,6 +2,8 @@ import {Request, Response} from 'express';
 import {projectValidator} from '../validations/project.validator';
 import {projectService} from '../services/project.service';
 import {companyService} from '../../company/services/company.service';
+import {ProjectInterface} from '../interfaces/project.interface';
+import {UserInterface} from '../../user/interfaces/user.interface';
 
 class ProjectRepository{
   async create(req : Request, res: Response) : Promise<void>{
@@ -25,13 +27,11 @@ class ProjectRepository{
     }
   }
 
-  async getSingleProject(req : Request, res: Response) : Promise<void>{
-    try {
-      const project = await projectService.getSingleProject(req);
-      res.status(200).json({message : 'Project get successfully', data : project});
-    }catch (error){
-      res.status(400).json({error : error.message});
-    }
+  async getSingleProject(projectId : string) : Promise<ProjectInterface>{
+      return  await projectService.getSingleProject(projectId);
+  }
+  async getProjectUsers(projectId : string) : Promise<any>{
+      return  await projectService.getProjectUsers(projectId);
   }
   async delete(req : Request, res: Response) : Promise<void>{
     try {

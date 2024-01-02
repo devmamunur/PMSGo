@@ -106,13 +106,15 @@ class ProjectService{
     }
   }
 
-  async getSingleProject(req : Request){
+  async getSingleProject(projectId : string){
     try{
-      const projectId = req.params.id;
       return  await projectModel.findById(projectId);
     }catch (error){
       throw new Error('Project get failed: '+error.message);
     }
+  }
+  async getProjectUsers(projectId : string){
+    return {projectId};
   }
   async delete(req : Request) : Promise<void>{
     try {
