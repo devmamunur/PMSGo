@@ -1,6 +1,6 @@
 'use client';
 import React, {useEffect, useState} from 'react';
-import { useParams } from 'next/navigation';
+import {useParams} from 'next/navigation';
 import Grid from '@mui/material/Grid';
 import CardHeader from '@mui/material/CardHeader';
 import IconButton from '@mui/material/IconButton';
@@ -13,11 +13,35 @@ import Card from '@mui/material/Card';
 import {projectsService} from '@/services/api/projects/projects.service';
 import {useSelector} from 'react-redux';
 import {RootState} from '@/redux/store/store';
-import {AddBox, CalendarMonth, Delete, Lock} from '@mui/icons-material';
+import {AddBox, CalendarMonth, Delete, Download, Lock} from '@mui/icons-material';
 import Image from 'next/image';
+import { styled } from '@mui/material/styles';
+import MilestoneTable from '@/components/Milestone/MilestoneTable';
+import Button from '@mui/material/Button';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Checkbox from '@mui/material/Checkbox';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+
+
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+});
 
 const ProjectDetails = () => {
-    const params   = useParams();
+    const params = useParams();
     const projectId = Array.isArray(params?.id) ? params?.id[0] : params?.id;
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [openDialog, setOpenDialog] = useState(false);
@@ -25,7 +49,7 @@ const ProjectDetails = () => {
 
 
     useEffect(() => {
-        if(projectId){
+        if (projectId) {
             projectsService.getSingle(projectId.toString());
         }
     }, [projectId]);
@@ -40,7 +64,7 @@ const ProjectDetails = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const handleEdit = (id : any) => {
+    const handleEdit = (id: any) => {
         setOpenDialog(true);
     }
 
@@ -50,7 +74,7 @@ const ProjectDetails = () => {
                 <Grid item md={8}>
                     <Card elevation={2} className='mb-5'>
                         <CardHeader
-                            sx={{ paddingBottom : '25px' }}
+                            sx={{paddingBottom: '25px'}}
                             action={
                                 <>
                                     <IconButton
@@ -59,8 +83,8 @@ const ProjectDetails = () => {
                                         aria-expanded={open ? 'true' : undefined}
                                         onClick={handleClick}
                                     >
-                                        <MoreVertIcon />
-                                    </IconButton >
+                                        <MoreVertIcon/>
+                                    </IconButton>
                                     <Menu
                                         id="demo-positioned-menu"
                                         aria-labelledby="demo-positioned-button"
@@ -82,10 +106,10 @@ const ProjectDetails = () => {
                                 </>
                             }
                             title={
-                              <h4 className="text-2xl font-medium">{project.name}</h4>
+                                <h4 className="text-2xl font-medium">{project.name}</h4>
                             }
                         />
-                        <CardContent sx={{paddingTop : '0px'}}>
+                        <CardContent sx={{paddingTop: '0px'}}>
                             <Grid container direction="row" className="pb-3">
                                 <Grid item md={3}>
                                    <span className="font-normal text-xs text-gray-700">
@@ -190,13 +214,13 @@ const ProjectDetails = () => {
                             </Card>
                         </Grid>
                     </Grid>
-                    <Grid container direction="row" columnSpacing={3}>
+                    <Grid container direction="row" columnSpacing={3} className="mb-4">
                         <Grid item md={6}>
                             <Card elevation={2}>
                                 <CardHeader
                                     className="flex justify-between items-center border-b"
                                     title="Team Members (5)"
-                                    titleTypographyProps={{ style: { fontSize: '16px' } }}
+                                    titleTypographyProps={{style: {fontSize: '16px'}}}
                                     action={
                                         <IconButton aria-label="settings">
                                             <AddBox/>
@@ -204,48 +228,138 @@ const ProjectDetails = () => {
                                     }
                                 />
                                 <CardContent>
-                                    <div className="flex justify-between items-center border-b pb-2 mb-2">
-                                        <div className="">
-                                            <div className="flex items-center px-2">
-                                                <a href="#" className=" text-start">
-                                                    <Image className="fix_img" width={50} height={50} src="https://demo.rajodiya.com/taskly/storage/avatars/6329b3605f267.png" alt="kkl"/>
-                                                </a>
-                                                <div className="px-2">
-                                                    <h5 className="m-0">Alex</h5>
-                                                    <small className="text-muted">alex@example.com<span
-                                                        className="text-primary "> -
+                                    <div className="overflow-y-auto max-h-[300px]">
+                                        {Array.from({length: 7}, (_, index) => (
+                                            <div key={index}
+                                                 className="flex justify-between items-center border-b pb-2 mb-2">
+                                                <div className="">
+                                                    <div className="flex items-center px-2">
+                                                        <a href="#" className=" text-start">
+                                                            <Image className="fix_img" width={50} height={50}
+                                                                   src="https://demo.rajodiya.com/taskly/storage/avatars/6329b3605f267.png"
+                                                                   alt="kkl"/>
+                                                        </a>
+                                                        <div className="px-2">
+                                                            <h5 className="m-0">Alex</h5>
+                                                            <small className="text-muted">alex@example.com<span
+                                                                className="text-primary "> -
                                                                     2/14</span></small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="text-right">
+                                                    <Lock/>
+                                                    <Delete/>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="text-right">
-                                            <Lock/>
-                                            <Delete/>
-                                        </div>
+                                        ))}
                                     </div>
-                                    <div className="flex justify-between items-center">
-                                        <div className="">
-                                            <div className="flex items-center px-2">
-                                                <a href="#" className=" text-start">
-                                                    <Image className="fix_img" width={50} height={50} src="https://demo.rajodiya.com/taskly/storage/avatars/6329b3605f267.png" alt="kkl"/>
-                                                </a>
-                                                <div className="px-2">
-                                                    <h5 className="m-0">Alex</h5>
-                                                    <small className="text-muted">alex@example.com<span
-                                                        className="text-primary "> -
+
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item md={6}>
+                            <Card elevation={2}>
+                                <CardHeader
+                                    className="flex justify-between items-center border-b"
+                                    title="Clients (6)"
+                                    titleTypographyProps={{style: {fontSize: '16px'}}}
+                                    action={
+                                        <IconButton aria-label="settings">
+                                            <AddBox/>
+                                        </IconButton>
+                                    }
+                                />
+                                <CardContent>
+                                    <div className="overflow-y-auto max-h-[300px]">
+                                        {Array.from({length: 7}, (_, index) => (
+                                            <div key={index}
+                                                 className="flex justify-between items-center border-b pb-2 mb-2">
+                                                <div className="">
+                                                    <div className="flex items-center px-2">
+                                                        <a href="#" className=" text-start">
+                                                            <Image className="fix_img" width={50} height={50}
+                                                                   src="https://demo.rajodiya.com/taskly/storage/avatars/6329b3605f267.png"
+                                                                   alt="kkl"/>
+                                                        </a>
+                                                        <div className="px-2">
+                                                            <h5 className="m-0">Alex</h5>
+                                                            <small className="text-muted">alex@example.com<span
+                                                                className="text-primary "> -
                                                                     2/14</span></small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="text-right">
+                                                    <Lock/>
+                                                    <Delete/>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="text-right">
-                                            <Lock/>
-                                            <Delete/>
-                                        </div>
+                                        ))}
                                     </div>
+
                                 </CardContent>
                             </Card>
                         </Grid>
                     </Grid>
+                    <Grid container direction="row" columnSpacing={3}>
+                        <Grid item md={12}>
+                            <Card elevation={2}>
+                                <CardContent>
+                                    <MilestoneTable/>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid item md={4}>
+                    <Card elevation={2}>
+                        <CardHeader
+                            className="flex justify-between items-center border-b"
+                            title="Files"
+                            titleTypographyProps={{style: {fontSize: '16px'}}}
+                        />
+                        <CardContent>
+                            <div className="text-center">
+                                <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                                    Upload file
+                                    <VisuallyHiddenInput type="file" />
+                                </Button>
+                            </div>
+                            <div className="file-list mt-4">
+                                <div className="flex justify-between border-b mb-2 pb-2">
+                                    <div className="flex items-center">
+                                        <ListItemAvatar>
+                                            <Avatar
+                                                alt={`Avatar n`}
+                                                src={`/static/images/avatar/1.jpg`}
+                                            />
+                                        </ListItemAvatar>
+                                        <ListItemText id="1" primary={`Line item `} />
+                                    </div>
+                                    <div>
+                                        <Download/>
+                                        <Delete/>
+                                    </div>
+                                </div>
+                                <div className="flex justify-between">
+                                    <div className="flex items-center">
+                                        <ListItemAvatar>
+                                            <Avatar
+                                                alt={`Avatar n`}
+                                                src={`/static/images/avatar/1.jpg`}
+                                            />
+                                        </ListItemAvatar>
+                                        <ListItemText id="1" primary={`Line item `} />
+                                    </div>
+                                    <div>
+                                        <Download/>
+                                        <Delete/>
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </Grid>
             </Grid>
 
