@@ -26,6 +26,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
+import Breadcrumb from '@/components/Global/Breadcrumb';
 
 
 const VisuallyHiddenInput = styled('input')({
@@ -47,6 +48,16 @@ const ProjectDetails = () => {
     const [openDialog, setOpenDialog] = useState(false);
     const open = Boolean(anchorEl);
 
+    let breadcrumbs = [
+        {
+            url : '/projects',
+            label : 'Projects',
+        },
+        {
+            url : '',
+            label : 'Project Details',
+        }
+    ];
 
     useEffect(() => {
         if (projectId) {
@@ -70,6 +81,7 @@ const ProjectDetails = () => {
 
     return (
         <>
+            <Breadcrumb data={breadcrumbs}/>
             <Grid container direction="row" columnSpacing={3}>
                 <Grid item md={8}>
                     <Card elevation={2} className='mb-5'>

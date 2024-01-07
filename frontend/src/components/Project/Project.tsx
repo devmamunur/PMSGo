@@ -13,8 +13,18 @@ import {projectsService} from '@/services/api/projects/projects.service';
 import ShowProjectCard from '@/components/Project/ShowProjectCard';
 import AddUpdateProject from '@/components/Project/AddUpdateProject';
 import AddProjectCard from '@/components/Project/AddProjectCard';
+import {Breadcrumbs, Link} from '@mui/material';
+import {Grain, Home, Whatshot} from '@mui/icons-material';
+import Breadcrumb from '@/components/Global/Breadcrumb';
 const Project: React.FC = () => {
     const [open, setOpen] = useState(false);
+
+    let breadcrumbs = [
+        {
+            url : '',
+            label : 'Projects',
+        }
+    ];
 
     useEffect(() => {
         projectsService.get().then(res => {});
@@ -26,16 +36,10 @@ const Project: React.FC = () => {
     };
     return (
         <>
+            <Breadcrumb data={breadcrumbs}/>
             <Grid container direction="row" justifyContent="space-between">
                 <Grid item md={6}>
-                    <Typography
-                        variant="h5"
-                        sx={{
-                            fontWeight: '700 !important',
-                        }}
-                    >
-                        Projects
-                    </Typography>
+
                 </Grid>
                 <Grid item md={6}>
                     <Search>
