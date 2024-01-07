@@ -10,7 +10,7 @@ const Breadcrumb = ({data} : BreadcrumbData) => {
         let pageName = data[data.length - 1]?.label;
         return (
             <>
-                <Grid container direction="row">
+                <Grid className="mb-4" container direction="row">
                     <Grid item md={12}>
                         <h4 className="font-bold text-xl">
                             {pageName}
@@ -56,7 +56,7 @@ const Breadcrumb = ({data} : BreadcrumbData) => {
         );
     }else {
         return (
-            <Grid container direction="row">
+            <Grid className="mb-4" container direction="row">
                 <Grid item md={12}>
                     <h4 className="font-bold text-xl">
                         Not Found
