@@ -21,7 +21,7 @@ import {
   Search,
   SearchIconWrapper,
   StyledInputBase,
-} from '@/styeldComponent/SearchField';
+} from '@/lib/styeldComponent/SearchField';
 import SearchIcon from '@mui/icons-material/Search';
 import TaskRequest from '@/APIRequests/task.request';
 import DeleteHelper from '@/helpers/delete.helper';

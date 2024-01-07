@@ -21,8 +21,8 @@ import {
   StarBorder,
   TableChart,
 } from '@mui/icons-material';
-import { StyledDrawer } from '@/styeldComponent/DashboardLayout';
-import { StyledNavLink } from '@/styeldComponent/NavLink';
+import { StyledDrawer } from '@/lib/styeldComponent/DashboardLayout';
+import { StyledNavLink } from '@/lib/styeldComponent/NavLink';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';

@@ -1,8 +1,6 @@
 import NextAuth, {NextAuthOptions} from 'next-auth';
 import CredentialProvider from 'next-auth/providers/credentials';
 import axios from '@/services/axios';
-const jsonwebtoken = require('jsonwebtoken');
-
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -45,12 +43,6 @@ export const authOptions: NextAuthOptions = {
             return {...token, ...user};
         },
         async session({ session, token }) {
-            // const decodedToken = jsonwebtoken.decode(token.accessToken);
-            // if (decodedToken && decodedToken.exp) {
-            //     (session.expires as any) = decodedToken.exp * 1000;
-            // } else {
-            //     (session.expires as any) = new Date().getTime() + 30 * 24 * 60 * 60 * 1000;
-            // }
             session.user = token as any;
             return session;
         },

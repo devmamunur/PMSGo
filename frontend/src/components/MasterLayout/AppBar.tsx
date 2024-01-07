@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
-import { StyledAppBar } from '@/styeldComponent/DashboardLayout';
+import { StyledAppBar } from '@/lib/styeldComponent/DashboardLayout';
 import Box from '@mui/material/Box';
 import { Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
 import SessionHelper from '@/helpers/session.helper';

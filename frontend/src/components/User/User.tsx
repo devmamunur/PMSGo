@@ -5,7 +5,7 @@ import {
   Search,
   SearchIconWrapper,
   StyledInputBase,
-} from '@/styeldComponent/SearchField';
+} from '@/lib/styeldComponent/SearchField';
 import SearchIcon from '@mui/icons-material/Search';
 import AddUserCard from '@/components/User/AddUserCard';
 import AddUserDialog from '@/components/User/AddUserDialog';
