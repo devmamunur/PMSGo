@@ -1,7 +1,6 @@
 
 <h1 align="center">
-
-      PSMGo - Project Management System
+PSMGo - Project Management System
 </h1>
 <p align="center">
 Introducing PSMGo, your ultimate solution for project management. Whether you're a busy organization handling multiple projects or an individual seeking task optimization, PSMGo is here for you. 
