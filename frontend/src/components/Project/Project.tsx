@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import {
     Search,
     SearchIconWrapper,
     StyledInputBase,
-} from '@/styeldComponent/SearchField';
+} from '@/lib/styeldComponent/SearchField';
 import SearchIcon from '@mui/icons-material/Search';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/store';
 import {projectsService} from '@/services/api/projects/projects.service';
-import ShowProjectCard from '@/components/Project/ShowProjectCard';
-import AddUpdateProject from '@/components/Project/AddUpdateProject';
-import AddProjectCard from '@/components/Project/AddProjectCard';
-import {Breadcrumbs, Link} from '@mui/material';
-import {Grain, Home, Whatshot} from '@mui/icons-material';
+import ProjectShow from '@/components/Project/ProjectShow';
+import ProjectAddUpdate from '@/components/Project/ProjectAddUpdate';
+import AddProjectCard from '@/components/Project/ProjectAdd';
 import Breadcrumb from '@/components/Global/Breadcrumb';
 const Project: React.FC = () => {
     const [open, setOpen] = useState(false);
@@ -63,7 +60,7 @@ const Project: React.FC = () => {
             >
                 {projects.map((project, i) => (
                     <Grid item md={3} key={i}>
-                        <ShowProjectCard clickDialog={clickDialog} project={project} />
+                        <ProjectShow clickDialog={clickDialog} project={project} />
                     </Grid>
                 ))}
 
@@ -71,7 +68,7 @@ const Project: React.FC = () => {
                     <AddProjectCard/>
                 </Grid>
             </Grid>
-            <AddUpdateProject/>
+            <ProjectAddUpdate/>
         </>
     );
 };
