@@ -5,28 +5,33 @@
 :root {
     font-family: 'Roboto', sans-serif;
 }
-body{
+
+body {
     padding: 0;
     margin: 0;
 }
-a{
+
+a {
     text-decoration: none !important;
 }
 
-.d-none{
+.d-none {
     display: none !important;
 }
+
 .phoneInput {
     width: 100% !important;
 }
-.phoneContainer{
+
+.phoneContainer {
     margin-top: 16px !important;
     margin-bottom: 8px !important;
 }
-    /*Line Progress*/
+
+/*Line Progress*/
 .LoadingOverlay {
-    position:absolute;
-    display:block;
+    position: absolute;
+    display: block;
     height: 100%;
     top: 0;
     left: 0;
@@ -36,9 +41,11 @@ a{
     z-index: 500000 !important;
     background-color: rgba(255, 255, 255, 0.2);
 }
+
 .Line-Progress .indeterminate {
     background-color: #efca11;
 }
+
 .Line-Progress .indeterminate:before {
     z-index: -100 !important;
     height: 3px;
@@ -52,6 +59,7 @@ a{
     -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
     animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
 }
+
 .Line-Progress .indeterminate:after {
     z-index: -100 !important;
     height: 3px;
@@ -67,6 +75,7 @@ a{
     -webkit-animation-delay: 1.15s;
     animation-delay: 1.15s;
 }
+
 @-webkit-keyframes indeterminate {
     0% {
         left: -35%;
@@ -83,6 +92,7 @@ a{
         right: -90%;
     }
 }
+
 @keyframes indeterminate {
     0% {
         left: -35%;
@@ -99,6 +109,7 @@ a{
         right: -90%;
     }
 }
+
 @-webkit-keyframes indeterminate-short {
     0% {
         left: -200%;
@@ -115,6 +126,7 @@ a{
         right: -8%;
     }
 }
+
 @keyframes indeterminate-short {
     0% {
         left: -200%;
@@ -133,15 +145,21 @@ a{
 }
 
 
+.swal2-container {
+    z-index: 99999999 !important;
+}
 
-
- .swal2-container {
-     z-index: 99999999 !important;
- }
-
-.member-group-custom  .MuiAvatar-root{
+.member-group-custom .MuiAvatar-root {
     width: 27px;
     height: 27px;
     font-size: 12px;
 }
 
+.MuiPaper-rounded.MuiPaper-elevation2 {
+    box-shadow: 0px 6px 15px 0px #a6a3b940 !important;
+    border-radius: 10px !important;
+}
+
+.css-fxbtpg {
+    background-color: #f4f4f9f0 !important;
+}
