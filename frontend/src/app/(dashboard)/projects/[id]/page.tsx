@@ -1,18 +1,18 @@
-'use client';
-import React, {lazy, Suspense} from 'react';
+import React, { Suspense } from 'react';
 import MasterLayout from '@/components/MasterLayout/MasterLayout';
 import LazyLoader from '@/components/MasterLayout/LazyLoader';
-const ProjectDetails = lazy(() => import('@/components/Project/ProjectDetails'));
+import ProjectDetails from '@/components/Project/Details/ProjectDetails';
+
 const ProjectDetailsPage = () => {
-    return (
-        <>
-            <MasterLayout>
-                <Suspense fallback={<LazyLoader />}>
-                    <ProjectDetails/>
-                </Suspense>
-            </MasterLayout>
-        </>
-    );
+  return (
+    <>
+      <MasterLayout>
+        <Suspense fallback={<LazyLoader />}>
+          <ProjectDetails />
+        </Suspense>
+      </MasterLayout>
+    </>
+  );
 };
 
 export default ProjectDetailsPage;
