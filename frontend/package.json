@@ -12,12 +12,12 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.0",
+    "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
-    "@fontsource/roboto": "^4.5.8",
-    "@mui/icons-material": "^5.11.16",
+    "@fontsource/roboto": "^5.0.8",
+    "@mui/icons-material": "^5.15.3",
     "@mui/lab": "^5.0.0-alpha.132",
-    "@mui/material": "^5.13.1",
+    "@mui/material": "^5.15.3",
     "@mui/x-date-pickers": "^6.10.2",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/react-beautiful-dnd": "^13.1.8",
