@@ -3,6 +3,16 @@ import React, { useState, useEffect } from 'react';
 import Breadcrumb from '@/components/Global/Breadcrumb';
 import Column from '@/components/Project/Details/TaskBoard/Column';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import IconButton from '@mui/material/IconButton';
+import { AddBox } from '@mui/icons-material';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 // Interfaces.ts
 export interface Task {
@@ -17,6 +27,7 @@ export interface Column {
   title: string;
   taskIds: number[];
 }
+
 const initialTasks: { [key: string]: Task } = {
   '1': { userId: 1, id: 1, title: 'delectus aut autem', stage: 'todo' },
   '2': {
@@ -47,6 +58,9 @@ const initialColumns: { [key: string]: Column } = {
   done: { id: 'done', title: 'Done', taskIds: [] },
 };
 const TaskBoard = () => {
+  const [taskAnchorEl, setTaskAnchorEl] = useState<{
+    [key: string]: HTMLElement | null;
+  }>({});
   const [tasks, setTasks] = useState<{ [key: string]: Task }>(initialTasks);
   const [columns, setColumns] = useState<{ [key: string]: Column }>(
     initialColumns
@@ -54,12 +68,28 @@ const TaskBoard = () => {
 
   useEffect(() => {
     const newColumns = { ...columns };
-    Object.keys(initialTasks).forEach(taskKey => {
-      const task = initialTasks[taskKey];
+    Object.values(initialTasks).forEach(task => {
       newColumns[task.stage].taskIds.push(task.id);
     });
     setColumns(newColumns);
   }, []);
+
+  const handleMenuClick = (
+    event: React.MouseEvent<HTMLElement>,
+    taskId: number
+  ) => {
+    setTaskAnchorEl(prevAnchorEl => ({
+      ...prevAnchorEl,
+      [taskId]: event.currentTarget,
+    }));
+  };
+
+  const handleClose = (taskId: number) => {
+    setTaskAnchorEl(prevAnchorEl => ({
+      ...prevAnchorEl,
+      [taskId]: null,
+    }));
+  };
 
   let breadcrumbs = [
     {
@@ -75,120 +105,196 @@ const TaskBoard = () => {
       label: 'Task Board',
     },
   ];
-  const onDragEnd = (result: any, _columns: any, setColumns: any) => {
-    if (!result.destination) return;
+
+  const handleDragEnd = (result: any) => {
     const { source, destination } = result;
+    if (!destination) return;
 
-    if (source.droppableId !== destination.droppableId) {
-      const sourceColumn = columns[source.droppableId];
-      const destColumn = columns[destination.droppableId];
-      const sourceTasks = Array.from(sourceColumn.taskIds);
-      const destTasks = Array.from(destColumn.taskIds);
-      const [removedTaskId] = sourceTasks.splice(source.index, 1);
+    // If the item is dropped in the same place, do nothing
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    ) {
+      return;
+    }
 
-      destTasks.splice(destination.index, 0, removedTaskId);
-      const newColumns = {
+    // Handling drag and drop logic
+    const start = columns[source.droppableId];
+    const finish = columns[destination.droppableId];
+
+    if (start === finish) {
+      // Reordering in the same column
+      const newTaskIds = Array.from(start.taskIds);
+      newTaskIds.splice(source.index, 1);
+      newTaskIds.splice(destination.index, 0, result.draggableId);
+
+      const newColumn = {
+        ...start,
+        taskIds: newTaskIds,
+      };
+
+      setColumns({
         ...columns,
-        [source.droppableId]: { ...sourceColumn, taskIds: sourceTasks },
-        [destination.droppableId]: { ...destColumn, taskIds: destTasks },
-      };
-      setColumns(newColumns);
-
-      const updatedTasks = {
-        ...tasks,
-        [removedTaskId]: {
-          ...tasks[removedTaskId],
-          stage: destination.droppableId,
-        },
-      };
-      setTasks(updatedTasks);
+        [newColumn.id]: newColumn,
+      });
     } else {
-      const column = columns[source.droppableId];
-      const copiedTasks = Array.from(column.taskIds);
-      const [removedTaskId] = copiedTasks.splice(source.index, 1);
-      copiedTasks.splice(destination.index, 0, removedTaskId);
-      const newColumns = {
-        ...columns,
-        [source.droppableId]: { ...column, taskIds: copiedTasks },
+      // Moving from one column to another
+      const startTaskIds = Array.from(start.taskIds);
+      const finishTaskIds = Array.from(finish.taskIds);
+
+      startTaskIds.splice(source.index, 1);
+      finishTaskIds.splice(destination.index, 0, result.draggableId);
+
+      const newStart = {
+        ...start,
+        taskIds: startTaskIds,
       };
-      setColumns(newColumns);
+
+      const newFinish = {
+        ...finish,
+        taskIds: finishTaskIds,
+      };
+
+      setColumns({
+        ...columns,
+        [newStart.id]: newStart,
+        [newFinish.id]: newFinish,
+      });
     }
   };
 
   return (
     <>
       <Breadcrumb data={breadcrumbs} />
-      <h1>TaskBoard</h1>
-      <div>
-        <div
-          style={{ display: 'flex', justifyContent: 'center', height: '100%' }}
-        >
-          <DragDropContext
-            onDragEnd={result => onDragEnd(result, columns, setColumns)}
-          >
-            {Object.entries(columns).map(([columnId, column], index) => {
-              return (
-                <div key={columnId} style={{ margin: '0 8px' }}>
-                  <h2>{column.title}</h2>
-                  <Droppable droppableId={columnId} key={columnId}>
-                    {(provided, snapshot) => {
-                      return (
-                        <div
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
-                          style={{
-                            background: snapshot.isDraggingOver
-                              ? 'lightblue'
-                              : 'lightgrey',
-                            padding: 4,
-                            width: 250,
-                            minHeight: 500,
-                          }}
-                        >
-                          {column.taskIds.map((taskId, index) => {
-                            const task = tasks[taskId];
-                            return (
-                              <Draggable
-                                key={taskId}
-                                draggableId={taskId.toString()}
-                                index={index}
-                              >
-                                {(provided, snapshot) => {
-                                  return (
-                                    <div
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                      style={{
-                                        userSelect: 'none',
-                                        padding: 16,
-                                        margin: '0 0 8px 0',
-                                        minHeight: '50px',
-                                        backgroundColor: snapshot.isDragging
-                                          ? '#263B4A'
-                                          : '#456C86',
-                                        color: 'white',
-                                        ...provided.draggableProps.style,
-                                      }}
-                                    >
-                                      {task && task.title}
-                                    </div>
-                                  );
-                                }}
-                              </Draggable>
-                            );
-                          })}
-                          {provided.placeholder}
-                        </div>
-                      );
-                    }}
-                  </Droppable>
-                </div>
-              );
-            })}
-          </DragDropContext>
-        </div>
-      </div>
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Grid container direction="row" columnSpacing={3}>
+          {Object.entries(columns).map(([columnId, column], index) => {
+            return (
+              <Grid item md={3} key={columnId}>
+                <Card elevation={2}>
+                  <CardHeader
+                    className="text-center border-b"
+                    title={column.title}
+                    titleTypographyProps={{ style: { fontSize: '16px' } }}
+                  />
+                  <CardContent>
+                    <Droppable droppableId={columnId} key={columnId}>
+                      {(provided, snapshot) => {
+                        return (
+                          <div
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                            className="min-h-[220px]"
+                          >
+                            {column.taskIds.map((taskId, index) => {
+                              const task = tasks[taskId];
+                              return (
+                                <Draggable
+                                  key={taskId}
+                                  draggableId={taskId.toString()}
+                                  index={index}
+                                >
+                                  {(provided, snapshot) => {
+                                    return (
+                                      <div
+                                        className="mb-6"
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                      >
+                                        <Card elevation={2}>
+                                          <CardHeader
+                                            className="flex justify-between items-center"
+                                            title={
+                                              <>
+                                                <Button
+                                                  disableElevation
+                                                  color="primary"
+                                                  size="small"
+                                                  variant="contained"
+                                                  sx={{
+                                                    borderRadius:
+                                                      '50px !important',
+                                                    padding: '2px 20px',
+                                                  }}
+                                                >
+                                                  High
+                                                </Button>
+                                              </>
+                                            }
+                                            titleTypographyProps={{
+                                              style: { fontSize: '16px' },
+                                            }}
+                                            action={
+                                              <>
+                                                <IconButton
+                                                  aria-controls={`task-board-menu-${index}`}
+                                                  aria-haspopup="true"
+                                                  aria-expanded={
+                                                    Boolean(
+                                                      taskAnchorEl[taskId]
+                                                    )
+                                                      ? 'true'
+                                                      : undefined
+                                                  }
+                                                  onClick={event =>
+                                                    handleMenuClick(
+                                                      event,
+                                                      task.id
+                                                    )
+                                                  }
+                                                >
+                                                  <MoreVertIcon />
+                                                </IconButton>
+                                                <Menu
+                                                  id={`task-board-menu-${index}`}
+                                                  aria-labelledby={`task-board-menu-${index}`}
+                                                  anchorEl={
+                                                    taskAnchorEl[taskId]
+                                                  }
+                                                  open={Boolean(
+                                                    taskAnchorEl[taskId]
+                                                  )}
+                                                  onClose={() =>
+                                                    handleClose(taskId)
+                                                  }
+                                                  anchorOrigin={{
+                                                    vertical: 'bottom',
+                                                    horizontal: 'right',
+                                                  }}
+                                                  transformOrigin={{
+                                                    vertical: 'top',
+                                                    horizontal: 'right',
+                                                  }}
+                                                >
+                                                  <MenuItem>Edit</MenuItem>
+                                                  <MenuItem>Delete</MenuItem>
+                                                </Menu>
+                                              </>
+                                            }
+                                          />
+                                          <CardContent>
+                                            {task && task.title}
+                                          </CardContent>
+                                        </Card>
+                                      </div>
+                                    );
+                                  }}
+                                </Draggable>
+                              );
+                            })}
+                            {provided.placeholder}
+                          </div>
+                        );
+                      }}
+                    </Droppable>
+                  </CardContent>
+                </Card>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </DragDropContext>
     </>
   );
 };
